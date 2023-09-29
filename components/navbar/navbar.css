@@ -1,0 +1,65 @@
+.navbartitle {
+    color: #FF0000;
+    font-style: normal;
+    font-size: 30px;
+    font-weight: 300;
+    align-self: center;
+    font-family: Georgia, serif;
+}
+
+.nav {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    background-image: none;
+    background-color: #FFE8E8;
+    background-position: 0%;
+    background-size: auto;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-origin: padding-box;
+    background-clip: border-box;
+    width: 100%;
+    height: 75px;
+}
+
+.Links {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    font-weight: 400;
+    text-align: center;
+    font-size: 15px;
+    font-family: American Typewriter, serif;
+}
+
+.navbuttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    gap: 15px;
+}
+
+.button {
+    display: block;
+    padding: 6px 20px;
+    align-self: center;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background-color: #FF0000;
+    font-family: Georgia, serif;
+    color: #FFFFFF;
+    box-shadow: -1.36px 1.47px 3px #FF9797;
+}
+
+.button:hover {
+    display: block;
+    box-shadow: -1.36px 1.47px 3px rgba(255, 151, 151, 0);
+    border: 1px solid #FF0000;
+    color: #FF0000;
+    background-color: #FFFFFF;
+}

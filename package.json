@@ -9,19 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "mysql2": "^3.6.1",
+    "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "styled-components": "^6.0.8"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/react": "latest",
     "@types/node": "latest",
+    "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@wixc3/react-board": "^2.3.0",
     "autoprefixer": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest",
     "eslint": "latest",
-    "eslint-config-next": "latest"
+    "eslint-config-next": "latest",
+    "postcss": "latest",
+    "raw-loader": "^4.0.2",
+    "tailwindcss": "latest",
+    "typescript": "latest"
   }
 }
