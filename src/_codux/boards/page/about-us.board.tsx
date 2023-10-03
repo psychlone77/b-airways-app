@@ -1,12 +1,12 @@
 import React from 'react';
 import { createBoard } from '@wixc3/react-board';
-import { Navbar } from '../../../../components/navbar/navbar';
+import AboutUs from '../../../../app/aboutUs/page';
 
 export default createBoard({
-    name: 'Navbar',
-    Board: () => <Navbar />,
+    name: 'AboutUs',
+    Board: () => <AboutUs />,
     isSnippet: true,
     environmentProps: {
-        canvasWidth: 710
+        canvasWidth: 727
     }
 });

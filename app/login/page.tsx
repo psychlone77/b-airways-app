@@ -1,9 +1,8 @@
 import React from "react";
-import { Navbar } from "@/components/navbar/navbar";
+import './page.css'
+
 export default function Login() {
   return (
-    <div>
-      login page
-    </div>
+    <div>Login Page</div>
   );
 }

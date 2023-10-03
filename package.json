@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
+    "jsx": "^0.9.89",
     "mysql2": "^3.6.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "styled": "^1.0.0",
     "styled-components": "^6.0.8"
   },
   "devDependencies": {
