@@ -12,7 +12,7 @@
     "dotenv": "^16.3.1",
     "jsx": "^0.9.89",
     "mysql2": "^3.6.1",
-    "next": "latest",
+    "next": "^13.5.4",
     "react": "latest",
     "react-dom": "latest",
     "styled": "^1.0.0",
@@ -23,12 +23,12 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@wixc3/react-board": "^2.3.0",
-    "autoprefixer": "latest",
+    "autoprefixer": "^10.4.16",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "postcss": "latest",
+    "postcss": "^8.4.31",
     "raw-loader": "^4.0.2",
-    "tailwindcss": "latest",
+    "tailwindcss": "^3.3.3",
     "typescript": "latest"
   }
 }
