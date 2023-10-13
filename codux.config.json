@@ -2,5 +2,6 @@
     "$schema": "https://wixplosives.github.io/codux-config-schema/codux.config.schema.json",
     "newComponent": {
         "componentsPath": "/components"
-    } 
+    },
+    "boardGlobalSetup": "./src/_codux/boards-global-setup.ts"
 }  

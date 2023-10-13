@@ -1,10 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
 .navbartitle {
-    color: #FF0000;
+    color: #605DEC;
     font-style: normal;
     font-size: 30px;
     font-weight: 300;
     align-self: center;
-    font-family: Georgia, serif;
+    font-family: 'MuseoModerno', sans-serif;
 }
 
 .nav {
@@ -14,7 +17,7 @@
     justify-content: space-between;
     padding: 10px;
     background-image: none;
-    background-color: #FFE8E8;
+    background-color: none;
     background-position: 0%;
     background-size: auto;
     background-repeat: repeat;
@@ -34,7 +37,7 @@
     font-weight: 400;
     text-align: center;
     font-size: 15px;
-    font-family: American Typewriter, serif;
+    font-family: 'Tilt Neon', sans-serif;
 }
 
 .navbuttons {
@@ -51,16 +54,16 @@
     align-self: center;
     border-radius: 5px;
     border: 1px solid transparent;
-    background-color: #FF0000;
-    font-family: Georgia, serif;
+    background-color: #605DEC;
+    font-family: 'Tilt Neon', sans-serif;
     color: #FFFFFF;
-    box-shadow: -1.36px 1.47px 3px #FF9797;
+    box-shadow: -1.36px 1.47px 3px #8d8ce6;
 }
 
 .button:hover {
     display: block;
     box-shadow: -1.36px 1.47px 3px rgba(255, 151, 151, 0);
-    border: 1px solid #FF0000;
-    color: #FF0000;
+    border: 1px solid #605DEC;
+    color: #605DEC;
     background-color: #FFFFFF;
 }
