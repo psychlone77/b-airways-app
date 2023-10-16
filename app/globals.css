@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@800&family=Nunito+Sans:opsz,wght@6..12,300;6..12,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200&display=swap');
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -12,7 +12,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: sans-serif;
     font-size: large;
 }
 nav {

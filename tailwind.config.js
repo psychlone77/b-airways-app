@@ -16,6 +16,11 @@ theme: {
       primary: '#605DEC',
       secondary: '#8d8ce6'
     },
+    fontFamily: {
+      nunito: ["Nunito Sans", 'sans-serif'],
+      museo: ["MuseoModerno", "sans-serif"],
+      tiltneon: ["Tilt Neon", "sans-serif"]
+    },
   },
 },
   plugins: [],

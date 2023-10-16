@@ -7,7 +7,6 @@
     font-size: 30px;
     font-weight: 300;
     align-self: center;
-    font-family: 'MuseoModerno', sans-serif;
 }
 
 .nav {
@@ -37,7 +36,6 @@
     font-weight: 400;
     text-align: center;
     font-size: 15px;
-    font-family: 'Tilt Neon', sans-serif;
 }
 
 .navbuttons {
@@ -55,7 +53,6 @@
     border-radius: 5px;
     border: 1px solid transparent;
     background-color: #605DEC;
-    font-family: 'Tilt Neon', sans-serif;
     color: #FFFFFF;
     box-shadow: -1.36px 1.47px 3px #8d8ce6;
 }

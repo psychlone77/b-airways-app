@@ -12,4 +12,7 @@ module.exports = {
     DB_PASSWORD: env.DB_PASSWORD,
     DB_DATABASE: env.DB_DATABASE,
   },
+  experimental: {
+    serverActions: true,
+  },
 };

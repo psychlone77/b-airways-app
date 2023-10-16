@@ -8,10 +8,10 @@ export interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => (
   <nav className="nav">
-    <p className="navbartitle">
+    <p className="navbartitle font-museo font-bold">
       <Link href="/">B AIRWAYS</Link>
     </p>
-    <div className="Links">
+    <div className="Links font-nunito">
     <Link href="/search">
         <span>SEARCH</span>
       </Link>
@@ -19,7 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => (
         <span>ABOUT US</span>
       </Link>
     </div>
-    <div className="navbuttons">
+    <div className="navbuttons font-nunito">
       <Link href="/login">
         <button disabled={false} className="button">
           LOGIN
