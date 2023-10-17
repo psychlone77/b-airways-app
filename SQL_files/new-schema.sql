@@ -1,5 +1,6 @@
 create database ars;
 use ars;
+DROP TABLE IF EXISTS Organizational_Info;
 DROP TABLE IF EXISTS User CASCADE;
 DROP TABLE IF EXISTS Contact_No CASCADE;
 DROP TABLE IF EXISTS Registered_User CASCADE;
@@ -18,6 +19,15 @@ DROP TABLE IF EXISTS Seat_Class_Price CASCADE;
 DROP TABLE IF EXISTS Scheduled_Flight CASCADE;
 DROP TABLE IF EXISTS User_Booking CASCADE;
 DROP TABLE IF EXISTS Booking_Seat CASCADE;
+
+CREATE TABLE Organizational_Info (
+  airline_name varchar(30) NOT NULL,
+  airline_hotline varchar(20) NOT NULL,
+  airline_email varchar(50) NOT NULL,
+  address varchar(100) NOT NULL,
+  airline_account_no varchar(30) NOT NULL,
+  PRIMARY KEY (airline_name)
+);
 
 CREATE TABLE User (
   user_id int auto_increment,
