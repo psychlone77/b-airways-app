@@ -1,6 +1,7 @@
 DROP FUNCTION IF EXISTS calculateAge;
-DROP TRIGGER IF EXISTS get_jointime ON Registered_User;
+DROP TRIGGER IF EXISTS get_jointime;
 
+DELIMITER |
 CREATE FUNCTION calculateAge (birthday DATE)
 RETURNS INT
 BEGIN
@@ -10,6 +11,8 @@ SET birthYear = YEAR(birthday);
 SET currentYear = YEAR(CURDATE());
 RETURN currentYear-birthYear;
 END;
+|
+DELIMITER ;
 
 DELIMITER |
 CREATE TRIGGER get_jointime BEFORE INSERT ON Registered_User
