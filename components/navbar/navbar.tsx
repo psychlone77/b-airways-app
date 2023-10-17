@@ -1,13 +1,12 @@
+"use client"
 import "./navbar.css";
 import React from "react";
 import Link from "next/link";
 
-export interface NavbarProps {
-  className?: string;
-}
 
-export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => (
-  <nav className="nav">
+export default function NavBar() {
+  return(
+    <nav className="nav">
     <p className="navbartitle font-museo font-bold">
       <Link href="/">B AIRWAYS</Link>
     </p>
@@ -21,13 +20,14 @@ export const Navbar: React.FC<NavbarProps> = ({ className = "" }) => (
     </div>
     <div className="navbuttons font-nunito">
       <Link href="/login">
-        <button disabled={false} className="button">
+        <button disabled={false} className="font-semibold text-white border border-transparent shadow-secondary shadow-md bg-primary font-nunito rounded-xl hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary py-2 px-6 transition duration-300 ease-in-out">
           LOGIN
         </button>
       </Link>
       <Link href="/register">
-        <button className="button buttonHover">REGISTER</button>
+        <button className="font-semibold text-white border border-transparent shadow-secondary shadow-md bg-primary font-nunito rounded-xl hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary py-2 px-6 transition duration-300 ease-in-out">REGISTER</button>
       </Link>
     </div>
   </nav>
-);
+  )
+}

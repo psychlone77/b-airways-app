@@ -1,4 +1,4 @@
-import "./page.css";
+
 
 async function getData() {
   const res = await fetch("http://localhost:3000/api");
@@ -16,13 +16,13 @@ export default async function AboutUs() {
   const data = await getData();
   //console.log(data);
   return (
-    <div className="main">
-      <div className="aboutUscard">
-        <h1 className="title">We are B Airways</h1>
+    <div className="">
+      <div className="">
+        <h1 className=" font-nunito font-semibold text-center text-8xl">We are B Airways</h1>
         <img
           src="airplane.jpg"
           alt=""
-          className="mainImage"
+          className="``"
         />
         <div className="list">
           <div className="infoList">
