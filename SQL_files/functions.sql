@@ -65,10 +65,7 @@ DECLARE rec_exists INT;
 DECLARE maintenance_time time;
 DECLARE if_available boolean;
 SET maintenance_time = '02:00:00';
-IF departure_time < DATE_ADD(val_scheduled_depature, INTERVAL 1 DAY) THEN
-	SIGNAL SQLSTATE '45000'
-	SET MESSAGE_TEXT = 'Departure time has to be at least 1 day in the future';
-END IF;
+
 SELECT aircraft_instance_id into val_aircraft_instance_id FROM Aircraft_Instance WHERE aircraft_id = val_aircraft_id;
 SELECT scheduled_arrival into val_scheduled_arrival FROM Scheduled_Flight WHERE aircraft_instance_id = val_aircraft_instance_id;
 
