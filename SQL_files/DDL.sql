@@ -125,7 +125,7 @@ CREATE TABLE Aircraft (
 
 CREATE TABLE Seating_Class (
   class_id int auto_increment,
-  class_name varchar(10),
+  class_name varchar(15),
   PRIMARY KEY (class_id)
 );
 
