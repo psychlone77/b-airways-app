@@ -1,3 +1,4 @@
+drop database ars;
 create database ars;
 use ars;
 DROP TABLE IF EXISTS Organizational_Info;
@@ -51,7 +52,7 @@ CREATE TABLE Registered_User (
   last_name VARCHAR(30) NOT NULL,
   birth_date DATE NOT NULL,
   gender ENUM('Male','Female','Other'), 
-  passport_no VARCHAR(9) NOT NULL, -- per the standard
+  passport_no VARCHAR(9) NOT NULL unique, -- per the standard
   address varchar(255) NOT NULL,
   joined_datetime datetime DEFAULT NOW() NOT NULL,
   PRIMARY KEY (user_id),
@@ -61,7 +62,7 @@ CREATE TABLE Registered_User (
 
 CREATE TABLE Contact_No (
     user_id INT,
-    contact_no VARCHAR(15),
+    contact_no VARCHAR(15), -- do we need unique
     PRIMARY KEY (user_id , contact_no),
     FOREIGN KEY (user_id)
         REFERENCES user (user_id)
@@ -107,7 +108,6 @@ CREATE TABLE Aircraft_Model (
   PRIMARY KEY (model_id)
 );
 
-
 CREATE TABLE Airport (
   airport_code varchar(4),
   location_id int NOT NULL,
@@ -148,7 +148,6 @@ CREATE TABLE Aircraft_Instance (
   FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
 CREATE TABLE Route (
   route_id varchar(10),
   route_origin varchar(4),
@@ -159,7 +158,6 @@ CREATE TABLE Route (
   FOREIGN KEY(route_destination) REFERENCES Airport(airport_code) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
 CREATE TABLE Seat_Class_Price(
   route_id varchar(10),
   seat_class_id int,
@@ -168,7 +166,6 @@ CREATE TABLE Seat_Class_Price(
   FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(seat_class_id) REFERENCES Seating_class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 
 CREATE TABLE Scheduled_Flight (
   schedule_id int auto_increment,
@@ -207,3 +204,4 @@ CREATE TABLE Booking_Seat(
   FOREIGN KEY(booking_id) REFERENCES User_Booking(booking_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+

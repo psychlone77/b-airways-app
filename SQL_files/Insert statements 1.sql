@@ -1,11 +1,12 @@
+-- organizational info
 INSERT INTO Organizational_Info VALUES('B Airways','+9411123456','customersupport@bairways.com','No1, Colombo, Sri Lanka','123456789');
 
--- user category final****
+-- user category final********
 INSERT INTO user_category VALUES ('General','0','0');
 INSERT INTO user_category VALUES ('Gold','0.05','10');
 INSERT INTO user_category VALUES ('Frequent','0.09','50');
 
--- 10 entries for the user  table
+-- 10 entries for the user category table
 INSERT INTO User VALUES (1,'registered');
 INSERT INTO User VALUES (2,'guest');
 INSERT INTO User VALUES (3,'registered');
@@ -45,7 +46,7 @@ INSERT INTO Contact_No VALUES (9, '9999999999');
 INSERT INTO Contact_No VALUES (10, '1234567894');
 
 -- add 1 dummy admin_name when expanding the database add enums to admin admin_role
-INSERT INTO Administrator VALUES (1, 'John Doe', 'Supervisor', 'adminpassword1');
+INSERT INTO Administrator VALUES (1, 'John Doe', 'Superviser', 'adminpassword1');
 
 -- locations
 INSERT INTO Location VALUES (1, NULL, 'United States');
@@ -77,3 +78,20 @@ INSERT INTO Aircraft VALUES ('ACFT2', 'A320');
 INSERT INTO Aircraft VALUES ('ACFT3', 'B737');
 INSERT INTO Aircraft VALUES ('ACFT4', 'B787');
 INSERT INTO Aircraft VALUES ('ACFT5', 'B787');
+
+-- 3 seating classes
+INSERT INTO Seating_Class VALUES (1, 'First_Class');
+INSERT INTO Seating_Class VALUES (2, 'Business');
+INSERT INTO Seating_Class VALUES (3, 'Economy');
+
+-- 3 routes
+INSERT INTO Route VALUES ('R001', 'JFK', 'LAX', '05:30:00');
+INSERT INTO Route VALUES ('R002', 'LAX', 'SFO', '01:30:00');
+INSERT INTO Route VALUES ('R003', 'LHR', 'JFK', '07:00:00');
+
+-- 3 aircraft instances
+INSERT INTO Aircraft_Instance VALUES (NULL, 'ACFT1', 'JFK', 'On-Ground');
+INSERT INTO Aircraft_Instance VALUES (NULL, 'ACFT3', 'LAX', 'On-Ground');
+INSERT INTO Aircraft_Instance VALUES (NULL, 'ACFT5', 'LHR', 'On-Ground');
+
+
