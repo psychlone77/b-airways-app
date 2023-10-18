@@ -1,5 +1,7 @@
 DROP FUNCTION IF EXISTS calculateAge;
 DROP TRIGGER IF EXISTS get_jointime;
+DROP FUNCTION IF EXISTS IsRegisteredUser;
+DROP FUNCTION IF EXISTS calculateTotalPrize;
 
 DELIMITER |
 CREATE FUNCTION calculateAge (birthday DATE)
@@ -53,3 +55,43 @@ ELSE
 END IF;
 RETURN final_price;
 END;
+
+DELIMITER |
+CREATE PROCEDURE insert_a_new_flight(val_route_id varchar(10), val_aircraft_id varchar(20), val_scheduled_depature datetime)
+BEGIN
+DECLARE val_scheduled_arrival datetime;
+DECLARE val_aircraft_instance_id int;
+DECLARE rec_exists INT;
+DECLARE maintenance_time time;
+DECLARE if_available boolean;
+SET maintenance_time = '02:00:00';
+IF departure_time < DATE_ADD(val_scheduled_depature, INTERVAL 1 DAY) THEN
+	SIGNAL SQLSTATE '45000'
+	SET MESSAGE_TEXT = 'Departure time has to be at least 1 day in the future';
+END IF;
+SELECT aircraft_instance_id into val_aircraft_instance_id FROM Aircraft_Instance WHERE aircraft_id = val_aircraft_id;
+SELECT scheduled_arrival into val_scheduled_arrival FROM Scheduled_Flight WHERE aircraft_instance_id = val_aircraft_instance_id;
+
+SELECT COUNT(*) INTO rec_exists
+FROM Scheduled_Flight f
+WHERE aircraft_instance_id = val_aircraft_instance_id
+LIMIT 1;
+
+IF rec_exists IS NULL THEN
+	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
+	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
+END IF;
+
+SET if_available = ((val_scheduled_arrival +  maintenance_time) < val_scheduled_depature);
+
+IF if_available THEN
+	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
+	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
+ELSE
+	SIGNAL SQLSTATE '45000'
+	SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
+END IF;
+
+END;
+|
+DELIMITER ;
