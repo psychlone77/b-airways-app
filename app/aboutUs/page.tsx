@@ -1,5 +1,3 @@
-
-
 async function getData() {
   const res = await fetch("http://localhost:3000/api");
   // The return value is *not* serialized
@@ -14,27 +12,27 @@ async function getData() {
 
 export default async function AboutUs() {
   const data = await getData();
-  //console.log(data);
+  console.log(data);
   return (
     <div className="">
-      <div className="">
-        <h1 className=" font-nunito font-semibold text-center text-8xl">We are B Airways</h1>
-        <img
-          src="airplane.jpg"
-          alt=""
-          className="``"
-        />
-        <div className="list">
-          <div className="infoList">
-            <span>Email:</span>
+      <div className="h-screen flex flex-col items-center">
+        <h1 className="font-nunito font-bold text-center text-3xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500 ">
+          Welcome to
+        </h1>
+        <h1 className="font-nunito font-bold text-center text-8xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500 ">
+          B Airways
+        </h1>
+        <div className="p-10 flex flex-col items-start gap-5 mt-10 text-white font-semibold font-nunito bg-gradient-to-r from-primary to-purple-500 rounded-lg shadow-primary shadow-sm">
+          <div className="">
+            <span>Email: </span>
             <span>{data.airline_email}</span>
           </div>
-          <div className="infoList">
-            <span>Contact Us:</span>
+          <div className="">
+            <span>Contact Us: </span>
             <span>{data.airline_hotline}</span>
           </div>
-          <div className="infoList">
-            <span>Address:</span>
+          <div className="">
+            <span>Address: </span>
             <span>{data.address}</span>
           </div>
         </div>

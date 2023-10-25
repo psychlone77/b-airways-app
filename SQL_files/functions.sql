@@ -16,6 +16,7 @@ END;
 |
 DELIMITER ;
 
+
 DELIMITER |
 CREATE TRIGGER get_jointime BEFORE INSERT ON Registered_User
 FOR EACH ROW
@@ -24,6 +25,7 @@ SET NEW.joined_datetime = NOW();
 END;
 |
 DELIMITER ;
+
 
 DELIMITER |
 CREATE FUNCTION IsRegisteredUser(userId int) 
@@ -35,6 +37,8 @@ RETURN isRegistered;
 END;
 |
 DELIMITER ;
+
+
 DELIMITER |
 CREATE FUNCTION calculateTotalPrize(val_route_id varchar(10), val_seat_class_id int, val_user_id int)
 RETURNS NUMERIC
@@ -55,6 +59,7 @@ ELSE
 END IF;
 RETURN final_price;
 END;
+
 
 DELIMITER |
 CREATE PROCEDURE insert_a_new_flight(val_route_id varchar(10), val_aircraft_id varchar(20), val_scheduled_depature datetime)

@@ -12,8 +12,7 @@ try {
     connectionLimit: 10, // Adjust according to your needs
     queueLimit: 0,
   });
+  module.exports = pool;
 } catch (error) {
   console.log(error);
 }
-
-module.exports = pool;
