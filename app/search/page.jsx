@@ -28,7 +28,6 @@ export default function SearchPage() {
       <div className="flex flex-col items-center">
         <SearchBar
           options={airports}
-          link="/search"
           from={from}
           to={to}
           date={date}

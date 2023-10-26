@@ -145,7 +145,7 @@ export default function SearchBar(props) {
             <button
               type="submit"
               onClick={handleSearch}
-              className="w-fit text-primary border border-transparent shadow-purple-800 bg-white font-nunito font-bold rounded-2xl hover:shadow-xl  py-2 px-10 transition duration-300 ease-in-out"
+              className="w-fit text-primary shadow-purple-800 bg-white font-nunito font-bold rounded-2xl hover:shadow-xl hover:bg-gradient-to-r from-purple-700 to-pink-500 hover:text-white  py-2 px-10 transition duration-600 ease-in-out"
             >
               Search
             </button>

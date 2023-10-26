@@ -1,18 +1,23 @@
-async function getData() {
-  const res = await fetch("http://localhost:3000/api");
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
+import React from "react";
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
+async function getData() {
+  try {
+    const query = "SELECT * from organizational_info";
+    const values = [];
+    const pool = require('../../database/db')
+
+    // query database
+    const [rows] = await pool.execute(query, values);
+    //console.log(rows[0]);
+    return {rows};
+  } catch (error) {
+    return error;
   }
-  return res.json();
 }
 
 export default async function AboutUs() {
-  const data = await getData();
-  console.log(data);
+  const res = await getData();
+  const data = res.rows[0];
   return (
     <div className="">
       <div className="h-screen flex flex-col items-center">

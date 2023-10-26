@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/page.jsx", "app/api/getdata.js", "app/aboutUs/page.tsx", "app/booking/page.jsx", "tailwind.config.js", "components/navbar/navbar.tsx", "components/passengerforms/passengerinfo.jsx", "app/register/page.jsx", "app/search/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/page.jsx", "app/api/getdata.js", "app/aboutUs/page.jsx", "app/booking/page.jsx", "tailwind.config.js", "components/navbar/navbar.jsx", "components/passengerforms/passengerinfo.jsx", "app/register/page.jsx", "app/search/page.jsx", "app/login/page.jsx"],
   "exclude": ["node_modules"]
 }

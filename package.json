@@ -13,6 +13,7 @@
     "jsx": "^0.9.89",
     "mysql2": "^3.6.1",
     "next": "^13.5.4",
+    "next-auth": "^4.24.3",
     "react": "latest",
     "react-dom": "latest",
     "react-select": "^5.7.7",

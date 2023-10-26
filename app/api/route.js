@@ -1,14 +1,9 @@
-export async function GET() {
-  try {
-    const query = "SELECT * from organizational_info";
-    const values = [];
-    const pool = require('../../database/db')
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]/route";
+import { NextResponse } from "next/server";
 
-    // query database
-    const [rows] = await pool.execute(query, values);
-    console.log(rows);
-    return Response.json(rows[0] );
-  } catch (error) {
-    return Response.json({ error });
-  }
+export async function GET(request) {
+    const session = await getServerSession({ req: request, ...authOptions });
+    console.log("get api",session);
+    return NextResponse.json({authenticated: !!session.user})
 }

@@ -19,7 +19,8 @@ export default function Register() {
       passport: form.passport.value,
       address: form.address.value,
       email: form.email.value,
-      password: form.password.value
+      password: form.password.value,
+      contactno: form.contact.value // Add the new field to the data object
     };
     console.log(data);
     fetch("/register/api", {
@@ -41,7 +42,7 @@ export default function Register() {
   return (
     <div className="flex justify-center items-center m-5">
       <form onSubmit={handleSignUp}>
-        <div className="h-fit font-nunito flex flex-col gap-10 items-start bg-secondary rounded-md p-10 shadow-md shadow-secondary">
+        <div className="h-fit font-nunito flex flex-col gap-10 items-start bg-gradient-to-br from-primary to-pink-400 rounded-lg p-10 shadow-md shadow-secondary">
           <h1 className=" font-nunito font-bold text-5xl text-white">
             Register
           </h1>
@@ -77,6 +78,13 @@ export default function Register() {
             <option value="other">Other</option>
           </select>
           <input
+            className="border border-gray-400 p-2 rounded-md h-10 w-fit"
+            type="text"
+            name={"contact"} 
+            required
+            placeholder={"Contact No."}
+          />
+          <input
             className="border border-gray-400 p-2 rounded-md h-10 w-full"
             type="text"
             name={"passport"}
@@ -107,7 +115,7 @@ export default function Register() {
           <div className="w-full flex flex-row justify-center">
             <button
               type="submit"
-              className="w-60 text-white border border-primary bg-primary font-nunito font-bold rounded-full shadow-sm hover:shadow-lg shadow-primary py-2 px-6 transition duration-300 ease-in-out"
+              className="w-60 text-white bg-primary font-nunito font-bold rounded-full shadow-sm shadow-primary hover:shadow-lg  hover:shadow-primary py-2 px-6 transition duration-300 ease-in-out"
             >
               Sign Up
             </button>
