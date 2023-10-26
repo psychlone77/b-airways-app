@@ -59,6 +59,8 @@ INSERT INTO Location VALUES (7, NULL, 'United Kingdom');
 INSERT INTO Location VALUES (8, 7, 'London');
 INSERT INTO Location VALUES (9, 8, 'Manchester');
 INSERT INTO Location VALUES (10, 8, 'Birmingham');
+INSERT INTO Location VALUES (11, NULL, 'Sri Lanka');
+INSERT INTO Location VALUES (12, 11, 'Colombo');
 
 -- airports for newyorkcity, los angeles, san francisco and london are added
 INSERT INTO Airport VALUES ('JFK', 4, 'John F. Kennedy International Airport');
@@ -66,6 +68,7 @@ INSERT INTO Airport VALUES ('LGA', 4, 'LaGuardia Airport');
 INSERT INTO Airport VALUES ('LAX', 5, 'Los Angeles International Airport');
 INSERT INTO Airport VALUES ('SFO', 6, 'San Francisco International Airport');
 INSERT INTO Airport VALUES ('LHR', 8, 'Heathrow Airport');
+INSERT INTO Airport VALUES ('LHR', 12, 'Bandaranaike International Airport');
 
 -- Insert statements for Aircraft_Model
 INSERT INTO Aircraft_Model VALUES ('A320', 'Airbus A320', 'Airbus', 150, 12, 4);
@@ -73,25 +76,50 @@ INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
 INSERT INTO Aircraft_Model VALUES ('B787', 'Boeing 787', 'Boeing', 240, 20, 8);
 
 -- 5 aircrafts for the above models
-INSERT INTO Aircraft VALUES ('ACFT1', 'A320');
-INSERT INTO Aircraft VALUES ('ACFT2', 'A320');
-INSERT INTO Aircraft VALUES ('ACFT3', 'B737');
-INSERT INTO Aircraft VALUES ('ACFT4', 'B787');
-INSERT INTO Aircraft VALUES ('ACFT5', 'B787');
+INSERT INTO Aircraft VALUES ('ACFT1', 'A320', 'JKF');
+INSERT INTO Aircraft VALUES ('ACFT2', 'A320', 'SFO');
+INSERT INTO Aircraft VALUES ('ACFT3', 'B737', 'LAX');
+INSERT INTO Aircraft VALUES ('ACFT4', 'B787', 'BIA');
+INSERT INTO Aircraft VALUES ('ACFT5', 'B787', 'LHR');
 
 -- 3 seating classes
 INSERT INTO Seating_Class VALUES (1, 'First_Class');
 INSERT INTO Seating_Class VALUES (2, 'Business');
 INSERT INTO Seating_Class VALUES (3, 'Economy');
 
--- 3 routes
-INSERT INTO Route VALUES ('R001', 'JFK', 'LAX', '05:30:00');
-INSERT INTO Route VALUES ('R002', 'LAX', 'SFO', '01:30:00');
-INSERT INTO Route VALUES ('R003', 'LHR', 'JFK', '07:00:00');
+-- 16 routes
+INSERT INTO Route VALUES ('R001', 'JFK', 'LAX', '06:10:00');
+INSERT INTO Route VALUES ('R002', 'JFK', 'SFO', '06:35:00');
+INSERT INTO Route VALUES ('R003', 'JFK', 'LHR', '07:00:00');
+INSERT INTO Route VALUES ('R004', 'JFK', 'BIA', '10:30:00');
+INSERT INTO Route VALUES ('R005', 'LAX', 'JFK', '05:25:00');
+INSERT INTO Route VALUES ('R006', 'LAX', 'SFO', '01:25:00');
+INSERT INTO Route VALUES ('R007', 'LAX', 'LHR', '10:25:00');
+INSERT INTO Route VALUES ('R008', 'LAX', 'BIA', '21:10:00');
+INSERT INTO Route VALUES ('R009', 'LHR', 'JFK', '08:05:00');
+INSERT INTO Route VALUES ('R010', 'LHR', 'LAX', '05:30:00');
+INSERT INTO Route VALUES ('R011', 'LHR', 'SFO', '11:20:00');
+INSERT INTO Route VALUES ('R012', 'LHR', 'BIA', '03:45:00');
+INSERT INTO Route VALUES ('R013', 'BIA', 'JFK', '14:05:00');
+INSERT INTO Route VALUES ('R014', 'BIA', 'LAX', '16:15:00');
+INSERT INTO Route VALUES ('R015', 'BIA', 'SFO', '15:45:00');
+INSERT INTO Route VALUES ('R015', 'BIA', 'LHR', '04:25:00');
 
--- 3 aircraft instances
-INSERT INTO Aircraft_Instance VALUES (NULL, 'ACFT1', 'JFK', 'On-Ground');
-INSERT INTO Aircraft_Instance VALUES (NULL, 'ACFT3', 'LAX', 'On-Ground');
-INSERT INTO Aircraft_Instance VALUES (NULL, 'ACFT5', 'LHR', 'On-Ground');
+
+-- sheduled flights
+INSERT INTO Scheduled_Flight(aircraft_id, route_id, scheduled_departure, scheduled_arrival, true_departure, true_arrival, flight_status) VALUES('ACFT1','R001', '2023-11-02 14:30:00' )
+CREATE TABLE Scheduled_Flight (
+  schedule_id int auto_increment,
+  aircraft_instance_id int NOT NULL,
+  route_id VARCHAR(10) NOT NULL ,
+  scheduled_departure datetime NOT NULL,
+  scheduled_arrival datetime NOT NULL,
+  true_departure datetime ,
+  true_arrival datetime,
+  flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure', 'Landed','Cancelled') NOT NULL DEFAULT 'Scheduled',
+  PRIMARY KEY (schedule_id),
+  FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(aircraft_instance_id) REFERENCES Aircraft_Instance(aircraft_instance_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 

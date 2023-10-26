@@ -14,7 +14,6 @@ DROP TABLE IF EXISTS Airport CASCADE;
 DROP TABLE IF EXISTS Aircraft CASCADE;
 DROP TABLE IF EXISTS Seating_Class CASCADE;
 DROP TABLE IF EXISTS Aircraft_Seat CASCADE;
-DROP TABLE IF EXISTS Aircraft_Instance CASCADE;
 DROP TABLE IF EXISTS Route CASCADE;
 DROP TABLE IF EXISTS Seat_Class_Price CASCADE;
 DROP TABLE IF EXISTS Scheduled_Flight CASCADE;
@@ -45,7 +44,7 @@ CREATE TABLE User_Category (
 
 CREATE TABLE Registered_User (
   user_id int,
-  category ENUM('General','Frequent','Gold') NOT NULL DEFAULT 'General', -- Default no category
+  registered_user_category ENUM('General','Frequent','Gold') NOT NULL DEFAULT 'General', -- Default no category
   email VARCHAR(100) NOT NULL UNIQUE,
   password varchar(255) NOT NULL,
   first_name VARCHAR(30) NOT NULL,
@@ -57,7 +56,7 @@ CREATE TABLE Registered_User (
   joined_datetime datetime DEFAULT NOW() NOT NULL,
   PRIMARY KEY (user_id),
   FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(category) REFERENCES User_Category(registered_user_category) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(registered_user_category) REFERENCES User_Category(registered_user_category) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Contact_No (
@@ -119,8 +118,10 @@ CREATE TABLE Airport (
 CREATE TABLE Aircraft (
   aircraft_id varchar(20),
   model_id varchar(4),
+  curr_airport_code varchar(4),
   PRIMARY KEY (aircraft_id),
   FOREIGN KEY(model_id) REFERENCES Aircraft_model(model_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(curr_airport_code) REFERENCES Airport(airport_code) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Seating_Class (
@@ -136,16 +137,6 @@ CREATE TABLE Aircraft_Seat (
   PRIMARY KEY (seat_id), 
   FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(seat_class_id) REFERENCES Seating_class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE Aircraft_Instance (
-  aircraft_instance_id int auto_increment,
-  aircraft_id varchar(20) NOT NULL,
-  airport_code varchar(4),
-  aircraft_state ENUM( 'On-Ground','In-Air')  NOT NULL,
-  PRIMARY KEY (aircraft_instance_id),
-  FOREIGN KEY(airport_code) REFERENCES Airport(airport_code) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Route (
@@ -169,7 +160,7 @@ CREATE TABLE Seat_Class_Price(
 
 CREATE TABLE Scheduled_Flight (
   schedule_id int auto_increment,
-  aircraft_instance_id int NOT NULL,
+  aircraft_id int NOT NULL,
   route_id VARCHAR(10) NOT NULL ,
   scheduled_departure datetime NOT NULL,
   scheduled_arrival datetime NOT NULL,
@@ -178,7 +169,7 @@ CREATE TABLE Scheduled_Flight (
   flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure', 'Landed','Cancelled') NOT NULL DEFAULT 'Scheduled',
   PRIMARY KEY (schedule_id),
   FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(aircraft_instance_id) REFERENCES Aircraft_Instance(aircraft_instance_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE User_Booking(
