@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     try {
         const { firstName, lastName, dateOfBirth, gender, passport, address, email, password } = await request.json();
-        const query = "CALL add_new_user(?, ?, ?, ?, ?, ?, ?, ?)";
+        const query = "CALL add_new_registered_user(?, ?, ?, ?, ?, ?, ?, ?)";  // add_new_registered_user
         const values = [firstName, lastName, dateOfBirth, gender, passport, address, email, password];
         const pool = require('../../../database/db');
 
