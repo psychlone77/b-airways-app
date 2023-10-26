@@ -13,12 +13,9 @@ function PassengerForm(props) {
   const [autoFill, setAutoFill] = useState(false);
 
   const [formData, setFormData] = useState({
-    firstName: props.userdata.firstName,
-    middlename: props.userdata.middlename,
-    lastname: props.userdata.lastname,
+    name: props.userdata.name,
     dob: props.userdata.dob,
     passportno: props.userdata.passportno,
-    address: props.userdata.address
   });
 
   var curr = new Date(formData.dob);
@@ -48,34 +45,15 @@ function PassengerForm(props) {
           </label>
         </div>
       ) : null}
-        <div className="flex flex-col gap-6 text-gray-700">
+        <div className="flex flex-row gap-6 text-gray-700">
           <div className="flex flex-row gap-6 flex-wrap justify-start">
             <input
               className="border border-gray-400 p-2 rounded-md h-10"
               type="text"
               name={`firstName${props.count}`}
               required
-              placeholder={"First Name*"}
-              defaultValue={autoFill ? formData.firstName : ""}
-              readOnly={autoFill}
-              onChange={handleInputChange}
-            />
-            <input
-              className="border border-gray-400 p-2 rounded-md h-10"
-              type="text"
-              name="middleName"
-              placeholder={"Middle Name"}
-              defaultValue={autoFill ? formData.middlename : ""}
-              readOnly={autoFill}
-              onChange={handleInputChange}
-            />
-            <input
-              className="border border-gray-400 p-2 rounded-md h-10"
-              type="text"
-              name="lastName"
-              required
-              placeholder={"Last Name*"}
-              defaultValue={autoFill ? formData.lastname : ""}
+              placeholder={"Name*"}
+              defaultValue={autoFill ? formData.name : ""}
               readOnly={autoFill}
               onChange={handleInputChange}
             />
@@ -100,18 +78,6 @@ function PassengerForm(props) {
               required
               placeholder={"Passport No.*"}
               defaultValue={autoFill ? formData.passportno : ""}
-              readOnly={autoFill}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="flex flex-grow">
-            <input
-              className="flex flex-grow border border-gray-400 p-2 rounded-md h-10"
-              type="text"
-              name="address"
-              required
-              placeholder={"Address*"}
-              defaultValue={autoFill ? formData.address : ""}
               readOnly={autoFill}
               onChange={handleInputChange}
             />

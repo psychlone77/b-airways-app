@@ -1,28 +1,27 @@
 import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
 
 export async function GET(request) {
+  try {
+    const field = request.nextUrl.searchParams.get("field");
+    const table = request.nextUrl.searchParams.get("table");
+    const query = `SELECT ${field} FROM ${table}`;
+    const values = [];
+    const pool = require("../../../database/db");
 
-    try {
-        const field = request.nextUrl.searchParams.get("field")
-        const table = request.nextUrl.searchParams.get("table")
-        const query = `SELECT ${field} FROM ${table}`;
-        const values = [];
-        const pool = require('../../../database/db')
-
-        // query database
-        const [rows] = await pool.execute(query, values);
-        // const airports = rows[0].map(row => ({
-        //     value: row.airport_code,
-        //     label: row.airport_code
-        // }));
-        //console.log(rows)
-        return NextResponse.json({rows});
-    } 
-    
-    catch (error) {
-      return NextResponse.json({ error: 'Database Server Error' });
-    }
+    // query database
+    const [rows] = await pool.execute(query, values);
+    // const airports = rows[0].map(row => ({
+    //     value: row.airport_code,
+    //     label: row.airport_code
+    // }));
+    //console.log(rows)
+    return NextResponse.json({ rows });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Database Server Error" },
+      { status: 400 }
+    );
+  }
 }
 
 // async function getAirports(){
@@ -30,7 +29,7 @@ export async function GET(request) {
 //       const query = "SELECT airport_code FROM airport";
 //       const values = [];
 //       const pool = require('../../database/db')
-  
+
 //       // query database
 //       const [rows] = await pool.execute(query, values);
 //       const airports = rows.map(row => ({

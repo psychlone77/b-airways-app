@@ -13,12 +13,9 @@ function seatCount(num) {
 export default function Booking(props) {
   const {
     userdata = {
-      firstName: "John",
-      middlename: "Nathan",
-      lastname: "Doe",
+      name: "John Doe",
       dob: "2000-01-01",
       passportno: "693020239",
-      address: "No34, Avery Street, United Kingdom",
     },
     count = 2,
   } = props;
