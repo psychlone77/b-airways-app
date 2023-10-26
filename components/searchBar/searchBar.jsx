@@ -2,7 +2,7 @@
 import React from "react";
 import {useState} from 'react'
 import Select from "react-select";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 function getDefaults(searchParam) {
   if (searchParam == null) {
@@ -13,6 +13,7 @@ function getDefaults(searchParam) {
 }
 
 export default function SearchBar(props) {
+  const router = useRouter();
   var airportsList = [];
   console.log(props.options.rows);
   if (props.options.rows && Array.isArray(props.options.rows)) {
@@ -33,6 +34,7 @@ export default function SearchBar(props) {
   const [selectedFrom, setSelectedFrom] = useState(props.from)
   const [selectedTo, setSelectedTo] = useState(props.to)
   const [selectedDate, setSelectedDate] = useState(props.date)
+  const [selectedSeats, setSelectedSeats] = useState(props.seats)
 
   const handleFromChange = (selectedOption) => {
     setSelectedFrom(selectedOption); // Set the selected option in state
@@ -44,6 +46,16 @@ export default function SearchBar(props) {
 
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
+  };
+
+  const handleSeatChange = (event) => {
+    setSelectedSeats(event.target.value);
+  };
+
+  const handleSearch = () => {
+    const fromValue = selectedFrom ? selectedFrom.value : '';
+    const toValue = selectedTo ? selectedTo.value : '';
+    router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&seats=${selectedSeats}`);
   };
 
 
@@ -82,15 +94,26 @@ export default function SearchBar(props) {
             defaultValue={props.date}
           />
         </div>
+        <div className="flex flex-row gap-2 items-center">
+          <h2 className="text-white">Seats</h2>
+          <input
+            className="border border-gray-400 p-2 rounded-md w-20 h-10"
+            type="number"
+            name="seats"
+            required
+            onChange={handleSeatChange}
+            value={selectedSeats}
+            defaultValue={props.seats}
+          />
+        </div>
         <div className="flex flex-row justify-center">
-          <Link href={`/search?from=${selectedFrom.value}&to=${selectedTo.value}&date=${selectedDate}`}>
             <button
               type="submit"
+              onClick={handleSearch}
               className="w-fit text-primary border border-transparent shadow-purple-800 bg-white font-nunito font-bold rounded-2xl hover:shadow-xl  py-2 px-10 transition duration-300 ease-in-out"
             >
               Search
             </button>
-          </Link>
         </div>
       </div>
     </div>

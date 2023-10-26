@@ -10,6 +10,7 @@ export default function SearchPage() {
   const from = searchParams.get('from')
   const to = searchParams.get('to')
   const date = searchParams.get('date')
+  const seats = searchParams.get('seats')
   const [airports, setAirports] = useState([]);
 
   useEffect(() => {
@@ -24,10 +25,10 @@ export default function SearchPage() {
   return (
     <div className="">
      <div className="flex flex-col items-center">
-       <SearchBar options={airports} link="/search" from={from} to={to} date={date}/>
+       <SearchBar options={airports} link="/search" from={from} to={to} date={date} seats={seats}/>
      </div>
      <div>
-      
+
      </div>
     </div>
   );
