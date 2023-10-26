@@ -122,6 +122,7 @@ CREATE PROCEDURE add_new_registered_user(
     passport VARCHAR(20),
     address VARCHAR(100),
     email VARCHAR(50),
+    mobile VARCHAR(15),
     password VARCHAR(50)
 )
 BEGIN
@@ -132,11 +133,57 @@ BEGIN
     
     SET new_user_id = LAST_INSERT_ID();
     
+    -- check if email and passport are unique
+    SELECT COUNT(*) INTO email_count FROM Registered_User WHERE email = email;
+    SELECT COUNT(*) INTO passport_count FROM Registered_User WHERE passport_no = passport;
+    
+    IF email_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Email already exists';
+    END IF;
+    
+    IF passport_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Passport already exists';
+    END IF;
+
     -- create the registered user
+    -- category and joined date time are not sent
     INSERT INTO Registered_User (user_id, email, password, first_name, last_name, birth_date, gender, passport_no, address) 
     VALUES (new_user_id, email,password, first_name, last_name, dob, gender, passport, address);
+    -- add the mobile no to the contact no table
+    INSERT INTO Contact_No (user_id, contact_no)
 END;
 |
 DELIMITER ;
 
+
+
+DELIMITER |
+CREATE PROCEDURE add_new_guest_user(
+    name VARCHAR(50),
+    dob DATE,
+    gender ENUM('Male', 'Female', 'Other'),
+    passport VARCHAR(20),
+    address VARCHAR(100),
+    mobile VARCHAR(20),
+    email VARCHAR(50)
+)
+BEGIN
+    DECLARE new_user_id INT;
+
+    --here the data are not checked for uniqueness, a user can run in user state multiple times
+
+    -- create the user first
+    INSERT INTO User (user_state)
+    VALUES ("Guest");
+    
+    SET new_user_id = LAST_INSERT_ID();
+    
+    -- create the guest user
+    INSERT INTO Guest_User (user_id, name, address, birth_date, gender, passport_no, email) 
+    VALUES (new_user_id, name, address, dob, gender, passport, email);
+END;
+|
+DELIMITER ;
 
