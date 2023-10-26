@@ -2,7 +2,7 @@
 import React from "react";
 import {useState} from 'react'
 import Select from "react-select";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 function getDefaults(searchParam) {
   if (searchParam == null) {
@@ -13,6 +13,8 @@ function getDefaults(searchParam) {
 }
 
 export default function SearchBar(props) {
+  const router = useRouter();
+  const classes = [{value:'Platinum', label: 'Platinum'},{value:'Business', label: 'Business'},{value:'Economy', label: 'Economy'}]
   var airportsList = [];
   console.log(props.options.rows);
   if (props.options.rows && Array.isArray(props.options.rows)) {
@@ -26,13 +28,17 @@ export default function SearchBar(props) {
   }
   console.log(props.from);
 
-  const from = getDefaults(props.from);
+  const from = props.from;
   const to = getDefaults(props.to);
+  const className = getDefaults(props.class);
   const date = getDefaults(props.date);
 
+  const [showError, setShowError] = useState(false);
   const [selectedFrom, setSelectedFrom] = useState(props.from)
   const [selectedTo, setSelectedTo] = useState(props.to)
   const [selectedDate, setSelectedDate] = useState(props.date)
+  const [selectedSeats, setSelectedSeats] = useState(props.seats)
+  const [selectedClass, setSelectedClass] = useState(props.class)
 
   const handleFromChange = (selectedOption) => {
     setSelectedFrom(selectedOption); // Set the selected option in state
@@ -42,18 +48,47 @@ export default function SearchBar(props) {
     setSelectedTo(selectedOption); // Set the selected option in state
   };
 
+  const handleClassChange = (selectedOption) => {
+    setSelectedClass(selectedOption); // Set the selected option in state
+  };
+
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
+  };
+
+  const handleSeatChange = (event) => {
+    setSelectedSeats(event.target.value);
+  };
+
+  const handleSearch = () => {
+    const fromValue = selectedFrom ? selectedFrom.value : '';
+    const toValue = selectedTo ? selectedTo.value : '';
+    const classValue = selectedClass ? selectedClass.value : '';
+
+    if (fromValue === toValue) {
+      setShowError(true);
+    } else {
+      setShowError(false);
+      router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&class=${classValue}&seats=${selectedSeats}`);
+    }
   };
 
 
   return (
     <div>
-      <div className="p-5 flex flex-wrap flex-row justify-center gap-16 rounded-md bg-primary border border-gray-400 font-nunito shadow-sm shadow-gray-400">
+      {showError && (
+        <div className="modal flex flex-row justify-center mb-5">
+          <div className="modal-content rounded-3xl w-fit p-3 bg-red-700 font-nunito flex flex-row  gap-5 items-center font-bold text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
+            <span className="font-thin text-3xl cursor-pointer" onClick={() => setShowError(false)}>&times;</span>
+            <p>You cannot select the same locations</p>
+          </div>
+        </div>
+      )}
+      <div className="p-5 flex flex-wrap flex-row justify-center gap-12 rounded-md bg-purple-800 border border-gray-400 font-nunito shadow-sm shadow-gray-400">
         <div className="flex flex-row gap-2 items-center">
           <h2 className="text-white">From</h2>
           <Select
-            className="w-48"
+            className="w-32"
             options={airportsList}
             value={selectedFrom}
             onChange={handleFromChange}
@@ -63,7 +98,7 @@ export default function SearchBar(props) {
         <div className="flex flex-row gap-2 items-center">
           <h2 className="text-white">To</h2>
           <Select
-            className="w-48"
+            className="w-32"
             options={airportsList}
             value={selectedTo}
             onChange={handleToChange}
@@ -82,15 +117,36 @@ export default function SearchBar(props) {
             defaultValue={props.date}
           />
         </div>
+        <div className="flex flex-row gap-2 items-center">
+          <h2 className="text-white">Class</h2>
+          <Select
+            className="w-44"
+            options={classes}
+            value={selectedClass}
+            onChange={handleClassChange}
+            defaultValue={{ value: className, label: className }}
+          />
+        </div>
+        <div className="flex flex-row gap-2 items-center">
+          <h2 className="text-white">Seats</h2>
+          <input
+            className="border border-gray-400 p-2 rounded-md w-20 h-10"
+            type="number"
+            name="seats"
+            required
+            onChange={handleSeatChange}
+            value={selectedSeats}
+            defaultValue={props.seats}
+          />
+        </div>
         <div className="flex flex-row justify-center">
-          <Link href={`/search?from=${selectedFrom.value}&to=${selectedTo.value}&date=${selectedDate}`}>
             <button
               type="submit"
+              onClick={handleSearch}
               className="w-fit text-primary border border-transparent shadow-purple-800 bg-white font-nunito font-bold rounded-2xl hover:shadow-xl  py-2 px-10 transition duration-300 ease-in-out"
             >
               Search
             </button>
-          </Link>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function NavBar() {
   return(
     <nav className="nav">
-    <p className="navbartitle font-museo font-bold">
+    <p className="navbartitle font-museo font-bold text-primary">
       <Link href="/">B AIRWAYS</Link>
     </p>
     <div className="Links font-nunito">
