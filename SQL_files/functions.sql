@@ -26,6 +26,23 @@ END;
 |
 DELIMITER ;
 
+DELIMITER |
+CREATE TRIGGER calculate_scheduled_arrival
+AFTER INSERT ON Scheduled_Flight
+FOR EACH ROW
+BEGIN
+    DECLARE route_duration TIME;
+    SELECT route_duration INTO route_duration FROM Route WHERE route_id = NEW.route_id;
+    
+    SET NEW.scheduled_arrival = TIMESTAMPADD(SECOND, TIME_TO_SEC(route_duration), NEW.scheduled_departure);
+    
+    UPDATE Scheduled_Flight
+    SET scheduled_arrival = NEW.scheduled_arrival
+    WHERE schedule_id = NEW.schedule_id;
+END;
+|
+DELIMITER ;
+
 
 DELIMITER |
 CREATE FUNCTION IsRegisteredUser(userId int) 

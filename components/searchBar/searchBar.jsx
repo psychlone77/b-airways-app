@@ -14,7 +14,7 @@ function getDefaults(searchParam) {
 
 export default function SearchBar(props) {
   const router = useRouter();
-  const classes = [{value:'Platinum', label: 'Platinum'},{value:'Platinum', label: 'Platinum'},{value:'Platinum', label: 'Platinum'}]
+  const classes = [{value:'Platinum', label: 'Platinum'},{value:'Business', label: 'Business'},{value:'Economy', label: 'Economy'}]
   var airportsList = [];
   console.log(props.options.rows);
   if (props.options.rows && Array.isArray(props.options.rows)) {
@@ -33,6 +33,7 @@ export default function SearchBar(props) {
   const className = getDefaults(props.class);
   const date = getDefaults(props.date);
 
+  const [showError, setShowError] = useState(false);
   const [selectedFrom, setSelectedFrom] = useState(props.from)
   const [selectedTo, setSelectedTo] = useState(props.to)
   const [selectedDate, setSelectedDate] = useState(props.date)
@@ -63,13 +64,27 @@ export default function SearchBar(props) {
     const fromValue = selectedFrom ? selectedFrom.value : '';
     const toValue = selectedTo ? selectedTo.value : '';
     const classValue = selectedClass ? selectedClass.value : '';
-    router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&class=${classValue}&seats=${selectedSeats}`);
+
+    if (fromValue === toValue) {
+      setShowError(true);
+    } else {
+      setShowError(false);
+      router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&class=${classValue}&seats=${selectedSeats}`);
+    }
   };
 
 
   return (
     <div>
-      <div className="p-5 flex flex-wrap flex-row justify-center gap-12 rounded-md bg-primary border border-gray-400 font-nunito shadow-sm shadow-gray-400">
+      {showError && (
+        <div className="modal flex flex-row justify-center mb-5">
+          <div className="modal-content rounded-3xl w-fit p-3 bg-red-700 font-nunito flex flex-row  gap-5 items-center font-bold text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
+            <span className="font-thin text-3xl cursor-pointer" onClick={() => setShowError(false)}>&times;</span>
+            <p>You cannot select the same locations</p>
+          </div>
+        </div>
+      )}
+      <div className="p-5 flex flex-wrap flex-row justify-center gap-12 rounded-md bg-purple-800 border border-gray-400 font-nunito shadow-sm shadow-gray-400">
         <div className="flex flex-row gap-2 items-center">
           <h2 className="text-white">From</h2>
           <Select

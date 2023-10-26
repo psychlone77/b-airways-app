@@ -14,8 +14,9 @@ theme: {
       'airplane': "url('/public/airplane.jpg')",
     },
     colors: {
-      primary: '#605DEC',
-      secondary: '#8d8ce6'
+      primary: '#6B21A8',
+      secondary: '#605DEC',
+      tertiary: '#8d8ce6',
     },
     fontFamily: {
       nunito: ["Nunito Sans", 'sans-serif'],

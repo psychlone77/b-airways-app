@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function GET() {
+export async function GET(request) {
 
     try {
-        const query = "SELECT airport_code FROM airport";
+        const field = request.nextUrl.searchParams.get("field")
+        const table = request.nextUrl.searchParams.get("table")
+        const query = `SELECT ${field} FROM ${table}`;
         const values = [];
         const pool = require('../../../database/db')
 
