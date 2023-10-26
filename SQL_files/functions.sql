@@ -1,11 +1,18 @@
-DROP FUNCTION IF EXISTS calculateAge;
-DROP TRIGGER IF EXISTS get_jointime;
-DROP FUNCTION IF EXISTS IsRegisteredUser;
-DROP FUNCTION IF EXISTS calculateTotalPrize;
+-- pls add some comments where you change 
 
+SET GLOBAL log_bin_trust_function_creators = 1;
+
+DROP FUNCTION IF EXISTS calculateAge;
+-- DROP TRIGGER IF EXISTS get_jointime;
+DROP FUNCTION IF EXISTS IsRegisteredUser;
+DROP FUNCTION IF EXISTS calculateTotalPrice;
+DROP PROCEDURE IF EXISTS insert_a_new_flight;
+DROP PROCEDURE IF EXISTS add_new_registered_user;
+
+-- calculate age
 DELIMITER |
 CREATE FUNCTION calculateAge (birthday DATE)
-RETURNS INT
+RETURNS int
 BEGIN
 DECLARE birthYear INT;
 DECLARE currentYear INT;
@@ -16,19 +23,10 @@ END;
 |
 DELIMITER ;
 
-
-DELIMITER |
-CREATE TRIGGER get_jointime BEFORE INSERT ON Registered_User
-FOR EACH ROW
-BEGIN
-SET NEW.joined_datetime = NOW();
-END;
-|
-DELIMITER ;
-
+--scheduled arrival is set to calculate before inserting
 DELIMITER |
 CREATE TRIGGER calculate_scheduled_arrival
-AFTER INSERT ON Scheduled_Flight
+BEFORE INSERT ON Scheduled_Flight
 FOR EACH ROW
 BEGIN
     DECLARE route_duration TIME;
@@ -43,7 +41,7 @@ END;
 |
 DELIMITER ;
 
-
+-- used for validatation
 DELIMITER |
 CREATE FUNCTION IsRegisteredUser(userId int) 
 RETURNS BOOLEAN
@@ -57,7 +55,7 @@ DELIMITER ;
 
 
 DELIMITER |
-CREATE FUNCTION calculateTotalPrize(val_route_id varchar(10), val_seat_class_id int, val_user_id int)
+CREATE FUNCTION calculateTotalPrice(val_route_id varchar(10), val_seat_class_id int, val_user_id int)
 RETURNS NUMERIC
 BEGIN
 DECLARE val_price numeric(10,2);
@@ -77,7 +75,7 @@ END IF;
 RETURN final_price;
 END;
 
-
+--  change this function , aircraft instance is now not available ///////////////////////////////////
 DELIMITER |
 CREATE PROCEDURE insert_a_new_flight(val_route_id varchar(10), val_aircraft_id varchar(20), val_scheduled_depature datetime)
 BEGIN
@@ -114,3 +112,31 @@ END IF;
 END;
 |
 DELIMITER ;
+
+DELIMITER |
+CREATE PROCEDURE add_new_registered_user(
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    dob DATE,
+    gender ENUM('Male', 'Female', 'Other'),
+    passport VARCHAR(20),
+    address VARCHAR(100),
+    email VARCHAR(50),
+    password VARCHAR(50)
+)
+BEGIN
+    DECLARE new_user_id INT;
+    -- create the user first
+    INSERT INTO User (user_state)
+    VALUES ("Registered");
+    
+    SET new_user_id = LAST_INSERT_ID();
+    
+    -- create the registered user
+    INSERT INTO Registered_User (user_id, email, password, first_name, last_name, birth_date, gender, passport_no, address) 
+    VALUES (new_user_id, email,password, first_name, last_name, dob, gender, passport, address);
+END;
+|
+DELIMITER ;
+
+

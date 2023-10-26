@@ -1,3 +1,7 @@
+-- pls add some comments where you change 
+
+
+
 drop database ars;
 create database ars;
 use ars;
@@ -120,7 +124,7 @@ CREATE TABLE Aircraft (
   model_id varchar(4),
   curr_airport_code varchar(4),
   PRIMARY KEY (aircraft_id),
-  FOREIGN KEY(model_id) REFERENCES Aircraft_model(model_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(model_id) REFERENCES Aircraft_model(model_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(curr_airport_code) REFERENCES Airport(airport_code) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -160,13 +164,13 @@ CREATE TABLE Seat_Class_Price(
 
 CREATE TABLE Scheduled_Flight (
   schedule_id int auto_increment,
-  aircraft_id int NOT NULL,
+  aircraft_id varchar(20) NOT NULL,
   route_id VARCHAR(10) NOT NULL ,
   scheduled_departure datetime NOT NULL,
   scheduled_arrival datetime NOT NULL,
   true_departure datetime ,
   true_arrival datetime,
-  flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure', 'Landed','Cancelled') NOT NULL DEFAULT 'Scheduled',
+  flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure', 'Landed','Cancelled') NOT NULL DEFAULT 'Scheduled',  -- change this
   PRIMARY KEY (schedule_id),
   FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE
