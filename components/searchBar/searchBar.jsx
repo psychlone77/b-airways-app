@@ -67,6 +67,8 @@ export default function SearchBar(props) {
 
     if (fromValue === toValue) {
       setShowError(true);
+      setSelectedFrom(null);
+      setSelectedTo(null);
     } else {
       setShowError(false);
       router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&class=${classValue}&seats=${selectedSeats}`);
