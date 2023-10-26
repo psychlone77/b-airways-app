@@ -14,6 +14,7 @@ function getDefaults(searchParam) {
 
 export default function SearchBar(props) {
   const router = useRouter();
+  const classes = [{value:'Platinum', label: 'Platinum'},{value:'Platinum', label: 'Platinum'},{value:'Platinum', label: 'Platinum'}]
   var airportsList = [];
   console.log(props.options.rows);
   if (props.options.rows && Array.isArray(props.options.rows)) {
@@ -27,14 +28,16 @@ export default function SearchBar(props) {
   }
   console.log(props.from);
 
-  const from = getDefaults(props.from);
+  const from = props.from;
   const to = getDefaults(props.to);
+  const className = getDefaults(props.class);
   const date = getDefaults(props.date);
 
   const [selectedFrom, setSelectedFrom] = useState(props.from)
   const [selectedTo, setSelectedTo] = useState(props.to)
   const [selectedDate, setSelectedDate] = useState(props.date)
   const [selectedSeats, setSelectedSeats] = useState(props.seats)
+  const [selectedClass, setSelectedClass] = useState(props.class)
 
   const handleFromChange = (selectedOption) => {
     setSelectedFrom(selectedOption); // Set the selected option in state
@@ -42,6 +45,10 @@ export default function SearchBar(props) {
 
   const handleToChange = (selectedOption) => {
     setSelectedTo(selectedOption); // Set the selected option in state
+  };
+
+  const handleClassChange = (selectedOption) => {
+    setSelectedClass(selectedOption); // Set the selected option in state
   };
 
   const handleDateChange = (event) => {
@@ -55,17 +62,18 @@ export default function SearchBar(props) {
   const handleSearch = () => {
     const fromValue = selectedFrom ? selectedFrom.value : '';
     const toValue = selectedTo ? selectedTo.value : '';
-    router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&seats=${selectedSeats}`);
+    const classValue = selectedClass ? selectedClass.value : '';
+    router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&class=${classValue}&seats=${selectedSeats}`);
   };
 
 
   return (
     <div>
-      <div className="p-5 flex flex-wrap flex-row justify-center gap-16 rounded-md bg-primary border border-gray-400 font-nunito shadow-sm shadow-gray-400">
+      <div className="p-5 flex flex-wrap flex-row justify-center gap-12 rounded-md bg-primary border border-gray-400 font-nunito shadow-sm shadow-gray-400">
         <div className="flex flex-row gap-2 items-center">
           <h2 className="text-white">From</h2>
           <Select
-            className="w-48"
+            className="w-32"
             options={airportsList}
             value={selectedFrom}
             onChange={handleFromChange}
@@ -75,7 +83,7 @@ export default function SearchBar(props) {
         <div className="flex flex-row gap-2 items-center">
           <h2 className="text-white">To</h2>
           <Select
-            className="w-48"
+            className="w-32"
             options={airportsList}
             value={selectedTo}
             onChange={handleToChange}
@@ -92,6 +100,16 @@ export default function SearchBar(props) {
             onChange={handleDateChange}
             value={selectedDate}
             defaultValue={props.date}
+          />
+        </div>
+        <div className="flex flex-row gap-2 items-center">
+          <h2 className="text-white">Class</h2>
+          <Select
+            className="w-44"
+            options={classes}
+            value={selectedClass}
+            onChange={handleClassChange}
+            defaultValue={{ value: className, label: className }}
           />
         </div>
         <div className="flex flex-row gap-2 items-center">

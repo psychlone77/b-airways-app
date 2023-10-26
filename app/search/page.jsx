@@ -3,6 +3,7 @@ import React from "react";
 import {useState, useEffect} from 'react'
 import { useSearchParams } from 'next/navigation'
 import SearchBar from "@/components/searchBar/searchBar";
+import FLightChip from "@/components/searchBar/flightChip"
 
 
 export default function SearchPage() {
@@ -10,6 +11,7 @@ export default function SearchPage() {
   const from = searchParams.get('from')
   const to = searchParams.get('to')
   const date = searchParams.get('date')
+  const className = searchParams.get('class')
   const seats = searchParams.get('seats')
   const [airports, setAirports] = useState([]);
 
@@ -25,10 +27,10 @@ export default function SearchPage() {
   return (
     <div className="">
      <div className="flex flex-col items-center">
-       <SearchBar options={airports} link="/search" from={from} to={to} date={date} seats={seats}/>
+       <SearchBar options={airports} link="/search" from={from} to={to} date={date} class={className} seats={seats}/>
      </div>
-     <div>
-
+     <div className="flex flex-col items-center mt-8">
+      <FLightChip />
      </div>
     </div>
   );
