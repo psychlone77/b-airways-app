@@ -15,7 +15,7 @@ theme: {
     },
     colors: {
       primary: '#6B21A8',
-      secondary: '#605DEC',
+      secondary: '#7c61d7',
       tertiary: '#8d8ce6',
     },
     fontFamily: {

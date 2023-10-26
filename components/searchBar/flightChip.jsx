@@ -1,10 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function FlightChip(props) {
   return (
     <div className="mb-8">
       <Link href="/booking">
           <div className="border border-secondary shadow-sm shadow-tertiary hover:shadow-md hover:shadow-tertiary flex flex-row items-center flex-wrap gap-24 p-5 rounded-lg font-nunito justify-around  transition duration-300 ease-in-out">
+            <Image src="/travel.svg" height={30} width={30}/>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl text-primary"> R001 </h1>
               <h2 className="text-sm"> FROM - TO</h2>
