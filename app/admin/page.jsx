@@ -1,7 +1,7 @@
-export default function AdminLoginPage(){
+export default function AdminPage(){
     return(
         <div>
-            Admin Login
+            Admin Page
         </div>
     )
 }

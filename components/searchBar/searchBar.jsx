@@ -60,7 +60,8 @@ export default function SearchBar(props) {
     setSelectedSeats(event.target.value);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (event) => {
+    event.preventDefault();
     const fromValue = selectedFrom ? selectedFrom.value : '';
     const toValue = selectedTo ? selectedTo.value : '';
     const classValue = selectedClass ? selectedClass.value : '';
@@ -86,71 +87,75 @@ export default function SearchBar(props) {
           </div>
         </div>
       )}
-      <div className="p-5 flex flex-wrap flex-row justify-center gap-12 rounded-md bg-purple-800 border border-gray-400 font-nunito shadow-sm shadow-gray-400">
-        <div className="flex flex-row gap-2 items-center">
-          <h2 className="text-white">From</h2>
-          <Select
-            className="w-32"
-            options={airportsList}
-            value={selectedFrom}
-            onChange={handleFromChange}
-            defaultValue={{ value: from, label: from }}
-          />
+      <form onSubmit={handleSearch}>
+        <div className="p-5 flex flex-wrap flex-row justify-center gap-12 rounded-md bg-purple-800 border border-gray-400 font-nunito shadow-sm shadow-gray-400">
+          <div className="flex flex-row gap-2 items-center">
+            <h2 className="text-white">From</h2>
+            <Select
+              className="w-32"
+              options={airportsList}
+              value={selectedFrom}
+              onChange={handleFromChange}
+              defaultValue={{ value: from, label: from }}
+              required
+            />
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <h2 className="text-white">To</h2>
+            <Select
+              className="w-32"
+              options={airportsList}
+              value={selectedTo}
+              onChange={handleToChange}
+              defaultValue={{ value: to, label: to }}
+              required
+            />
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <h2 className="text-white">Departure</h2>
+            <input
+              className="border border-gray-400 p-2 rounded-md w-44 h-10"
+              type="date"
+              name="date"
+              required
+              onChange={handleDateChange}
+              value={selectedDate}
+              defaultValue={props.date}
+            />
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <h2 className="text-white">Class</h2>
+            <Select
+              className="w-44"
+              options={classes}
+              value={selectedClass}
+              onChange={handleClassChange}
+              defaultValue={{ value: className, label: className }}
+              required
+            />
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <h2 className="text-white">Seats</h2>
+            <input
+              className="border border-gray-400 p-2 rounded-md w-20 h-10"
+              type="number"
+              name="seats"
+              required
+              onChange={handleSeatChange}
+              value={selectedSeats}
+              defaultValue={props.seats}
+            />
+          </div>
+          <div className="flex flex-row justify-center">
+              <button
+                type="submit"
+                className="w-fit text-primary shadow-purple-800 bg-white font-nunito font-bold rounded-2xl hover:shadow-xl hover:bg-gradient-to-r from-purple-700 to-pink-500 hover:text-white  py-2 px-10 transition duration-600 ease-in-out"
+              >
+                Search
+              </button>
+          </div>
         </div>
-        <div className="flex flex-row gap-2 items-center">
-          <h2 className="text-white">To</h2>
-          <Select
-            className="w-32"
-            options={airportsList}
-            value={selectedTo}
-            onChange={handleToChange}
-            defaultValue={{ value: to, label: to }}
-          />
-        </div>
-        <div className="flex flex-row gap-2 items-center">
-          <h2 className="text-white">Departure</h2>
-          <input
-            className="border border-gray-400 p-2 rounded-md w-44 h-10"
-            type="date"
-            name="date"
-            required
-            onChange={handleDateChange}
-            value={selectedDate}
-            defaultValue={props.date}
-          />
-        </div>
-        <div className="flex flex-row gap-2 items-center">
-          <h2 className="text-white">Class</h2>
-          <Select
-            className="w-44"
-            options={classes}
-            value={selectedClass}
-            onChange={handleClassChange}
-            defaultValue={{ value: className, label: className }}
-          />
-        </div>
-        <div className="flex flex-row gap-2 items-center">
-          <h2 className="text-white">Seats</h2>
-          <input
-            className="border border-gray-400 p-2 rounded-md w-20 h-10"
-            type="number"
-            name="seats"
-            required
-            onChange={handleSeatChange}
-            value={selectedSeats}
-            defaultValue={props.seats}
-          />
-        </div>
-        <div className="flex flex-row justify-center">
-            <button
-              type="submit"
-              onClick={handleSearch}
-              className="w-fit text-primary shadow-purple-800 bg-white font-nunito font-bold rounded-2xl hover:shadow-xl hover:bg-gradient-to-r from-purple-700 to-pink-500 hover:text-white  py-2 px-10 transition duration-600 ease-in-out"
-            >
-              Search
-            </button>
-        </div>
-      </div>
+      </form>
     </div>
   );
 }

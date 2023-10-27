@@ -22,6 +22,7 @@ export default function Login() {
     signIn("credentials", {
       email: email,
       password: password,
+      role: "user",
       callbackUrl: "http://localhost:3000/",
     });
     // Add logic to handle form submission here
