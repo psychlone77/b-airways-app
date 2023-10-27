@@ -16,23 +16,25 @@ export const authOptions = {
           return null;
         }
         if (role === "admin") {
-            const query = "SELECT * FROM administrator WHERE admin_name = ?";
-            const values = [email];
-            const pool = require("../../../../database/db");
-            // query database
-            const [result] = await pool.execute(query, values);
-            const user = result[0];
-            console.log(user);
-            if (user) {
-                // const isValid = await bcrypt.compare(password, user.password);
-                // if (isValid) {
-                //     return user;
-                // }
-                if (user.password === password) {
-                return user;
-                }
+          const query = "SELECT * FROM administrator WHERE admin_name = ?";
+          const values = [email];
+          const pool = require("../../../../database/db");
+          // query database
+          const [result] = await pool.execute(query, values);
+          const user = result[0];
+          //console.log(user);
+          if (user) {
+            // const isValid = await bcrypt.compare(password, user.password);
+            // if (isValid) {
+            //     return user;
+            // }
+            if (user.password === password) {
+              user.role = "admin";
+              //console.log(user);
+              return user;
             }
-            return null;    
+          }
+          return null;
         }
         if (role === "user") {
           const query = "SELECT * FROM registered_user WHERE email = ?";
@@ -48,6 +50,8 @@ export const authOptions = {
             //     return user;
             // }
             if (user.password === password) {
+              user.role = "user";
+              console.log(user);
               return user;
             }
           }
@@ -61,6 +65,7 @@ export const authOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.user_id = user.user_id;
+        token.role = user.role;
         token.first_name = user.first_name;
       }
       return token;
@@ -68,7 +73,7 @@ export const authOptions = {
     async session({ session, token }) {
       session.user.user_id = token.user_id;
       session.user.first_name = token.first_name;
-
+      session.user.role = token.role;
       return session;
     },
   },

@@ -1,9 +1,11 @@
 'use client'
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useSession, SessionProvider } from "next-auth/react";
 
+function AdminLoginPage(){
 
-export default function AdminLoginPage(){
+  const { data: session, status } = useSession();
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
   
@@ -27,7 +29,9 @@ export default function AdminLoginPage(){
       });
       // Add logic to handle form submission here
     };
-  
+    if(session?.user?.role === "admin"){
+      window.location.href = "/admin"
+    }
     return (
       <div className="flex flex-col justify-center items-center m- h-[calc(100vh-77px)]">
         <form
@@ -64,4 +68,12 @@ export default function AdminLoginPage(){
         </form>
       </div>
     );
+}
+
+export default function AdminLoginPageWrapper() {
+  return (
+    <SessionProvider>
+      <AdminLoginPage />
+    </SessionProvider>
+  );
 }
