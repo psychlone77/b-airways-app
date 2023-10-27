@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, SessionProvider, signOut } from "next-auth/react";
@@ -7,9 +7,28 @@ import { useSession, SessionProvider, signOut } from "next-auth/react";
 export default function NavBar(props) {
   const session = props.session;
   const [showDropdown, setShowDropdown] = useState(false); // add state for dropdown visibility
+  const dropdownRef = useRef(null); // add ref for dropdown menu
+
+  useEffect(() => {
+    // add event listener to document to hide dropdown on loss of focus
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  const handleOptionClick = () => {
+    setShowDropdown(false);
+  };
+
   const buttons = session ? (
     <div className="flex flex-row items-center gap-3  ml-44">
-      <div className="relative">
+      <div className="relative" ref={dropdownRef}>
         {/* add onClick to SVG icon to toggle dropdown visibility */}
         <svg
           className="fill-current text-primary cursor-pointer"
@@ -26,13 +45,19 @@ export default function NavBar(props) {
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
             <div className="py-1">
               <Link href="/profile">
-                <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                <div
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                  onClick={handleOptionClick}
+                >
                   Profile
                 </div>
               </Link>
               <div
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                onClick={signOut}
+                onClick={() => {
+                  signOut();
+                  handleOptionClick();
+                }}
               >
                 Logout
               </div>
