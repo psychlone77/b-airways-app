@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@800&family=Nunito+Sans:opsz,wght@6..12,300;6..12,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+    font-family: sans-serif;
+    font-size: large;
+}
+nav {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+.login-button, .register-button {
+  background-color: white;
+  color: #007acc;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
