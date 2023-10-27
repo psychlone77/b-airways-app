@@ -80,7 +80,7 @@ CREATE TABLE Guest_User(
   gender ENUM('Male','Female','Other'),
   passport_no VARCHAR(9) NOT NULL,
   -- mobile VARCHAR(15) NOT NULL, -- remvoed this and added mobile no to contact_no table
-  email VARCHAR(254) NOT NULL,   --email and passport no can repeat, a user can continue in guest mode for multiple times
+  email VARCHAR(254) NOT NULL,   -- email and passport no can repeat, a user can continue in guest mode for multiple times
   PRIMARY KEY (user_id),
   FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

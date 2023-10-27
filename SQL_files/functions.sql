@@ -1,9 +1,11 @@
 -- pls add some comments where you change 
+-- fixed the syntax errors
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
 DROP FUNCTION IF EXISTS calculateAge;
 -- DROP TRIGGER IF EXISTS get_jointime;
+DROP TRIGGER IF EXISTS calculate_scheduled_arrival;
 DROP FUNCTION IF EXISTS IsRegisteredUser;
 DROP FUNCTION IF EXISTS calculateTotalPrice;
 DROP PROCEDURE IF EXISTS insert_a_new_flight;
@@ -127,6 +129,8 @@ CREATE PROCEDURE add_new_registered_user(
 )
 BEGIN
     DECLARE new_user_id INT;
+    DECLARE email_count INT;
+    DECLARE passport_count INT;
     -- create the user first
     INSERT INTO User (user_state)
     VALUES ("Registered");
@@ -149,10 +153,10 @@ BEGIN
 
     -- create the registered user
     -- category and joined date time are not sent
-    INSERT INTO Registered_User (user_id, email, password, first_name, last_name, birth_date, gender, passport_no, address) 
+    INSERT INTO Registered_User (user_id, email, password, first_name, last_name, birth_date, gender, passport_no, address)
     VALUES (new_user_id, email,password, first_name, last_name, dob, gender, passport, address);
     -- add the mobile no to the contact no table
-    INSERT INTO Contact_No (user_id, contact_no)
+    INSERT INTO Contact_No (user_id, contact_no) VALUES (new_user_id, mobile);
 END;
 |
 DELIMITER ;
@@ -172,7 +176,7 @@ CREATE PROCEDURE add_new_guest_user(
 BEGIN
     DECLARE new_user_id INT;
 
-    --here the data are not checked for uniqueness, a user can run in user state multiple times
+    -- here the data are not checked for uniqueness, a user can run in user state multiple times
 
     -- create the user first
     INSERT INTO User (user_state)
