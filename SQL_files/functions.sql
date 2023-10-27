@@ -1,5 +1,6 @@
 -- pls add some comments where you change 
 -- fixed the syntax errors
+-- fixed add_new_registered_user to have a transaction or else user table keeps getting rows without rollback
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
@@ -116,7 +117,7 @@ END;
 DELIMITER ;
 
 DELIMITER |
-CREATE PROCEDURE add_new_registered_user(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_new_registered_user`(
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     dob DATE,
@@ -131,25 +132,36 @@ BEGIN
     DECLARE new_user_id INT;
     DECLARE email_count INT;
     DECLARE passport_count INT;
+        -- Start a transaction
+    START TRANSACTION;
+
     -- create the user first
-    INSERT INTO User (user_state)
-    VALUES ("Registered");
-    
-    SET new_user_id = LAST_INSERT_ID();
+    BEGIN
+        DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            -- Rollback the transaction if any query fails
+			ROLLBACK;
+            RESIGNAL;
+        END;
+
+        INSERT INTO User (user_state)
+        VALUES ("Registered");
+
+        SET new_user_id = LAST_INSERT_ID();
     
     -- check if email and passport are unique
-    SELECT COUNT(*) INTO email_count FROM Registered_User WHERE email = email;
-    SELECT COUNT(*) INTO passport_count FROM Registered_User WHERE passport_no = passport;
+    -- SELECT COUNT(*) INTO email_count FROM Registered_User WHERE email = email;
+    -- SELECT COUNT(*) INTO passport_count FROM Registered_User WHERE passport_no = passport;
     
-    IF email_count > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Email already exists';
-    END IF;
+    -- IF email_count > 0 THEN
+    --     SIGNAL SQLSTATE '45000'
+    --     SET MESSAGE_TEXT = 'Email already exists';
+    -- END IF;
     
-    IF passport_count > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Passport already exists';
-    END IF;
+    -- IF passport_count > 0 THEN
+    --     SIGNAL SQLSTATE '45000'
+    --     SET MESSAGE_TEXT = 'Passport already exists';
+    -- END IF;
 
     -- create the registered user
     -- category and joined date time are not sent
@@ -157,7 +169,10 @@ BEGIN
     VALUES (new_user_id, email,password, first_name, last_name, dob, gender, passport, address);
     -- add the mobile no to the contact no table
     INSERT INTO Contact_No (user_id, contact_no) VALUES (new_user_id, mobile);
-END;
+	-- Commit the transaction if everything is successful
+    COMMIT;
+    END;
+END
 |
 DELIMITER ;
 
