@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import SearchBar from "@/components/searchBar/searchBar";
 import FLightChip from "@/components/searchBar/flightChip";
+import NavBar from "@/components/navbar/navbar";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();

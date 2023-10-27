@@ -38,13 +38,13 @@ export const authOptions = {
     callbacks: {
         async jwt({ token, user }) {
           if (user) {
-            token.id = user.id
+            token.user_id = user.user_id
             token.first_name = user.first_name
           }
           return token
         },
         async session({ session, token }) {
-            session.user.id = token.id
+            session.user.user_id = token.user_id
             session.user.first_name = token.first_name
             
             return session
