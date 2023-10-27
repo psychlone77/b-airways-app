@@ -8,7 +8,7 @@ export default function NavBar(props) {
   const session = props.session;
   const [showDropdown, setShowDropdown] = useState(false); // add state for dropdown visibility
   const buttons = session ? (
-    <div className="flex flex-row items-center gap-3">
+    <div className="flex flex-row items-center gap-3  ml-44">
       <div className="relative">
         {/* add onClick to SVG icon to toggle dropdown visibility */}
         <svg
@@ -78,7 +78,7 @@ export default function NavBar(props) {
           </span>
         </Link>
       </div>
-      <div className="flex flex-row gap-2 font-nunito ml-44">{buttons}</div>
+      <div className="flex flex-row gap-2 font-nunito">{buttons}</div>
     </nav>
   );
 }

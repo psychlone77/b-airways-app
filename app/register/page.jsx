@@ -19,10 +19,10 @@ export default function Register() {
       passport: form.passport.value,
       address: form.address.value,
       email: form.email.value,
+      contact: form.contact.value, // Add the new field to the data object
       password: form.password.value,
-      contactno: form.contact.value // Add the new field to the data object
     };
-    console.log(data);
+    //console.log(data);
     fetch("/register/api", {
       method: "POST",
       headers: {
@@ -30,12 +30,21 @@ export default function Register() {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
+      .then(async(response) => {
+        if (!response.ok) {
+          const res = await response.json();
+          console.log(res)
+          throw new Error(res.error);
+        }
+        return response.json();
+      })
       .then((data) => {
-        console.log("Success:", data)
+        console.log("Success:", data);
+        window.location.href = "/login"; // Redirect to home page upon successful registration
       })
       .catch((error) => {
-        console.error("Error:", error);
+        alert(error);
+        console.log(error);
       });
   };
 
@@ -63,7 +72,9 @@ export default function Register() {
             />
           </div>
           <div className="flex flex-col gap-2 justify-start">
-            <p className="text-white flex flex-row items-center">Date of Birth</p>
+            <p className="text-white flex flex-row items-center">
+              Date of Birth
+            </p>
             <input
               className="border border-gray-400 p-2 rounded-md h-10"
               type="date"
@@ -71,8 +82,15 @@ export default function Register() {
               required
             />
           </div>
-          <select className="pr-5 pl-2 rounded-md h-10" id="gender" value={gender} onChange={handleGenderChange}>
-            <option value="" disabled>Select Gender</option>
+          <select
+            className="pr-5 pl-2 rounded-md h-10"
+            id="gender"
+            value={gender}
+            onChange={handleGenderChange}
+          >
+            <option value="" disabled>
+              Select Gender
+            </option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
@@ -80,7 +98,7 @@ export default function Register() {
           <input
             className="border border-gray-400 p-2 rounded-md h-10 w-fit"
             type="text"
-            name={"contact"} 
+            name={"contact"}
             required
             placeholder={"Contact No."}
           />

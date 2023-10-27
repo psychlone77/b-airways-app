@@ -16,10 +16,7 @@
     "next-auth": "^4.24.3",
     "react": "latest",
     "react-dom": "latest",
-    "react-select": "^5.7.7",
-    "styled": "^1.0.0",
-    "styled-components": "^6.0.8",
-    "swr": "^2.2.4"
+    "react-select": "^5.7.7"
   },
   "devDependencies": {
     "@types/node": "latest",
