@@ -61,7 +61,7 @@ function ProfileContent() {
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> Birthday : {new Date(user.birth_date).toLocaleDateString('en-GB')}</h2>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> {user.email}</h2>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> Passport No. : {user.passport_no}</h2>
-          <h2 className="text-xl text-gray-500 font-nunito font-thin"> Membership Level : {user.category}</h2>
+          <h2 className="text-xl text-gray-500 font-nunito font-thin"> Membership Level : {user.registered_user_category}</h2>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> Member Since : {new Date(user.joined_datetime).toLocaleDateString('en-GB')}</h2>
         </div>
 

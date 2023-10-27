@@ -18,7 +18,7 @@ export const authOptions = {
         if (role === "admin") {
           const query = "SELECT * FROM administrator WHERE admin_name = ?";
           const values = [email];
-          const pool = require("../../../../database/db");
+          const pool = require("@/database/db");
           // query database
           const [result] = await pool.execute(query, values);
           const user = result[0];
@@ -39,7 +39,7 @@ export const authOptions = {
         if (role === "user") {
           const query = "SELECT * FROM registered_user WHERE email = ?";
           const values = [email];
-          const pool = require("../../../../database/db");
+          const pool = require("@/database/db");
           // query database
           const [result] = await pool.execute(query, values);
           const user = result[0];

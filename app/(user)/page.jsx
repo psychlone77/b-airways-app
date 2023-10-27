@@ -14,17 +14,20 @@ export default function Home(props) {
 }
 
 function HomeContent() {
-  const { status,data: session } = useSession();
+  const { status, data: session } = useSession();
   if (status === "loading") {
     return <LoadingPage />;
   }
   return (
     <div className="h-[calc(100vh-170px)] flex flex-col items-center">
-      <div style={{ position: "fixed", top: 0, left: 0, zIndex: -1 }}>
-        <img src='/airplane.jpg'/>
-      </div>
-      <div className="w-full mb-10">
-      </div>
+      <Image
+        src='/airplane.jpg'
+        alt="logo"
+        fill
+        // sizes="100vw"
+        className="object-cover -z-10"
+      />
+      <div className="w-full mb-10"></div>
       <h1 className="font-nunito font-bold text-center text-3xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-400 ">
         Welcome to
       </h1>

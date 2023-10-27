@@ -6,7 +6,7 @@ export async function GET(request) {
     const table = request.nextUrl.searchParams.get("table");
     const query = `SELECT ${field} FROM ${table}`;
     const values = [];
-    const pool = require("../../../database/db");
+    const pool = require("@/database/db");
 
     // query database
     const [rows] = await pool.execute(query, values);

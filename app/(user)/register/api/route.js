@@ -5,7 +5,7 @@ export async function POST(request) {
         const { firstName, lastName, dateOfBirth, gender, passport, address, email, contact, password } = await request.json();
         const query = "CALL add_new_registered_user(?, ?, ?, ?, ?, ?, ?, ?, ?)";  // add_new_registered_user
         const values = [firstName, lastName, dateOfBirth, gender, passport, address, email, contact, password];
-        const pool = require('../../../database/db');
+        const pool = require('@/database/db');
 
         // query database
         const [result] = await pool.execute(query, values);

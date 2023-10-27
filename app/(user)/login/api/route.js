@@ -5,7 +5,7 @@ export async function GET() {
     try {
       const query = "SELECT * from registered_user where user_id = 1";
       const values = [];
-      const pool = require('../../../database/db')
+      const pool = require('@/database/db')
   
       // query database
       const [rows] = await pool.execute(query, values);

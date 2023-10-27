@@ -5,7 +5,7 @@ export async function GET() {
     try {
         const query = "SELECT airport_code FROM airport";
         const values = [];
-        const pool = require('../../../database/db')
+        const pool = require('@/database/db')
 
         // query database
         const [rows] = await pool.execute(query, values);
