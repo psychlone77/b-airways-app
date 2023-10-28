@@ -1,6 +1,7 @@
 -- pls add some comments where you change 
 -- fixed the syntax errors
 -- fixed add_new_registered_user to have a transaction or else user table keeps getting rows without rollback
+-- changed scheduled_arrival trigger, fixed since there was error.
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
@@ -36,10 +37,6 @@ BEGIN
     SELECT route_duration INTO route_duration FROM Route WHERE route_id = NEW.route_id;
     
     SET NEW.scheduled_arrival = TIMESTAMPADD(SECOND, TIME_TO_SEC(route_duration), NEW.scheduled_departure);
-    
-    UPDATE Scheduled_Flight
-    SET scheduled_arrival = NEW.scheduled_arrival
-    WHERE schedule_id = NEW.schedule_id;
 END;
 |
 DELIMITER ;

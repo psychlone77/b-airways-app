@@ -109,3 +109,57 @@ INSERT INTO Route VALUES ('R014', 'CMB', 'LAX', '16:15:00');
 INSERT INTO Route VALUES ('R015', 'CMB', 'SFO', '15:45:00');
 
 
+-- Insert 30 scheduled flights
+INSERT INTO Scheduled_Flight (aircraft_id, route_id, scheduled_departure)
+VALUES 
+-- JFK departures
+('ACFT1', 'R001', '2023-11-01 06:10:00'), -- JFK to LAX
+('ACFT2', 'R002', '2023-11-01 06:35:00'), -- JFK to SFO
+('ACFT3', 'R003', '2023-11-01 07:00:00'), -- JFK to LHR
+('ACFT4', 'R004', '2023-11-01 10:30:00'), -- JFK to CMB
+
+-- LAX departures
+('ACFT5', 'R005', '2023-11-01 05:25:00'), -- LAX to JFK
+('ACFT1', 'R006', '2023-11-01 01:25:00'), -- LAX to SFO
+('ACFT2', 'R007', '2023-11-01 10:25:00'), -- LAX to LHR
+('ACFT3', 'R008', '2023-11-01 21:10:00'), -- LAX to CMB
+
+-- LHR departures
+('ACFT4', 'R009', '2023-11-01 08:05:00'), -- LHR to JFK
+('ACFT5', 'R010', '2023-11-01 05:30:00'), -- LHR to LAX
+('ACFT1', 'R011', '2023-11-01 11:20:00'), -- LHR to SFO
+('ACFT2', 'R012', '2023-11-01 03:45:00'), -- LHR to CMB
+
+-- CMB departures
+('ACFT3', 'R013', '2023-11-01 14:05:00'), -- CMB to JFK
+('ACFT4', 'R014', '2023-11-01 16:15:00'), -- CMB to LAX
+('ACFT5', 'R015', '2023-11-01 15:45:00'), -- CMB to SFO
+
+-- Return flights
+-- LAX to JFK
+('ACFT1', 'R005', '2023-11-02 05:25:00'),
+('ACFT2', 'R005', '2023-11-02 06:00:00'),
+-- SFO to JFK
+('ACFT3', 'R002', '2023-11-02 06:35:00'),
+('ACFT4', 'R002', '2023-11-02 07:00:00'),
+-- LHR to JFK
+('ACFT5', 'R001', '2023-11-02 06:10:00'),
+('ACFT1', 'R001', '2023-11-02 06:45:00'),
+-- CMB to JFK
+('ACFT2', 'R001', '2023-11-02 07:20:00'),
+('ACFT3', 'R001', '2023-11-02 07:55:00'),
+
+-- JFK departures
+('ACFT4', 'R003', '2023-11-02 07:30:00'), -- JFK to LHR
+('ACFT5', 'R012', '2023-11-02 10:00:00'), -- JFK to CMB
+
+-- LAX departures
+('ACFT1', 'R007', '2023-11-02 12:15:00'), -- LAX to LHR
+('ACFT2', 'R008', '2023-11-02 18:00:00'), -- LAX to CMB
+
+-- LHR departures
+('ACFT3', 'R011', '2023-11-02 14:30:00'), -- LHR to SFO
+('ACFT4', 'R012', '2023-11-02 16:45:00'), -- LHR to CMB
+
+-- CMB departures
+('ACFT5', 'R013', '2023-11-02 20:00:00'); -- CMB to JFK

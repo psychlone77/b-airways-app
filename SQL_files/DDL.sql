@@ -1,5 +1,5 @@
 -- pls add some comments where you change 
-
+-- schedule_arrival now can be set null
 
 
 drop database ars;
@@ -167,7 +167,7 @@ CREATE TABLE Scheduled_Flight (
   aircraft_id varchar(20) NOT NULL,
   route_id VARCHAR(10) NOT NULL ,
   scheduled_departure datetime NOT NULL,
-  scheduled_arrival datetime NOT NULL,
+  scheduled_arrival datetime,
   true_departure datetime ,
   true_arrival datetime,
   flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure', 'Landed','Cancelled') NOT NULL DEFAULT 'Scheduled',  -- change this
