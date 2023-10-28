@@ -20,12 +20,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div>
-          <Navbar session={data} />
-        </div>
-        <div>{children}</div>
-        <div>
-          <Footer />
+        <div className="h-screen flex flex-grow flex-col">
+          <div className="fixed top-0 left-0 right-0">
+            <Navbar session={data} />
+          </div>
+          <div className="mt-20 mb-auto">{children}</div>
+          <div>
+            <Footer />
+          </div>
         </div>
       </body>
     </html>

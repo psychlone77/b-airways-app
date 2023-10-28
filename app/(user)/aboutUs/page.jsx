@@ -20,7 +20,7 @@ export default async function AboutUs() {
   const data = res.rows[0];
   return (
     <div className="">
-      <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center">
         <div className="p-10 flex flex-col items-start gap-5 mt-10 text-white text-3xl font-thin font-nunito bg-gradient-to-r from-primary to-purple-500 rounded-lg shadow-primary shadow-sm">
           <div className="">
             <span>Email: </span>

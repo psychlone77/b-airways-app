@@ -1,10 +1,12 @@
 'use client';
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { useSession, SessionProvider, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 export default function NavBar(props) {
+  const path = usePathname();
+  const isHomePage = path === "/";
   const session = props.session;
   const [showDropdown, setShowDropdown] = useState(false); // add state for dropdown visibility
   const dropdownRef = useRef(null); // add ref for dropdown menu
@@ -27,7 +29,7 @@ export default function NavBar(props) {
   };
 
   const buttons = session ? (
-    <div className="flex flex-row items-center gap-3  ml-44">
+    <div className="flex flex-row items-center gap-3 ml-44">
       <div className="relative" ref={dropdownRef}>
         {/* add onClick to SVG icon to toggle dropdown visibility */}
         <svg
@@ -91,7 +93,7 @@ export default function NavBar(props) {
   );
 
   return (
-    <nav className="flex flex-row flex-wrap justify-between items-center p-5 bg-transparent">
+    <nav className={`flex flex-row flex-wrap justify-between items-center px-5 py-3 ${isHomePage ? "bg-transparent" : "bg-white"}`}>
       <div className="flex flex-row w-fit">
         <p className=" text-4xl font-museo font-bold text-primary">
           <Link href="/">B AIRWAYS</Link>

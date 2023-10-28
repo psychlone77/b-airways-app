@@ -49,7 +49,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center m-5">
+    <div className="flex justify-center items-center">
       <form onSubmit={handleSignUp}>
         <div className="h-fit font-nunito flex flex-col gap-10 items-start bg-gradient-to-br from-primary to-pink-400 rounded-lg p-10 shadow-md shadow-secondary">
           <h1 className=" font-nunito font-bold text-5xl text-white">
