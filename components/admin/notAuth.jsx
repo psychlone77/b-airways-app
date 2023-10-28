@@ -9,7 +9,7 @@ export default function AdminNotAuthPage() {
         <div className='flex items-center justify-center w-full h-[calc(100vh-77px)]'>
             <div className='flex flex-col gap-5 justify-center items-center bg-black rounded-lg p-10 text-white font-nunito'>
                 <h1 className='text-5xl font-bold'>Access Denied</h1>
-                    <button onClick={handleClick} className='font-extralight text-gray-400'>If your an Admin Click Here</button>
+                    <button onClick={handleClick} className='font-extralight text-gray-400'>If you are an Admin Click Here</button>
             </div>
         </div>
     )

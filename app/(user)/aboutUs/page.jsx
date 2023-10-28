@@ -20,14 +20,8 @@ export default async function AboutUs() {
   const data = res.rows[0];
   return (
     <div className="">
-      <div className="h-screen flex flex-col items-center">
-        <h1 className="font-nunito font-bold text-center text-3xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500 ">
-          Welcome to
-        </h1>
-        <h1 className="font-nunito font-bold text-center text-8xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500 ">
-          B Airways
-        </h1>
-        <div className="p-10 flex flex-col items-start gap-5 mt-10 text-white font-semibold font-nunito bg-gradient-to-r from-primary to-purple-500 rounded-lg shadow-primary shadow-sm">
+      <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
+        <div className="p-10 flex flex-col items-start gap-5 mt-10 text-white text-3xl font-thin font-nunito bg-gradient-to-r from-primary to-purple-500 rounded-lg shadow-primary shadow-sm">
           <div className="">
             <span>Email: </span>
             <span>{data.airline_email}</span>

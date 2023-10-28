@@ -44,6 +44,12 @@ export default function NavBar(props) {
         {showDropdown && (
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
             <div className="py-1">
+              <div>
+                <div className="block px-4 py-2 text-gray-700">
+                  <h1 className="text-md">{session.user.first_name}</h1>
+                  <h2 className="text-xs text-gray-500">{session.user.email}</h2>
+                </div>
+              </div>
               <Link href="/profile">
                 <div
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -71,13 +77,13 @@ export default function NavBar(props) {
       <Link href="/login">
         <button
           disabled={false}
-          className="font-semibold text-white border border-transparent shadow-secondary shadow-md bg-primary font-nunito rounded-xl hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary py-2 px-6 transition duration-300 ease-in-out"
+          className="font-semibold text-white border border-transparent shadow-secondary shadow-sm bg-primary font-nunito rounded-xl hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary py-2 px-6 transition duration-300 ease-in-out"
         >
           LOGIN
         </button>
       </Link>
       <Link href="/register">
-        <button className="font-semibold text-white border border-transparent shadow-secondary shadow-md bg-primary font-nunito rounded-xl hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary py-2 px-6 transition duration-300 ease-in-out">
+        <button className="font-semibold text-white border border-transparent shadow-secondary shadow-sm bg-primary font-nunito rounded-xl hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary py-2 px-6 transition duration-300 ease-in-out">
           REGISTER
         </button>
       </Link>
