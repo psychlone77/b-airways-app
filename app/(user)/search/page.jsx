@@ -14,6 +14,7 @@ export default function SearchPage() {
   const className = searchParams.get("class");
   const seats = searchParams.get("seats");
   const [airports, setAirports] = useState([]);
+  const [flights, setFlights] = useState({rows:[{id:'none', flight_number:'none'}]});
   
   useEffect(() => {
     const getAirports = async () => {
@@ -22,6 +23,16 @@ export default function SearchPage() {
       setAirports(airports);
     };
     getAirports();
+  }, []);
+
+  useEffect(() => {
+    const getFlights = async () => {
+      const response = await fetch("http://localhost:3000/search/flights/api");
+      const flights = await response.json();
+      //console.log(flights);
+      setFlights(flights);
+    };
+    getFlights();
   }, []);
 
   return (
@@ -37,8 +48,8 @@ export default function SearchPage() {
         />
       </div>
       <div className="flex flex-col items-center mt-8">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <FLightChip />
+        {flights.rows.map((flight) => (
+          <FLightChip key={flight.schedule_id} flight={flight} />
         ))}
       </div>
     </div>

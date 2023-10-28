@@ -24,7 +24,7 @@ export default async function RootLayout({
           <div className="fixed top-0 left-0 right-0">
             <Navbar session={data} />
           </div>
-          <div className="mt-20 mb-auto">{children}</div>
+          <div className="mt-[70px] mb-auto">{children}</div>
           <div>
             <Footer />
           </div>

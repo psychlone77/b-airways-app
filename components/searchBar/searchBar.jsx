@@ -17,6 +17,7 @@ export default function SearchBar(props) {
   const classes = [{value:'Platinum', label: 'Platinum'},{value:'Business', label: 'Business'},{value:'Economy', label: 'Economy'}]
   var airportsList = [];
   console.log(props.options.rows);
+  
   if (props.options.rows && Array.isArray(props.options.rows)) {
     airportsList = props.options.rows.map((row) => ({
       value: row.airport_code,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { experimental_useFormState as useFormState } from 'react-dom'
 import { experimental_useFormStatus as useFormStatus } from 'react-dom'
 import {AddPassengers} from '@/app/actions'
@@ -11,19 +11,27 @@ const initialState = {
 
 function PassengerForm(props) {
   const [autoFill, setAutoFill] = useState(false);
-
+  const [userdata, setUserData] = useState(props.userdata);
   const [formData, setFormData] = useState({
-    name: props.userdata.name,
-    dob: props.userdata.dob,
-    passportno: props.userdata.passportno,
+    name: props.userdata.first_name,
+    dob: props.userdata.birth_date,
+    passportno: props.userdata.passport_no,
   });
 
-  var curr = new Date(formData.dob);
-  var date = curr.toISOString().substring(0, 10);
+  useEffect(() => {
+    setUserData(props.userdata);
+    setFormData({
+      name: props.userdata.first_name,
+      dob: props.userdata.birth_date,
+      passportno: props.userdata.passport_no,
+    });
+  }, [props.userdata]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    console.log(userdata);
+    // console.log(autoFill);
   };
 
   const handleCheckboxChange = () => {
@@ -50,10 +58,10 @@ function PassengerForm(props) {
             <input
               className="border border-gray-400 p-2 rounded-md h-10"
               type="text"
-              name={`firstName${props.count}`}
+              name={`name${props.count}`}
               required
               placeholder={"Name*"}
-              defaultValue={autoFill ? formData.name : ""}
+              value={autoFill ? userdata.first_name : formData.name}
               readOnly={autoFill}
               onChange={handleInputChange}
             />
@@ -65,7 +73,7 @@ function PassengerForm(props) {
               name="dob"
               required
               placeholder={"Date of Birth*"}
-              defaultValue={autoFill ? date : ""}
+              value={autoFill ? userdata.birth_date : formData.dob}
               readOnly={autoFill}
               onChange={handleInputChange}
             />
@@ -77,7 +85,7 @@ function PassengerForm(props) {
               name="passportno"
               required
               placeholder={"Passport No.*"}
-              defaultValue={autoFill ? formData.passportno : ""}
+              value={autoFill ? userdata.passport_no : formData.passportno}
               readOnly={autoFill}
               onChange={handleInputChange}
             />

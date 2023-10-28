@@ -50,7 +50,7 @@ INSERT INTO Contact_No VALUES (9, '9999999999');
 INSERT INTO Contact_No VALUES (10, '1234567894');
 
 -- add 1 dummy admin_name when expanding the database add enums to admin admin_role
-INSERT INTO Administrator VALUES (1, 'John Doe', 'Superviser', 'adminpassword1');
+INSERT INTO Administrator VALUES (1, 'Supervisor', 'johnDoe', 'adminpass');
 
 -- locations
 INSERT INTO Location VALUES (1, NULL, 'United States');
@@ -87,7 +87,7 @@ INSERT INTO Aircraft VALUES ('ACFT4', 'B787', 'CMB');
 INSERT INTO Aircraft VALUES ('ACFT5', 'B787', 'LHR');
 
 -- 3 seating classes
-INSERT INTO Seating_Class VALUES (1, 'First_Class');
+INSERT INTO Seating_Class VALUES (1, 'Platinum');
 INSERT INTO Seating_Class VALUES (2, 'Business');
 INSERT INTO Seating_Class VALUES (3, 'Economy');
 
@@ -163,3 +163,4 @@ VALUES
 
 -- CMB departures
 ('ACFT5', 'R013', '2023-11-02 20:00:00'); -- CMB to JFK
+

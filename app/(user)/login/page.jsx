@@ -29,7 +29,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center m- h-[calc(100vh-160px)]">
+    <div className="flex flex-row justify-center items-center h-[calc(100vh-160px)]">
       <form
         onSubmit={handleSubmit}
         className="basis-[450px] h-fit font-nunito flex flex-col gap-10 items-start bg-gradient-to-br from-primary to-pink-400 rounded-md p-10 shadow-md shadow-secondary"

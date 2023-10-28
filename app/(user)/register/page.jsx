@@ -49,9 +49,9 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center text-md">
       <form onSubmit={handleSignUp}>
-        <div className="h-fit font-nunito flex flex-col gap-10 items-start bg-gradient-to-br from-primary to-pink-400 rounded-lg p-10 shadow-md shadow-secondary">
+        <div className="h-fit font-nunito flex flex-col gap-8 items-start bg-gradient-to-br from-primary to-pink-400 rounded-lg p-10 shadow-md shadow-secondary">
           <h1 className=" font-nunito font-bold text-5xl text-white">
             Register
           </h1>
@@ -71,7 +71,7 @@ export default function Register() {
               placeholder={"Last Name"}
             />
           </div>
-          <div className="flex flex-col gap-2 justify-start">
+          <div className="flex flex-col justify-start">
             <p className="text-white flex flex-row items-center">
               Date of Birth
             </p>
@@ -130,7 +130,7 @@ export default function Register() {
             required
             placeholder={"Password"}
           />
-          <div className="w-full flex flex-row justify-center">
+          <div className="mt-3 w-full flex flex-row justify-center">
             <button
               type="submit"
               className="w-60 text-white bg-primary font-nunito font-bold rounded-full shadow-sm shadow-primary hover:shadow-lg  hover:shadow-primary py-2 px-6 transition duration-300 ease-in-out"

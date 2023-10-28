@@ -1,24 +1,14 @@
+'use client'
 import React from "react";
 import PassengerForms from "@/components/passengerForms/passengerForms";
 import FlightDetails from "@/components/flightDetails/flightDetails";
+import { useSearchParams } from "next/navigation";
 
-function seatCount(num) {
-  if (num) {
-    return num;
-  } else {
-    return 3;
-  }
-}
-
-export default function Booking(props) {
-  const {
-    userdata = {
-      name: "John Doe",
-      dob: "2000-01-01",
-      passportno: "693020239",
-    },
-    count = 2,
-  } = props;
+export default function Booking() {
+  const params = useSearchParams();
+  const userdata = params.get("user");
+  //console.log(userdata);
+  const count = 2; //for testing purposes only
 
   return (
     <div className="flex flex-row justify-between pt-10">

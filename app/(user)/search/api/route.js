@@ -16,7 +16,8 @@ export async function GET(request) {
     // }));
     //console.log(rows)
     return NextResponse.json({ rows });
-  } catch (error) {
+  } 
+  catch (error) {
     return NextResponse.json(
       { error: "Database Server Error" },
       { status: 400 }
