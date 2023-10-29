@@ -76,42 +76,87 @@ RETURN final_price;
 END;
 
 --  change this function , aircraft instance is now not available ///////////////////////////////////
+-- DELIMITER |
+-- CREATE PROCEDURE insert_a_new_flight(val_route_id varchar(10), val_aircraft_id varchar(20), val_scheduled_depature datetime)
+-- BEGIN
+-- DECLARE val_scheduled_arrival datetime;
+-- DECLARE val_aircraft_id int;
+-- DECLARE rec_exists INT;
+-- DECLARE maintenance_time time;
+-- DECLARE if_available boolean;
+-- SET maintenance_time = '02:00:00';
+
+-- SELECT aircraft_id into val_aircraft_id FROM Aircraft WHERE aircraft_id = val_aircraft_id;
+-- SELECT scheduled_arrival into val_scheduled_arrival FROM Scheduled_Flight WHERE aircraft_id = val_aircraft_id;
+
+-- --  removed this the unique statement handles these
+-- -- SELECT COUNT(*) INTO rec_exists
+-- -- FROM Scheduled_Flight f
+-- -- WHERE aircraft_instance_id = val_aircraft_instance_id
+-- -- LIMIT 1;
+
+-- -- IF rec_exists IS NULL THEN
+-- -- 	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
+-- -- 	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
+-- -- END IF;
+
+-- SET if_available = ((val_scheduled_arrival +  maintenance_time) < val_scheduled_depature);
+
+-- IF if_available THEN
+-- 	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
+-- 	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
+-- ELSE
+-- 	SIGNAL SQLSTATE '45000'
+-- 	SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
+-- END IF;
+
+-- END;
+-- |
+-- DELIMITER ;
+
 DELIMITER |
-CREATE PROCEDURE insert_a_new_flight(val_route_id varchar(10), val_aircraft_id varchar(20), val_scheduled_depature datetime)
+
+CREATE PROCEDURE insert_scheduled_flight(
+    IN val_route_id VARCHAR(10),
+    IN val_aircraft_id VARCHAR(20),
+    IN val_scheduled_departure DATETIME
+)
 BEGIN
-DECLARE val_scheduled_arrival datetime;
-DECLARE val_aircraft_instance_id int;
-DECLARE rec_exists INT;
-DECLARE maintenance_time time;
-DECLARE if_available boolean;
-SET maintenance_time = '02:00:00';
-
-SELECT aircraft_instance_id into val_aircraft_instance_id FROM Aircraft_Instance WHERE aircraft_id = val_aircraft_id;
-SELECT scheduled_arrival into val_scheduled_arrival FROM Scheduled_Flight WHERE aircraft_instance_id = val_aircraft_instance_id;
-
-SELECT COUNT(*) INTO rec_exists
-FROM Scheduled_Flight f
-WHERE aircraft_instance_id = val_aircraft_instance_id
-LIMIT 1;
-
-IF rec_exists IS NULL THEN
-	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
-	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
-END IF;
-
-SET if_available = ((val_scheduled_arrival +  maintenance_time) < val_scheduled_depature);
-
-IF if_available THEN
-	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
-	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
-ELSE
-	SIGNAL SQLSTATE '45000'
-	SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
-END IF;
-
+    DECLARE val_scheduled_arrival DATETIME;
+    DECLARE val_duration TIME;
+    DECLARE rec_exists INT;
+    DECLARE maintenance_time TIME;
+    DECLARE if_available BOOLEAN;
+    
+    SET maintenance_time = '02:00:00';
+    
+    -- Get the duration of the route
+    SELECT duration INTO val_duration FROM Route WHERE route_id = val_route_id;
+    
+    -- Calculate the scheduled arrival time
+    SET val_scheduled_arrival = DATE_ADD(val_scheduled_departure, INTERVAL val_duration HOUR_MINUTE);
+    
+    -- Check if the aircraft is available
+    SELECT COUNT(*) INTO rec_exists
+    FROM Scheduled_Flight f
+    WHERE aircraft_id = val_aircraft_id
+        AND (
+            (f.scheduled_departure <= val_scheduled_departure AND f.scheduled_arrival >= val_scheduled_departure)
+            OR (f.scheduled_departure <= val_scheduled_arrival AND f.scheduled_arrival >= val_scheduled_arrival)
+            OR (f.scheduled_departure >= val_scheduled_departure AND f.scheduled_arrival <= val_scheduled_arrival)
+        );
+    
+    IF rec_exists = 0 THEN
+        INSERT INTO Scheduled_Flight (route_id, aircraft_id, scheduled_departure, scheduled_arrival)
+        VALUES (val_route_id, val_aircraft_id, val_scheduled_departure, val_scheduled_arrival);
+    ELSE
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
+    END IF;
 END;
-|
+
 DELIMITER ;
+
 
 DELIMITER |
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_new_registered_user`(
@@ -174,7 +219,6 @@ END
 DELIMITER ;
 
 
-
 DELIMITER |
 CREATE PROCEDURE add_new_guest_user(
     name VARCHAR(50),
@@ -211,46 +255,46 @@ CREATE PROCEDURE get_aircraft_schedule(
     IN destination_code VARCHAR(4),
     IN departure_time DATETIME,
     IN class_type VARCHAR(15)
-)
-BEGIN
-    SELECT
-        a.aircraft_id AS "Aircraft ID",
-        sf.scheduled_departure AS "Scheduled Departure",
-        sf.scheduled_arrival AS "Scheduled Arrival",
-        r.route_origin AS "From",
-        r.route_destination AS "To"
-    FROM
-        Scheduled_Flight sf
-    JOIN
-        Aircraft a ON sf.aircraft_id = a.aircraft_id
-    JOIN
-        Aircraft_Model am ON a.model_id = am.model_id
-    JOIN
-        Route r ON sf.route_id = r.route_id
-    WHERE
-        r.route_origin = origin_code
-        AND r.route_destination = destination_code
-        AND DATE(sf.scheduled_departure) < departure_time
-        AND DATE(sf.scheduled_departure) > NOW()
-        AND (
-            CASE
-                WHEN class_type = 'Economy' THEN am.economy_seats
-                WHEN class_type = 'Business' THEN am.business_seats
-                WHEN class_type = 'Platinum' THEN am.platinum_seats
-            END > (
-                SELECT COUNT(ub.booking_id)
-                FROM User_Booking ub
-                WHERE ub.seat_id = (
-                    SELECT seat_id
-                    FROM Aircraft_Seat
-                    WHERE seat_class_id = (
-                        SELECT class_id
-                        FROM Seating_Class
-                        WHERE class_name = classType
+    )
+    BEGIN
+        SELECT
+            a.aircraft_id AS "Aircraft ID",
+            sf.scheduled_departure AS "Scheduled Departure",
+            sf.scheduled_arrival AS "Scheduled Arrival",
+            r.route_origin AS "From",
+            r.route_destination AS "To"
+        FROM
+            Scheduled_Flight sf
+        JOIN
+            Aircraft a ON sf.aircraft_id = a.aircraft_id
+        JOIN
+            Aircraft_Model am ON a.model_id = am.model_id
+        JOIN
+            Route r ON sf.route_id = r.route_id
+        WHERE
+            r.route_origin = origin_code
+            AND r.route_destination = destination_code
+            AND DATE(sf.scheduled_departure) < departure_time
+            AND DATE(sf.scheduled_departure) > NOW()
+            AND (
+                CASE
+                    WHEN class_type = 'Economy' THEN am.economy_seats
+                    WHEN class_type = 'Business' THEN am.business_seats
+                    WHEN class_type = 'Platinum' THEN am.platinum_seats
+                END > (
+                    SELECT COUNT(ub.booking_id)
+                    FROM User_Booking ub
+                    WHERE ub.seat_id = (
+                        SELECT seat_id
+                        FROM Aircraft_Seat
+                        WHERE seat_class_id = (
+                            SELECT class_id
+                            FROM Seating_Class
+                            WHERE class_name = classType
+                        )
                     )
                 )
-            )
-        );
+            );
 END;
 |
 DELIMITER ;
