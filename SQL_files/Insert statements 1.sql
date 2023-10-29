@@ -1,7 +1,5 @@
 -- pls add some comments where you change 
 
-
-
 -- organizational info
 INSERT INTO Organizational_Info VALUES('B Airways','+9411123456','customersupport@bairways.com','No1, Colombo, Sri Lanka','123456789');
 
@@ -106,25 +104,31 @@ INSERT INTO Seating_Class VALUES (1, 'Platinum');
 INSERT INTO Seating_Class VALUES (2, 'Business');
 INSERT INTO Seating_Class VALUES (3, 'Economy');
 
--- 16 routes
-INSERT INTO Route VALUES ('R001', 'JFK', 'LAX', '06:10:00');
-INSERT INTO Route VALUES ('R002', 'JFK', 'SFO', '06:35:00');
-INSERT INTO Route VALUES ('R003', 'JFK', 'LHR', '07:00:00');
-INSERT INTO Route VALUES ('R004', 'JFK', 'CMB', '10:30:00');
-INSERT INTO Route VALUES ('R005', 'LAX', 'JFK', '05:25:00');
-INSERT INTO Route VALUES ('R006', 'LAX', 'SFO', '01:25:00');
-INSERT INTO Route VALUES ('R007', 'LAX', 'LHR', '10:25:00');
-INSERT INTO Route VALUES ('R008', 'LAX', 'CMB', '21:10:00');
-INSERT INTO Route VALUES ('R009', 'LHR', 'JFK', '08:05:00');
-INSERT INTO Route VALUES ('R010', 'LHR', 'LAX', '05:30:00');
-INSERT INTO Route VALUES ('R011', 'LHR', 'SFO', '11:20:00');
-INSERT INTO Route VALUES ('R012', 'LHR', 'CMB', '03:45:00');
-INSERT INTO Route VALUES ('R013', 'CMB', 'JFK', '14:05:00');
-INSERT INTO Route VALUES ('R014', 'CMB', 'LAX', '16:15:00');
-INSERT INTO Route VALUES ('R015', 'CMB', 'SFO', '15:45:00');
 
 
 -- Insert 30 scheduled flights
+INSERT INTO Route (route_id, route_origin, route_destination, route_duration)
+VALUES 
+('R001', 'CGK', 'DPS', '01:00:00'),
+('R002', 'CGK', 'BIA', '02:00:00'),
+('R003', 'DPS', 'CGK', '01:00:00'),
+('R004', 'DPS', 'BIA', '03:00:00'),
+('R005', 'BIA', 'CGK', '02:00:00'),
+('R006', 'BIA', 'DPS', '03:00:00'),
+('R007', 'HRI', 'DEL', '01:30:00'),
+('R008', 'HRI', 'BOM', '02:30:00'),
+('R009', 'DEL', 'HRI', '01:30:00'),
+('R010', 'DEL', 'BOM', '02:00:00'),
+('R011', 'BOM', 'HRI', '02:30:00'),
+('R012', 'BOM', 'DEL', '02:00:00'),
+('R013', 'MAA', 'BKK', '03:00:00'),
+('R014', 'MAA', 'DMK', '03:30:00'),
+('R015', 'BKK', 'MAA', '03:00:00'),
+('R016', 'BKK', 'DMK', '01:00:00'),
+('R017', 'DMK', 'MAA', '03:30:00'),
+('R018', 'DMK', 'BKK', '01:00:00'),
+('R019', 'SIN', 'CGK', '02:30:00'),
+('R020', 'SIN', 'BIA', '02:00:00');
 INSERT INTO Scheduled_Flight (aircraft_id, route_id, scheduled_departure)
 VALUES 
 -- JFK departures
