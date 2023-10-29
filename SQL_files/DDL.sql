@@ -182,15 +182,14 @@ CREATE TABLE User_Booking(
   booking_id int auto_increment,
   schedule_id int,
   seat_id varchar(5),
-  class_id int,
   user_id int,
   final_price numeric(10,2),
   booking_status varchar(10),
   date_of_booking datetime,
   PRIMARY KEY(booking_id),
   FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE
-  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(class_id) REFERENCES Seating_Class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
