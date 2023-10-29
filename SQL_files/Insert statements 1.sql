@@ -52,39 +52,54 @@ INSERT INTO Contact_No VALUES (10, '1234567894');
 -- add 1 dummy admin_name when expanding the database add enums to admin admin_role
 INSERT INTO Administrator VALUES (1, 'Supervisor', 'johnDoe', 'adminpass');
 
+-- changed for the given locations
 -- locations
-INSERT INTO Location VALUES (1, NULL, 'United States');
-INSERT INTO Location VALUES (2, 1, 'New York');
-INSERT INTO Location VALUES (3, 1, 'California');
-INSERT INTO Location VALUES (4, 2, 'New York City');
-INSERT INTO Location VALUES (5, 3, 'Los Angeles');
-INSERT INTO Location VALUES (6, 3, 'San Francisco');
-INSERT INTO Location VALUES (7, NULL, 'United Kingdom');
-INSERT INTO Location VALUES (8, 7, 'London');
-INSERT INTO Location VALUES (9, 8, 'Manchester');
-INSERT INTO Location VALUES (10, 8, 'Birmingham');
-INSERT INTO Location VALUES (11, NULL, 'Sri Lanka');
-INSERT INTO Location VALUES (12, 11, 'Colombo');
+-- countries
+INSERT INTO Location VALUES (1, NULL, 'Indonesia');
+INSERT INTO Location VALUES (2, NULL, 'Sri Lanka');
+INSERT INTO Location VALUES (3, NULL, 'India');
+INSERT INTO Location VALUES (4, NULL, 'Thailand');
+INSERT INTO Location VALUES (5, NULL, 'Singapore');
+-- cities
+INSERT INTO Location VALUES (6, 1, 'Jakarta');
+INSERT INTO Location VALUES (7, 1, 'Bali');
+INSERT INTO Location VALUES (8, 2, 'Katunayaka');
+INSERT INTO Location VALUES (9, 2, 'Hambantota');
+INSERT INTO Location VALUES (10, 3, 'NewDelhi');
+INSERT INTO Location VALUES (11, 3, 'Mumbai');
+INSERT INTO Location VALUES (12, 3, 'Chennai');
+INSERT INTO Location VALUES (13, 4, 'Bangphli');
+INSERT INTO Location VALUES (14, 4, 'Don Mueang');
+INSERT INTO Location VALUES (15, 5, 'Singapore');
 
--- airports for newyorkcity, los angeles, san francisco and london are added
-INSERT INTO Airport VALUES ('JFK', 4, 'John F. Kennedy International Airport');
-INSERT INTO Airport VALUES ('LGA', 4, 'LaGuardia Airport');
-INSERT INTO Airport VALUES ('LAX', 5, 'Los Angeles International Airport');
-INSERT INTO Airport VALUES ('SFO', 6, 'San Francisco International Airport');
-INSERT INTO Airport VALUES ('LHR', 8, 'Heathrow Airport');
-INSERT INTO Airport VALUES ('CMB', 12, 'Bandaranaike International Airport');
+-- Insert airports for the 10 cities
+INSERT INTO Airport VALUES ('CGK', 6,'Soekarno-Hatta International Airport');
+INSERT INTO Airport VALUES ('DPS', 7, 'Ngurah Rai International Airport');
+INSERT INTO Airport VALUES ('BIA', 8, 'Bandaranaike International Airport');
+INSERT INTO Airport VALUES ('HRI', 9, 'Mattala Rajapaksa International Airport');
+INSERT INTO Airport VALUES ('DEL', 10, 'Indira Gandhi International Airport');
+INSERT INTO Airport VALUES ('BOM', 11, 'Chhatrapati Mahraj International Airport');
+INSERT INTO Airport VALUES ('MAA', 12, 'Chennai International Airport');
+INSERT INTO Airport VALUES ('BKK', 13, 'Suvarnabhumi Airport'),
+INSERT INTO Airport VALUES ('DMK', 14, 'Don Mueang International Airport');
+INSERT INTO Airport VALUES ('SIN', 15, 'Changi Airport');
 
+
+-- ///////////////////////////changed for the given models
 -- Insert statements for Aircraft_Model
-INSERT INTO Aircraft_Model VALUES ('A320', 'Airbus A320', 'Airbus', 150, 12, 4);
+INSERT INTO Aircraft_Model VALUES ('A320', 'Airbus A380', 'Airbus', 150, 12, 4);
 INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
-INSERT INTO Aircraft_Model VALUES ('B787', 'Boeing 787', 'Boeing', 240, 20, 8);
+INSERT INTO Aircraft_Model VALUES ('B787', 'Boeing 757', 'Boeing', 240, 20, 8);
 
--- 5 aircrafts for the above models
-INSERT INTO Aircraft VALUES ('ACFT1', 'A320', 'JFK');
-INSERT INTO Aircraft VALUES ('ACFT2', 'A320', 'SFO');
-INSERT INTO Aircraft VALUES ('ACFT3', 'B737', 'LAX');
-INSERT INTO Aircraft VALUES ('ACFT4', 'B787', 'CMB');
-INSERT INTO Aircraft VALUES ('ACFT5', 'B787', 'LHR');
+-- given no of aircrafts for the above models
+INSERT INTO Aircraft VALUES ('B737-001', 'B737', NULL);
+INSERT INTO Aircraft VALUES ('B737-002', 'B737', NULL);
+INSERT INTO Aircraft VALUES ('B737-003', 'B737', NULL);
+INSERT INTO Aircraft VALUES ('B757-001', 'B757', NULL);
+INSERT INTO Aircraft VALUES ('B757-002', 'B757', NULL);
+INSERT INTO Aircraft VALUES ('B757-003', 'B757', NULL);
+INSERT INTO Aircraft VALUES ('B757-004', 'B757', NULL);
+INSERT INTO Aircraft VALUES ('A380-001', 'A380', NULL);
 
 -- 3 seating classes
 INSERT INTO Seating_Class VALUES (1, 'Platinum');

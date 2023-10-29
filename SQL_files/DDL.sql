@@ -50,7 +50,7 @@ CREATE TABLE Registered_User (
   user_id int,
   registered_user_category ENUM('General','Frequent','Gold') NOT NULL DEFAULT 'General', -- Default no category
   email VARCHAR(100) NOT NULL UNIQUE,
-  password varchar(255) NOT NULL,
+  password varchar(72) NOT NULL, --changed the var length , to accept a hashed password
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   birth_date DATE NOT NULL,
