@@ -22,6 +22,7 @@ INSERT INTO User VALUES (10,'guest');
 
 -- 6 entries for the registered users table
 -- make sure to add the necessary count of bookings for each user
+-- password is not hashed because of the manual insert statements
 INSERT INTO Registered_User VALUES (1, 'General', 'user1@example.com', 'password1', 'John', 'Doe', '1990-01-15', 'Male', '123456789', '123 Main St, City, Country', NOW());
 INSERT INTO Registered_User VALUES (3, 'General', 'user3@example.com', 'password3', 'Jane', 'Smith', '1985-05-20', 'Female', '987654321', '456 Elm St, Town, Country', NOW());
 INSERT INTO Registered_User VALUES (4, 'General', 'user4@example.com', 'password4', 'Michael', 'Johnson', '1978-11-10', 'Male', '234567890', '789 Oak St, Village, Country', NOW());
@@ -90,14 +91,16 @@ INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
 INSERT INTO Aircraft_Model VALUES ('B787', 'Boeing 757', 'Boeing', 240, 20, 8);
 
 -- given no of aircrafts for the above models
-INSERT INTO Aircraft VALUES ('B737-001', 'B737', NULL);
-INSERT INTO Aircraft VALUES ('B737-002', 'B737', NULL);
-INSERT INTO Aircraft VALUES ('B737-003', 'B737', NULL);
-INSERT INTO Aircraft VALUES ('B757-001', 'B757', NULL);
-INSERT INTO Aircraft VALUES ('B757-002', 'B757', NULL);
-INSERT INTO Aircraft VALUES ('B757-003', 'B757', NULL);
-INSERT INTO Aircraft VALUES ('B757-004', 'B757', NULL);
-INSERT INTO Aircraft VALUES ('A380-001', 'A380', NULL);
+INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES 
+-- change the airport_code to initial value
+('B737-001', 'B737', NULL),
+('B737-002', 'B737', NULL),
+('B737-003', 'B737', NULL),
+('B757-001', 'B757', NULL),
+('B757-002', 'B757', NULL),
+('B757-003', 'B757', NULL),
+('B757-004', 'B757', NULL),
+('A380-001', 'A380', NULL);
 
 -- 3 seating classes
 INSERT INTO Seating_Class VALUES (1, 'Platinum');
@@ -109,98 +112,25 @@ INSERT INTO Seating_Class VALUES (3, 'Economy');
 -- Insert 30 scheduled flights
 INSERT INTO Route (route_id, route_origin, route_destination, route_duration)
 VALUES 
-('R001', 'CGK', 'DPS', '01:00:00'), -- return 3
-('R002', 'CGK', 'BIA', '02:00:00'), -- return 5
-('R003', 'DPS', 'CGK', '01:00:00'), -- return 1
-('R004', 'DPS', 'BIA', '03:00:00'), -- return 6
-('R005', 'BIA', 'CGK', '02:00:00'), -- return 2
-('R006', 'BIA', 'DPS', '03:00:00'), -- return 4
-('R007', 'HRI', 'DEL', '01:30:00'), -- return 9
-('R008', 'HRI', 'BOM', '02:30:00'), -- return 11
-('R009', 'DEL', 'HRI', '01:30:00'), -- return 7
-('R010', 'DEL', 'BOM', '02:00:00'), -- return 12
-('R011', 'BOM', 'HRI', '02:30:00'), -- return 8
-('R012', 'BOM', 'DEL', '02:00:00'), -- return 10
-('R013', 'MAA', 'BKK', '03:00:00'), -- return 15
-('R014', 'MAA', 'DMK', '03:30:00'), -- return 17
-('R015', 'BKK', 'MAA', '03:00:00'), -- return 13
-('R016', 'BKK', 'DMK', '01:00:00'), -- return 18
-('R017', 'DMK', 'MAA', '03:30:00'), -- return 14
-('R018', 'DMK', 'BKK', '01:00:00'), -- return 16
-('R019', 'SIN', 'BKK', '02:30:00'), -- return 34 
-('R020', 'SIN', 'BIA', '02:00:00'), -- return 23
-('R021', 'HRI', 'MAA', '01:30:00'), -- return 28
-('R022', 'BIA', 'MAA', '02:30:00'), -- return 27
-('R023', 'BIA', 'SIN', '04:00:00'), -- return 20
-('R024', 'HRI', 'BKK', '03:00:00'), -- return 32
-('R025', 'HRI', 'DMK', '03:30:00'), -- return 35
-('R026', 'HRI', 'SIN', '05:00:00'), -- return 39
-('R027', 'MAA', 'BIA', '02:30:00'), -- return 22
-('R028', 'MAA', 'HRI', '03:00:00'), -- return 21
-('R029', 'MAA', 'BKK', '03:30:00'), -- return 33
-('R030', 'MAA', 'DMK', '04:00:00'), -- return 36
-('R031', 'MAA', 'SIN', '04:30:00'), -- return 40
-('R032', 'BKK', 'HRI', '03:00:00'), -- return 24
-('R033', 'BKK', 'MAA', '03:30:00'), -- return 29
-('R034', 'BKK', 'SIN', '02:30:00'), -- return 19
-('R035', 'DMK', 'HRI', '03:30:00'), -- return 25
-('R036', 'DMK', 'MAA', '04:00:00'), -- return 30
-('R037', 'DMK', 'SIN', '02:00:00'), -- return 38
-('R038', 'SIN', 'DMK', '04:00:00'), -- return 37
-('R039', 'SIN', 'HRI', '05:00:00'), -- return 26
-('R040', 'SIN', 'MAA', '04:30:00'); -- return 31
-
-INSERT INTO Scheduled_Flight (aircraft_id, route_id, scheduled_departure)
-VALUES 
--- JFK departures
-('ACFT1', 'R001', '2023-11-01 06:10:00'), -- JFK to LAX
-('ACFT2', 'R002', '2023-11-01 06:35:00'), -- JFK to SFO
-('ACFT3', 'R003', '2023-11-01 07:00:00'), -- JFK to LHR
-('ACFT4', 'R004', '2023-11-01 10:30:00'), -- JFK to CMB
-
--- LAX departures
-('ACFT5', 'R005', '2023-11-01 05:25:00'), -- LAX to JFK
-('ACFT1', 'R006', '2023-11-01 01:25:00'), -- LAX to SFO
-('ACFT2', 'R007', '2023-11-01 10:25:00'), -- LAX to LHR
-('ACFT3', 'R008', '2023-11-01 21:10:00'), -- LAX to CMB
-
--- LHR departures
-('ACFT4', 'R009', '2023-11-01 08:05:00'), -- LHR to JFK
-('ACFT5', 'R010', '2023-11-01 05:30:00'), -- LHR to LAX
-('ACFT1', 'R011', '2023-11-01 11:20:00'), -- LHR to SFO
-('ACFT2', 'R012', '2023-11-01 03:45:00'), -- LHR to CMB
-
--- CMB departures
-('ACFT3', 'R013', '2023-11-01 14:05:00'), -- CMB to JFK
-('ACFT4', 'R014', '2023-11-01 16:15:00'), -- CMB to LAX
-('ACFT5', 'R015', '2023-11-01 15:45:00'), -- CMB to SFO
-
--- Return flights
--- LAX to JFK
-('ACFT1', 'R005', '2023-11-02 05:25:00'),
-('ACFT2', 'R005', '2023-11-02 06:00:00'),
--- SFO to JFK
-('ACFT3', 'R002', '2023-11-02 06:35:00'),
-('ACFT4', 'R002', '2023-11-02 07:00:00'),
--- LHR to JFK
-('ACFT5', 'R001', '2023-11-02 06:10:00'),
-('ACFT1', 'R001', '2023-11-02 06:45:00'),
--- CMB to JFK
-('ACFT2', 'R001', '2023-11-02 07:20:00'),
-('ACFT3', 'R001', '2023-11-02 07:55:00'),
-
--- JFK departures
-('ACFT4', 'R003', '2023-11-02 07:30:00'), -- JFK to LHR
-('ACFT5', 'R012', '2023-11-02 10:00:00'), -- JFK to CMB
-
--- LAX departures
-('ACFT1', 'R007', '2023-11-02 12:15:00'), -- LAX to LHR
-('ACFT2', 'R008', '2023-11-02 18:00:00'), -- LAX to CMB
-
--- LHR departures
-('ACFT3', 'R011', '2023-11-02 14:30:00'), -- LHR to SFO
-('ACFT4', 'R012', '2023-11-02 16:45:00'), -- LHR to CMB
-
--- CMB departures
-('ACFT5', 'R013', '2023-11-02 20:00:00'); -- CMB to JFK
-
+('BA001', 'CGK', 'DPS', '01:00:00'), -- return 3
+('BA002', 'CGK', 'BIA', '02:00:00'), -- return 5
+('BA003', 'DPS', 'CGK', '01:00:00'), -- return 1
+('BA004', 'DPS', 'BIA', '03:00:00'), -- return 6
+('BA005', 'BIA', 'CGK', '02:00:00'), -- return 2
+('BA006', 'BIA', 'DPS', '03:00:00'), -- return 4
+('BA007', 'HRI', 'DEL', '01:30:00'), -- return 9
+('BA008', 'HRI', 'BOM', '02:30:00'), -- return 11
+('BA009', 'DEL', 'HRI', '01:30:00'), -- return 7
+('BA010', 'DEL', 'BOM', '02:00:00'), -- return 12
+('BA011', 'BOM', 'HRI', '02:30:00'), -- return 8
+('BA012', 'BOM', 'DEL', '02:00:00'), -- return 10
+('BA013', 'MAA', 'BKK', '03:00:00'), -- return 15
+('BA014', 'MAA', 'DMK', '03:30:00'), -- return 17
+('BA015', 'BKK', 'MAA', '03:00:00'), -- return 13
+('BA016', 'BKK', 'DMK', '01:00:00'), -- return 18
+('BA017', 'DMK', 'MAA', '03:30:00'), -- return 14
+('BA018', 'DMK', 'BKK', '01:00:00'), -- return 16
+('BA019', 'SIN', 'BKK', '02:30:00'), -- return 20 
+('BA020', 'BKK', 'SIN', '02:00:00'), -- return 19
+BA
+--insert scheduled flights
