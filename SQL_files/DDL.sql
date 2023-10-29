@@ -52,7 +52,7 @@ CREATE TABLE Registered_User (
   user_id int,
   registered_user_category ENUM('General','Frequent','Gold') NOT NULL DEFAULT 'General', -- Default no category
   email VARCHAR(100) NOT NULL UNIQUE,
-  password varchar(72) NOT NULL, --changed the var length , to accept a hashed password
+  password varchar(255) NOT NULL, --better change to a hashed password
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   birth_date DATE NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE Administrator (
   user_id int,
   admin_role varchar(20) NOT NULL,
   admin_name varchar(20) NOT NULL,
-  password varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,  -- better change to a hashed code
   PRIMARY KEY (user_id)
 );
 
@@ -125,6 +125,7 @@ CREATE TABLE Aircraft (
   aircraft_id varchar(20),
   model_id varchar(4),
   curr_airport_code varchar(4),
+  -- aircraft_status_enum ENUM('on-ground', 'on-air') NOT NULL DEFAULT 'on-ground', --if added this have to monitor time and change this
   PRIMARY KEY (aircraft_id),
   FOREIGN KEY(model_id) REFERENCES Aircraft_model(model_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(curr_airport_code) REFERENCES Airport(airport_code) ON DELETE CASCADE ON UPDATE CASCADE
@@ -140,7 +141,7 @@ CREATE TABLE Aircraft_Seat (
   seat_id varchar(5),
   aircraft_id varchar(20),
   seat_class_id int,
-  PRIMARY KEY (seat_id), 
+  PRIMARY KEY (seat_id, aircraft_id), -- added aircraft_id to the primary key 
   FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(seat_class_id) REFERENCES Seating_class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -172,7 +173,8 @@ CREATE TABLE Scheduled_Flight (
   scheduled_arrival datetime,
   true_departure datetime ,
   true_arrival datetime,
-  flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure', 'Landed','Cancelled') NOT NULL DEFAULT 'Scheduled',  -- change this
+  UNIQUE (route_id, scheduled_departure, aircraft_id);
+  flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure','Cancelled') NOT NULL DEFAULT 'Scheduled',  -- change this
   PRIMARY KEY (schedule_id),
   FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -180,8 +182,8 @@ CREATE TABLE Scheduled_Flight (
 
 CREATE TABLE User_Booking(
   booking_id int auto_increment,
-  schedule_id int,
-  seat_id varchar(5),
+  schedule_id int, -- get details about the aircraft_id from this
+  seat_id varchar(5), -- get details about the class from this using the aircraft_id found from the schedule_id
   user_id int,
   final_price numeric(10,2),
   booking_status varchar(10),
