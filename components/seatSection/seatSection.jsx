@@ -10,6 +10,8 @@ export default function SeatSection(props) {
     props.onButtonClick(seatNumber);
   };
 
+  const isDisabled = selectedSeats.length === props.count;
+
   return (
     <div>
       <div className="flex flex-col items-center bg-white font-nunito rounded-3xl p-5">
@@ -24,10 +26,12 @@ export default function SeatSection(props) {
                 return (
                   <button onClick={() => handleButtonClick(seatNumber)}
                   className={`${
-                    isBooked ? "bg-gray-400" : isSelected ? " bg-purple-900" : "bg-primary hover:bg-secondary"
-                  } w-8 h-8 rounded-md text-sm text-white text-center align-middle`}
+                    isBooked ? "bg-gray-400" : isSelected ? " bg-pink-400" : "bg-primary"
+                  } w-8 h-8 rounded-md text-sm text-white text-center align-middle ${
+                    isDisabled ? "" : "hover:bg-secondary"
+                  }`}
                     key={j}
-                    disabled={isBooked} // Disable the button for booked seats
+                    disabled={isBooked} // Disable the button for booked seats and when isDisabled is true
                   >
                     {seatNumber}
                   </button>
