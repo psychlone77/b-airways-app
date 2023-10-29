@@ -5,59 +5,30 @@ import SeatSection from "@/components/seatSection/seatSection";
 import FlightDetails from "@/components/flightDetails/flightDetails";
 
 export default function SeatSelection(props) {
-    const {formData, setFormData, nextStep} = props;
-    const [platSelected, setpseats] = useState([]);
-    const [busiSelected, setbseats] = useState([]);
-    const [econSelected, seteseats] = useState([]);
+    const {formData, setFormData, nextStep, prevStep} = props;
+    const [selectedSeats, setSelectedSeats] = useState(formData.bookedSeats);
+
 
     const handleClick = () => {
-        if (props.class === "platinum") {
-            setFormData(() => ({
-                ...formData,
-                bookedSeats: platSelected,
-            }));
+        if (selectedSeats.length < props.count) {
+            alert("Please select needed seats");
         }
-        if (props.class === "business") {
+        else{
             setFormData(() => ({
                 ...formData,
-                bookedSeats: busiSelected,
+                bookedSeats: selectedSeats,
             }));
-        }  
-        if (props.class === "economy") {
-            setFormData(() => ({
-                ...formData,
-                bookedSeats: econSelected,
-            }));
+            nextStep();
         }
-        nextStep();
+
     };
 
-    async function platClick(seatNumber) {
-        if (platSelected.includes(seatNumber)) {
-            setpseats(platSelected.filter((seat) => seat !== seatNumber));
+    async function seatClick(seatNumber) {
+        if (selectedSeats.includes(seatNumber)) {
+            setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
         } else {
-            if (platSelected.length < props.count) {
-                setpseats([...platSelected, seatNumber]);
-            }
-        }
-    }
-
-    async function busiClick(seatNumber) {
-        if (busiSelected.includes(seatNumber)) {
-            setbseats(busiSelected.filter((seat) => seat !== seatNumber));
-        } else {
-            if (busiSelected.length < props.count) {
-                setbseats([...busiSelected, seatNumber]);
-            }
-        }
-    }
-
-    async function econClick(seatNumber) {
-        if (econSelected.includes(seatNumber)) {
-            seteseats(econSelected.filter((seat) => seat !== seatNumber));
-        } else {
-            if (econSelected.length < props.count) {
-                seteseats([...econSelected, seatNumber]);
+            if (selectedSeats.length < props.count) {
+                setSelectedSeats([...selectedSeats, seatNumber]);
             }
         }
     }
@@ -81,43 +52,17 @@ export default function SeatSelection(props) {
     } = props;
 
     let seatSection;
-    if (props.class === "platinum") {
         seatSection = (
             <SeatSection
-                onButtonClick={platClick}
-                title={"Platinum"}
+                onButtonClick={seatClick}
+                title={props.class}
                 seatsPerRow={platinum.seatsPerRow}
                 seatRows={platinum.seatRows}
                 bookedSeats={platinum.bookedSeats}
-                selectedSeats={platSelected}
+                selectedSeats={selectedSeats}
                 count={props.count}
             />
         );
-    } else if (props.class === "business") {
-        seatSection = (
-            <SeatSection
-                onButtonClick={busiClick}
-                title={"Business"}
-                seatsPerRow={business.seatsPerRow}
-                seatRows={business.seatRows}
-                bookedSeats={business.bookedSeats}
-                selectedSeats={busiSelected}
-                count={props.count}
-            />
-        );
-    } else if (props.class === "economy") {
-        seatSection = (
-            <SeatSection
-                onButtonClick={econClick}
-                title={"Economy"}
-                seatsPerRow={economy.seatsPerRow}
-                seatRows={economy.seatRows}
-                bookedSeats={economy.bookedSeats}
-                selectedSeats={econSelected}
-                count={props.count}
-            />
-        );
-    }
 
     return (
         <div className="mt-10 w-fit flex flex-row gap-10 justify-center">
@@ -129,36 +74,8 @@ export default function SeatSelection(props) {
                     <div className="flex flex-col gap-3">
                         <h2 className="font-semibold">Selected Seats</h2>
                         <div className="flex flex-row flex-wrap gap-2 items-center">
-                            <h2 className="font-semibold:">Platinum:</h2>
-                            {platSelected.map((_, i) => {
-                                return (
-                                    <button
-                                        className="w-8 h-8 rounded-md text-sm text-primary text-center align-middle bg-white"
-                                        key={i}
-                                        disabled={true}
-                                    >
-                                        {_}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                        <div className="flex flex-row flex-wrap gap-2 items-center">
-                            <h2 className="font-semibold:">Business:</h2>
-                            {busiSelected.map((_, i) => {
-                                return (
-                                    <button
-                                        className="w-8 h-8 rounded-md text-sm text-primary text-center align-middle bg-white"
-                                        key={i}
-                                        disabled={true}
-                                    >
-                                        {_}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                        <div className="flex flex-row flex-wrap gap-2 items-center">
-                            <h2 className="font-semibold:">Economy:</h2>
-                            {econSelected.map((_, i) => {
+                            <h2 className="font-semibold:">{props.class}:</h2>
+                            {selectedSeats.map((_, i) => {
                                 return (
                                     <button
                                         className="w-8 h-8 rounded-md text-sm text-primary text-center align-middle bg-white"
@@ -172,9 +89,14 @@ export default function SeatSelection(props) {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center">
+                <div className="flex flex-col gap-2 items-center">
+                    <button onClick={prevStep}
+                        className="w-3/4 text-white border border-transparent bg-tertiary font-nunito rounded-full py-2 px-6 transition duration-300 ease-in-out hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-tertiary hover:text-tertiary"
+                    >
+                        Go Back
+                    </button>
                     <button onClick={handleClick}
-                        className="text-white border border-transparent bg-primary font-nunito rounded-full py-2 px-6 transition duration-300 ease-in-out hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary"
+                        className="w-full text-white border border-transparent bg-primary font-nunito rounded-full py-2 px-6 transition duration-300 ease-in-out hover:shadow-secondary hover:shadow-md hover:bg-white hover:border-primary hover:text-primary"
                     >
                         Book Seats
                     </button>

@@ -17,7 +17,7 @@ export default async function RedirectPage() {
         <Link
           className="text-2xl font-nunito bg-primary text-white rounded-md p-5"
           href={{
-            pathname: "/booking",
+            pathname: "/form",
             query: {
               user: JSON.stringify(data),
             },
