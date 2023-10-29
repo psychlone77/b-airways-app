@@ -12,6 +12,7 @@ DROP FUNCTION IF EXISTS IsRegisteredUser;
 DROP FUNCTION IF EXISTS calculateTotalPrice;
 DROP PROCEDURE IF EXISTS insert_a_new_flight;
 DROP PROCEDURE IF EXISTS add_new_registered_user;
+DROP PROCEDURE if exists get_aircraft_schedule;
 
 -- calculate age
 DELIMITER |
@@ -198,6 +199,58 @@ BEGIN
     -- create the guest user
     INSERT INTO Guest_User (user_id, name, address, birth_date, gender, passport_no, email) 
     VALUES (new_user_id, name, address, dob, gender, passport, email);
+END;
+|
+DELIMITER ;
+
+DELIMITER 
+|
+
+CREATE PROCEDURE get_aircraft_schedule(
+    IN origin_code VARCHAR(4),
+    IN destination_code VARCHAR(4),
+    IN departure_time DATETIME,
+    IN class_type VARCHAR(15)
+)
+BEGIN
+    SELECT
+        a.aircraft_id AS "Aircraft ID",
+        sf.scheduled_departure AS "Scheduled Departure",
+        sf.scheduled_arrival AS "Scheduled Arrival",
+        r.route_origin AS "From",
+        r.route_destination AS "To"
+    FROM
+        Scheduled_Flight sf
+    JOIN
+        Aircraft a ON sf.aircraft_id = a.aircraft_id
+    JOIN
+        Aircraft_Model am ON a.model_id = am.model_id
+    JOIN
+        Route r ON sf.route_id = r.route_id
+    WHERE
+        r.route_origin = origin_code
+        AND r.route_destination = destination_code
+        AND DATE(sf.scheduled_departure) < departure_time
+        AND DATE(sf.scheduled_departure) > NOW()
+        AND (
+            CASE
+                WHEN class_type = 'Economy' THEN am.economy_seats
+                WHEN class_type = 'Business' THEN am.business_seats
+                WHEN class_type = 'Platinum' THEN am.platinum_seats
+            END > (
+                SELECT COUNT(ub.booking_id)
+                FROM User_Booking ub
+                WHERE ub.seat_id = (
+                    SELECT seat_id
+                    FROM Aircraft_Seat
+                    WHERE seat_class_id = (
+                        SELECT class_id
+                        FROM Seating_Class
+                        WHERE class_name = classType
+                    )
+                )
+            )
+        );
 END;
 |
 DELIMITER ;
