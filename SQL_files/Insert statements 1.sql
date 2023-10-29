@@ -109,26 +109,47 @@ INSERT INTO Seating_Class VALUES (3, 'Economy');
 -- Insert 30 scheduled flights
 INSERT INTO Route (route_id, route_origin, route_destination, route_duration)
 VALUES 
-('R001', 'CGK', 'DPS', '01:00:00'),
-('R002', 'CGK', 'BIA', '02:00:00'),
-('R003', 'DPS', 'CGK', '01:00:00'),
-('R004', 'DPS', 'BIA', '03:00:00'),
-('R005', 'BIA', 'CGK', '02:00:00'),
-('R006', 'BIA', 'DPS', '03:00:00'),
-('R007', 'HRI', 'DEL', '01:30:00'),
-('R008', 'HRI', 'BOM', '02:30:00'),
-('R009', 'DEL', 'HRI', '01:30:00'),
-('R010', 'DEL', 'BOM', '02:00:00'),
-('R011', 'BOM', 'HRI', '02:30:00'),
-('R012', 'BOM', 'DEL', '02:00:00'),
-('R013', 'MAA', 'BKK', '03:00:00'),
-('R014', 'MAA', 'DMK', '03:30:00'),
-('R015', 'BKK', 'MAA', '03:00:00'),
-('R016', 'BKK', 'DMK', '01:00:00'),
-('R017', 'DMK', 'MAA', '03:30:00'),
-('R018', 'DMK', 'BKK', '01:00:00'),
-('R019', 'SIN', 'CGK', '02:30:00'),
-('R020', 'SIN', 'BIA', '02:00:00');
+('R001', 'CGK', 'DPS', '01:00:00'), -- return 3
+('R002', 'CGK', 'BIA', '02:00:00'), -- return 5
+('R003', 'DPS', 'CGK', '01:00:00'), -- return 1
+('R004', 'DPS', 'BIA', '03:00:00'), -- return 6
+('R005', 'BIA', 'CGK', '02:00:00'), -- return 2
+('R006', 'BIA', 'DPS', '03:00:00'), -- return 4
+('R007', 'HRI', 'DEL', '01:30:00'), -- return 9
+('R008', 'HRI', 'BOM', '02:30:00'), -- return 11
+('R009', 'DEL', 'HRI', '01:30:00'), -- return 7
+('R010', 'DEL', 'BOM', '02:00:00'), -- return 12
+('R011', 'BOM', 'HRI', '02:30:00'), -- return 8
+('R012', 'BOM', 'DEL', '02:00:00'), -- return 10
+('R013', 'MAA', 'BKK', '03:00:00'), -- return 15
+('R014', 'MAA', 'DMK', '03:30:00'), -- return 17
+('R015', 'BKK', 'MAA', '03:00:00'), -- return 13
+('R016', 'BKK', 'DMK', '01:00:00'), -- return 18
+('R017', 'DMK', 'MAA', '03:30:00'), -- return 14
+('R018', 'DMK', 'BKK', '01:00:00'), -- return 16
+('R019', 'SIN', 'BKK', '02:30:00'), -- return 34 
+('R020', 'SIN', 'BIA', '02:00:00'), -- return 23
+('R021', 'HRI', 'MAA', '01:30:00'), -- return 28
+('R022', 'BIA', 'MAA', '02:30:00'), -- return 27
+('R023', 'BIA', 'SIN', '04:00:00'), -- return 20
+('R024', 'HRI', 'BKK', '03:00:00'), -- return 32
+('R025', 'HRI', 'DMK', '03:30:00'), -- return 35
+('R026', 'HRI', 'SIN', '05:00:00'), -- return 39
+('R027', 'MAA', 'BIA', '02:30:00'), -- return 22
+('R028', 'MAA', 'HRI', '03:00:00'), -- return 21
+('R029', 'MAA', 'BKK', '03:30:00'), -- return 33
+('R030', 'MAA', 'DMK', '04:00:00'), -- return 36
+('R031', 'MAA', 'SIN', '04:30:00'), -- return 40
+('R032', 'BKK', 'HRI', '03:00:00'), -- return 24
+('R033', 'BKK', 'MAA', '03:30:00'), -- return 29
+('R034', 'BKK', 'SIN', '02:30:00'), -- return 19
+('R035', 'DMK', 'HRI', '03:30:00'), -- return 25
+('R036', 'DMK', 'MAA', '04:00:00'), -- return 30
+('R037', 'DMK', 'SIN', '02:00:00'), -- return 38
+('R038', 'SIN', 'DMK', '04:00:00'), -- return 37
+('R039', 'SIN', 'HRI', '05:00:00'), -- return 26
+('R040', 'SIN', 'MAA', '04:30:00'); -- return 31
+
 INSERT INTO Scheduled_Flight (aircraft_id, route_id, scheduled_departure)
 VALUES 
 -- JFK departures
