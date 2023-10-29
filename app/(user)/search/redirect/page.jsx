@@ -39,9 +39,11 @@ export default async function RedirectPage() {
         >
           Login
         </Link>
-        <div>
-          Continue as Guest
-        </div>
+        <Link href='/form'>
+          <div>
+            Continue as Guest
+          </div>
+        </Link>
       </div>
     );
   }

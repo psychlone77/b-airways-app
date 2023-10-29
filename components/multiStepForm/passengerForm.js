@@ -23,6 +23,7 @@ export default function PassengerForm(props) {
         updatedPassengers[index] = { ...localData, [name]: value };
 
         // Clone the formData object and update the passengers property
+        console.log(formData)
         setFormData(() => ({
             ...formData,
             passengers: updatedPassengers,
