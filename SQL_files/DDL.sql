@@ -1,5 +1,7 @@
 -- pls add some comments where you change 
 -- schedule_arrival now can be set null
+-- removed booking seat table
+-- added 2 fields to User_Booking table
 
 
 drop database ars;
@@ -179,24 +181,25 @@ CREATE TABLE Scheduled_Flight (
 CREATE TABLE User_Booking(
   booking_id int auto_increment,
   schedule_id int,
+  seat_id varchar(5),
   user_id int,
   final_price numeric(10,2),
   booking_status varchar(10),
   date_of_booking datetime,
   PRIMARY KEY(booking_id),
   FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
-CREATE TABLE Booking_Seat(
-  booking_id int,
-  seat_id varchar(5),
-  price numeric(10,2),
-  passenger_name varchar(100),
-  passenger_passport_no varchar(9),
-  birth_date date,
-  PRIMARY KEY(booking_id, seat_id),
-  FOREIGN KEY(booking_id) REFERENCES User_Booking(booking_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
+-- CREATE TABLE Booking_Seat(
+--   booking_id int,
+--   seat_id varchar(5),
+--   price numeric(10,2),
+--   passenger_name varchar(100),
+--   passenger_passport_no varchar(9),
+--   birth_date date,
+--   PRIMARY KEY(booking_id, seat_id),
+--   FOREIGN KEY(booking_id) REFERENCES User_Booking(booking_id) ON DELETE CASCADE ON UPDATE CASCADE,
+--   FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE
+-- );
