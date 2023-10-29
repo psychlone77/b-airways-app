@@ -33,10 +33,9 @@ CREATE TRIGGER calculate_scheduled_arrival
 BEFORE INSERT ON Scheduled_Flight
 FOR EACH ROW
 BEGIN
-    DECLARE route_duration TIME;
-    SELECT route_duration INTO route_duration FROM Route WHERE route_id = NEW.route_id;
-    
-    SET NEW.scheduled_arrival = TIMESTAMPADD(SECOND, TIME_TO_SEC(route_duration), NEW.scheduled_departure);
+    DECLARE duration TIME;
+    SELECT route_duration INTO duration FROM Route WHERE Route.route_id = NEW.route_id;
+    SET NEW.scheduled_arrival = TIMESTAMPADD(SECOND, TIME_TO_SEC(duration), NEW.scheduled_departure);
 END;
 |
 DELIMITER ;
