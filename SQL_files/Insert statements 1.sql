@@ -93,14 +93,14 @@ INSERT INTO Aircraft_Model VALUES ('B787', 'Boeing 757', 'Boeing', 240, 20, 8);
 -- given no of aircrafts for the above models
 INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES 
 -- change the airport_code to initial value
-('B737-001', 'B737', NULL),
-('B737-002', 'B737', NULL),
-('B737-003', 'B737', NULL),
-('B757-001', 'B757', NULL),
-('B757-002', 'B757', NULL),
-('B757-003', 'B757', NULL),
-('B757-004', 'B757', NULL),
-('A380-001', 'A380', NULL);
+('A001', 'B737', NULL),
+('A002', 'B737', NULL),
+('A003', 'B737', NULL),
+('A004', 'B757', NULL),
+('A005', 'B757', NULL),
+('A006', 'B757', NULL),
+('A007', 'B757', NULL),
+('A008', 'A380', NULL);
 
 -- 3 seating classes
 INSERT INTO Seating_Class VALUES (1, 'Platinum');
@@ -132,5 +132,11 @@ VALUES
 ('BA018', 'DMK', 'BKK', '01:00:00'), -- return 16
 ('BA019', 'SIN', 'BKK', '02:30:00'), -- return 20 
 ('BA020', 'BKK', 'SIN', '02:00:00'), -- return 19
-BA
+('BA021', 'CGK', 'DEL', '02:30:00'), -- return 22
+('BA022', 'DEL', 'CGK', '02:00:00'), -- return 21
+('BA023', 'BOM', 'MAA', '02:00:00'), -- return 24
+('BA024', 'MAA', 'BOM', '02:00:00'), -- return 23
+
 --insert scheduled flights
+
+CALL insert_a_new_flight('BA002', 'A001', '2023-10-30 05:00:00');
