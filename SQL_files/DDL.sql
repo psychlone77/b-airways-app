@@ -137,6 +137,7 @@ CREATE TABLE Seating_Class (
   PRIMARY KEY (class_id)
 );
 
+-- add a trigger to insert this
 CREATE TABLE Aircraft_Seat (
   seat_id varchar(5),
   aircraft_id varchar(20),
@@ -146,6 +147,7 @@ CREATE TABLE Aircraft_Seat (
   FOREIGN KEY(seat_class_id) REFERENCES Seating_class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- routes are inserted for each route add seat class prices
 CREATE TABLE Route (
   route_id varchar(10),
   route_origin varchar(4),
@@ -156,14 +158,16 @@ CREATE TABLE Route (
   FOREIGN KEY(route_destination) REFERENCES Airport(airport_code) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- add seat class prices for each route each class
 CREATE TABLE Seat_Class_Price(
   route_id varchar(10),
   seat_class_id int,
-  price numeric (10,2),
+  price numeric(10,2) CHECK (price > 0), -- constraint to ensure non-negative value
   PRIMARY KEY(route_id, seat_class_id),
   FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(seat_class_id) REFERENCES Seating_class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 CREATE TABLE Scheduled_Flight (
   schedule_id int auto_increment,
@@ -173,7 +177,7 @@ CREATE TABLE Scheduled_Flight (
   scheduled_arrival datetime,
   true_departure datetime ,
   true_arrival datetime,
-  UNIQUE (route_id, scheduled_departure, aircraft_id);
+  UNIQUE (route_id, scheduled_departure, aircraft_id),
   flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure','Cancelled') NOT NULL DEFAULT 'Scheduled',  -- change this
   PRIMARY KEY (schedule_id),
   FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
