@@ -142,7 +142,7 @@ CREATE TABLE Aircraft_Seat (
   seat_id varchar(5),
   aircraft_id varchar(20),
   seat_class_id int,
-  PRIMARY KEY (seat_id, aircraft_id), -- added aircraft_id to the primary key 
+  PRIMARY KEY (seat_id, aircraft_id, seat_class_id), -- added aircraft_id to the primary key 
   FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(seat_class_id) REFERENCES Seating_class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

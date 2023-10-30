@@ -15,7 +15,7 @@ DROP PROCEDURE IF EXISTS add_new_registered_user;
 DROP PROCEDURE IF EXISTS add_new_guest_user;
 DROP PROCEDURE if exists get_aircraft_schedule;
 DROP PROCEDURE if exists InsertAircraftSeats;
-DROP TRIGGER if exists aircraft_insert_trigger
+DROP TRIGGER if exists aircraft_insert_trigger;
 
 
 -- calculate age
@@ -82,45 +82,6 @@ END;
 DELIMITER ;
 
 
--- change this function , aircraft instance is now not available ///////////////////////////////////
--- DELIMITER |
--- CREATE PROCEDURE insert_a_new_flight(val_route_id varchar(10), val_aircraft_id varchar(20), val_scheduled_depature datetime)
--- BEGIN
--- DECLARE val_scheduled_arrival datetime;
--- DECLARE val_aircraft_id int;
--- DECLARE rec_exists INT;
--- DECLARE maintenance_time time;
--- DECLARE if_available boolean;
--- SET maintenance_time = '02:00:00';
-
--- SELECT aircraft_id into val_aircraft_id FROM Aircraft WHERE aircraft_id = val_aircraft_id;
--- SELECT scheduled_arrival into val_scheduled_arrival FROM Scheduled_Flight WHERE aircraft_id = val_aircraft_id;
-
--- --  removed this the unique statement handles these
--- -- SELECT COUNT(*) INTO rec_exists
--- -- FROM Scheduled_Flight f
--- -- WHERE aircraft_instance_id = val_aircraft_instance_id
--- -- LIMIT 1;
-
--- -- IF rec_exists IS NULL THEN
--- -- 	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
--- -- 	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
--- -- END IF;
-
--- SET if_available = ((val_scheduled_arrival +  maintenance_time) < val_scheduled_depature);
-
--- IF if_available THEN
---     INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
---     VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
--- ELSE
---     SIGNAL SQLSTATE '45000'
---     SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
--- END IF;
-
--- END;
--- |
--- DELIMITER ;
-
 DELIMITER |
 
 CREATE PROCEDURE insert_scheduled_flight(
@@ -138,10 +99,10 @@ BEGIN
     SET maintenance_time = '02:00:00';
     
     -- Get the duration of the route
-    SELECT duration INTO val_duration FROM Route WHERE route_id = val_route_id;
+    SELECT route_duration INTO val_duration FROM Route WHERE route_id = val_route_id;
     
     -- Calculate the scheduled arrival time
-    SET val_scheduled_arrival = DATE_ADD(val_scheduled_departure, INTERVAL val_duration HOUR_MINUTE);
+    SET val_scheduled_arrival = TIMESTAMPADD(SECOND, TIME_TO_SEC(val_duration), val_scheduled_departure);
     
     -- Check if the aircraft is available
     SELECT COUNT(*) INTO rec_exists
@@ -362,4 +323,3 @@ END;
 |
 
 DELIMITER ;
-
