@@ -52,7 +52,7 @@ CREATE TABLE Registered_User (
   user_id int,
   registered_user_category ENUM('General','Frequent','Gold') NOT NULL DEFAULT 'General', -- Default no category
   email VARCHAR(100) NOT NULL UNIQUE,
-  password varchar(255) NOT NULL, --better change to a hashed password
+  password varchar(255) NOT NULL, -- better change to a hashed password
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   birth_date DATE NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE Registered_User (
   address varchar(255) NOT NULL,
   joined_datetime datetime DEFAULT NOW() NOT NULL,
   PRIMARY KEY (user_id),
-  FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE, -- entries of user, reg_user, guest_user shouldn't be deleted
   FOREIGN KEY(registered_user_category) REFERENCES User_Category(registered_user_category) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -125,7 +125,7 @@ CREATE TABLE Aircraft (
   aircraft_id varchar(20),
   model_id varchar(4),
   curr_airport_code varchar(4),
-  -- aircraft_status_enum ENUM('on-ground', 'on-air') NOT NULL DEFAULT 'on-ground', --if added this have to monitor time and change this
+  -- aircraft_status_enum ENUM('on-ground', 'on-air') NOT NULL DEFAULT 'on-ground', -- if added this have to monitor time and change this
   PRIMARY KEY (aircraft_id),
   FOREIGN KEY(model_id) REFERENCES Aircraft_model(model_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(curr_airport_code) REFERENCES Airport(airport_code) ON DELETE CASCADE ON UPDATE CASCADE
@@ -195,7 +195,7 @@ CREATE TABLE User_Booking(
   PRIMARY KEY(booking_id),
   FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CREATE TABLE Booking_Seat(

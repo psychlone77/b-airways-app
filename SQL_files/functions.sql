@@ -10,9 +10,13 @@ DROP FUNCTION IF EXISTS calculateAge;
 DROP TRIGGER IF EXISTS calculate_scheduled_arrival;
 DROP FUNCTION IF EXISTS IsRegisteredUser;
 DROP FUNCTION IF EXISTS calculateTotalPrice;
-DROP PROCEDURE IF EXISTS insert_a_new_flight;
+DROP PROCEDURE IF EXISTS insert_scheduled_flight;
 DROP PROCEDURE IF EXISTS add_new_registered_user;
+DROP PROCEDURE IF EXISTS add_new_guest_user;
 DROP PROCEDURE if exists get_aircraft_schedule;
+DROP PROCEDURE if exists InsertAircraftSeats;
+DROP TRIGGER if exists aircraft_insert_trigger
+
 
 -- calculate age
 DELIMITER |
@@ -28,7 +32,7 @@ END;
 |
 DELIMITER ;
 
---scheduled arrival is set to calculate before inserting
+-- scheduled arrival is set to calculate before inserting
 DELIMITER |
 CREATE TRIGGER calculate_scheduled_arrival
 BEFORE INSERT ON Scheduled_Flight
@@ -74,8 +78,11 @@ ELSE
 END IF;
 RETURN final_price;
 END;
+|
+DELIMITER ;
 
---  change this function , aircraft instance is now not available ///////////////////////////////////
+
+-- change this function , aircraft instance is now not available ///////////////////////////////////
 -- DELIMITER |
 -- CREATE PROCEDURE insert_a_new_flight(val_route_id varchar(10), val_aircraft_id varchar(20), val_scheduled_depature datetime)
 -- BEGIN
@@ -103,11 +110,11 @@ END;
 -- SET if_available = ((val_scheduled_arrival +  maintenance_time) < val_scheduled_depature);
 
 -- IF if_available THEN
--- 	INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
--- 	VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
+--     INSERT INTO Scheduled_Flight (route_id, aircraft_instance_id, scheduled_depature, scheduled_arrival)
+--     VALUES (val_route_id, val_aircraft_instance_id, val_scheduled_depature, val_scheduled_arrival);
 -- ELSE
--- 	SIGNAL SQLSTATE '45000'
--- 	SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
+--     SIGNAL SQLSTATE '45000'
+--     SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
 -- END IF;
 
 -- END;
@@ -154,7 +161,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Aircraft is unavailable for a flight';
     END IF;
 END;
-
+|
 DELIMITER ;
 
 
@@ -190,7 +197,7 @@ BEGIN
         VALUES ("Registered");
 
         SET new_user_id = LAST_INSERT_ID();
-    
+/*
     -- check if email and passport are unique
     -- SELECT COUNT(*) INTO email_count FROM Registered_User WHERE email = email;
     -- SELECT COUNT(*) INTO passport_count FROM Registered_User WHERE passport_no = passport;
@@ -204,7 +211,7 @@ BEGIN
     --     SIGNAL SQLSTATE '45000'
     --     SET MESSAGE_TEXT = 'Passport already exists';
     -- END IF;
-
+*/
     -- create the registered user
     -- category and joined date time are not sent
     INSERT INTO Registered_User (user_id, email, password, first_name, last_name, birth_date, gender, passport_no, address)
@@ -247,8 +254,8 @@ END;
 |
 DELIMITER ;
 
-DELIMITER 
-|
+
+DELIMITER |
 
 CREATE PROCEDURE get_aircraft_schedule(
     IN origin_code VARCHAR(4),
@@ -297,5 +304,62 @@ CREATE PROCEDURE get_aircraft_schedule(
             );
 END;
 |
+DELIMITER ;
+
+
+DELIMITER |
+
+CREATE PROCEDURE InsertAircraftSeats(IN val_aircraft_id VARCHAR(20), IN val_model_id varchar(4))
+BEGIN
+    DECLARE economy_seats INT;
+    DECLARE platinum_seats INT;
+    DECLARE business_seats INT;
+    DECLARE i INT;
+    
+    -- Get the number of seats for each class from the Aircraft_Model table
+    SELECT economy_seats, platinum_seats, business_seats
+    INTO economy_seats, platinum_seats, business_seats
+    FROM Aircraft_Model
+    WHERE model_id = val_model_id;
+    
+    -- Insert economy seats
+    SET i = 1;
+    WHILE i <= economy_seats DO
+        INSERT INTO Aircraft_Seat (seat_id, aircraft_id, seat_class_id)
+        VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, 1);
+        SET i = i + 1;
+    END WHILE;
+    
+    -- Insert platinum seats
+    SET i = 1;
+    WHILE i <= platinum_seats DO
+        INSERT INTO Aircraft_Seat (seat_id, aircraft_id, seat_class_id)
+        VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, 2);
+        SET i = i + 1;
+    END WHILE;
+    
+    -- Insert business seats
+    SET i = 1;
+    WHILE i <= business_seats DO
+        INSERT INTO Aircraft_Seat (seat_id, aircraft_id, seat_class_id)
+        VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, 3);
+        SET i = i + 1;
+    END WHILE;
+END;
+|
+
+DELIMITER ;
+
+
+DELIMITER |
+
+CREATE TRIGGER aircraft_insert_trigger
+AFTER INSERT ON Aircraft
+FOR EACH ROW
+BEGIN
+    CALL InsertAircraftSeats(NEW.aircraft_id, NEW.model_id);
+END;
+|
+
 DELIMITER ;
 
