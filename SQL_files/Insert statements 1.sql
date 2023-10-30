@@ -135,11 +135,7 @@ VALUES
 ('BA021', 'CGK', 'DEL', '02:30:00'), -- return 22
 ('BA022', 'DEL', 'CGK', '02:00:00'), -- return 21
 ('BA023', 'BOM', 'MAA', '02:00:00'), -- return 24
-<<<<<<< HEAD
-('BA024', 'MAA', 'BOM', '02:00:00') -- return 23
-=======
 ('BA024', 'MAA', 'BOM', '02:00:00'); -- return 23
->>>>>>> c158e7d8507789c48561b3c8384a29472b93d6ab
 
 -- insert scheduled flights
 
