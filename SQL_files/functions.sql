@@ -323,3 +323,47 @@ END;
 |
 
 DELIMITER ;
+
+drop trigger if exists update_user_category_trigger;
+DELIMITER |
+
+CREATE TRIGGER update_user_category_trigger
+AFTER INSERT ON User_Booking
+FOR EACH ROW
+BEGIN
+    DECLARE u_state ENUM('guest','registered');
+    DECLARE booking_count INT;
+    DECLARE user_category VARCHAR(20);
+    
+    block: BEGIN
+    SELECT user_state INTO u_state
+    FROM User
+    WHERE user_id = NEW.user_id;
+    
+    -- Check if user state is 'guest'
+    IF u_state = 'guest' THEN
+        -- Exit the trigger with LEAVE
+        LEAVE block;
+    END IF;
+
+    -- Get the booking count for the user
+    SELECT COUNT(*) INTO booking_count
+    FROM User_Booking
+    WHERE user_id = NEW.user_id;
+    
+    -- Get the user category based on the booking count
+    SELECT category_name INTO user_category
+    FROM User_Category
+    WHERE booking_count >= min_booking_count
+    ORDER BY min_booking_count DESC
+    LIMIT 1;
+    
+    -- Update the user category
+    UPDATE Registered_User
+    SET category = user_category
+    WHERE user_id = NEW.user_id;
+    end block;
+END;
+|
+
+DELIMITER ;
