@@ -160,7 +160,7 @@ CALL insert_scheduled_flight('BA018', 'A003', '2023-11-04 05:00:00');
 
 -- aircraft_4
 CALL insert_scheduled_flight('BA009', 'A004', '2023-10-30 05:00:00');
-CALL insert_scheduled_flight('BA008', 'A004', '2023-10-30 05:00:00');
+CALL insert_scheduled_flight('BA008', 'A004', '2023-10-31 05:00:00');
 CALL insert_scheduled_flight('BA011', 'A004', '2023-11-01 05:00:00');
 CALL insert_scheduled_flight('BA007', 'A004', '2023-11-02 05:00:00');
 
