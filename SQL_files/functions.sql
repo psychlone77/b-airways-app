@@ -16,6 +16,7 @@ DROP PROCEDURE IF EXISTS add_new_guest_user;
 DROP PROCEDURE if exists get_aircraft_schedule;
 DROP PROCEDURE if exists InsertAircraftSeats;
 DROP TRIGGER if exists aircraft_insert_trigger;
+DROP TRIGGER if exists aircraft_insert_trigger;
 
 
 -- calculate age
@@ -98,6 +99,7 @@ BEGIN
     SET maintenance_time = '02:00:00';
     
     -- Get the duration of the route
+    SELECT route_duration INTO val_duration FROM Route WHERE route_id = val_route_id;
     SELECT route_duration INTO val_duration FROM Route WHERE route_id = val_route_id;
     
     -- Calculate the scheduled arrival time
@@ -337,4 +339,3 @@ END;
 |
 
 DELIMITER ;
-
