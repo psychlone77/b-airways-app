@@ -79,16 +79,16 @@ INSERT INTO Airport VALUES ('HRI', 9, 'Mattala Rajapaksa International Airport')
 INSERT INTO Airport VALUES ('DEL', 10, 'Indira Gandhi International Airport');
 INSERT INTO Airport VALUES ('BOM', 11, 'Chhatrapati Mahraj International Airport');
 INSERT INTO Airport VALUES ('MAA', 12, 'Chennai International Airport');
-INSERT INTO Airport VALUES ('BKK', 13, 'Suvarnabhumi Airport'),
+INSERT INTO Airport VALUES ('BKK', 13, 'Suvarnabhumi Airport');
 INSERT INTO Airport VALUES ('DMK', 14, 'Don Mueang International Airport');
 INSERT INTO Airport VALUES ('SIN', 15, 'Changi Airport');
 
 
 -- ///////////////////////////changed for the given models
 -- Insert statements for Aircraft_Model
-INSERT INTO Aircraft_Model VALUES ('A320', 'Airbus A380', 'Airbus', 150, 12, 4);
+INSERT INTO Aircraft_Model VALUES ('A380', 'Airbus A380', 'Airbus', 150, 12, 4);
 INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
-INSERT INTO Aircraft_Model VALUES ('B787', 'Boeing 757', 'Boeing', 240, 20, 8);
+INSERT INTO Aircraft_Model VALUES ('B757', 'Boeing 757', 'Boeing', 240, 20, 8);
 
 -- given no of aircrafts for the above models
 INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES 
@@ -135,8 +135,8 @@ VALUES
 ('BA021', 'CGK', 'DEL', '02:30:00'), -- return 22
 ('BA022', 'DEL', 'CGK', '02:00:00'), -- return 21
 ('BA023', 'BOM', 'MAA', '02:00:00'), -- return 24
-('BA024', 'MAA', 'BOM', '02:00:00'), -- return 23
+('BA024', 'MAA', 'BOM', '02:00:00'); -- return 23
 
---insert scheduled flights
+-- insert scheduled flights
 
 CALL insert_a_new_flight('BA002', 'A001', '2023-10-30 05:00:00');

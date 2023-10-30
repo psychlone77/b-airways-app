@@ -52,7 +52,7 @@ CREATE TABLE Registered_User (
   user_id int,
   registered_user_category ENUM('General','Frequent','Gold') NOT NULL DEFAULT 'General', -- Default no category
   email VARCHAR(100) NOT NULL UNIQUE,
-  password varchar(255) NOT NULL, --better change to a hashed password
+  password varchar(255) NOT NULL, -- better change to a hashed password
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   birth_date DATE NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE User_Booking(
   PRIMARY KEY(booking_id),
   FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CREATE TABLE Booking_Seat(
