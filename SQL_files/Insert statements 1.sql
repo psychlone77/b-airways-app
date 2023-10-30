@@ -86,9 +86,9 @@ INSERT INTO Airport VALUES ('SIN', 15, 'Changi Airport');
 
 -- ///////////////////////////changed for the given models
 -- Insert statements for Aircraft_Model
-INSERT INTO Aircraft_Model VALUES ('A320', 'Airbus A380', 'Airbus', 150, 12, 4);
+INSERT INTO Aircraft_Model VALUES ('A380', 'Airbus A380', 'Airbus', 150, 12, 4);
 INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
-INSERT INTO Aircraft_Model VALUES ('B787', 'Boeing 757', 'Boeing', 240, 20, 8);
+INSERT INTO Aircraft_Model VALUES ('B757', 'Boeing 757', 'Boeing', 240, 20, 8);
 
 -- given no of aircrafts for the above models
 INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES 
@@ -135,7 +135,11 @@ VALUES
 ('BA021', 'CGK', 'DEL', '02:30:00'), -- return 22
 ('BA022', 'DEL', 'CGK', '02:00:00'), -- return 21
 ('BA023', 'BOM', 'MAA', '02:00:00'), -- return 24
+<<<<<<< HEAD
 ('BA024', 'MAA', 'BOM', '02:00:00') -- return 23
+=======
+('BA024', 'MAA', 'BOM', '02:00:00'); -- return 23
+>>>>>>> c158e7d8507789c48561b3c8384a29472b93d6ab
 
 -- insert scheduled flights
 
