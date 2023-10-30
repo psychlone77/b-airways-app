@@ -90,6 +90,11 @@ INSERT INTO Aircraft_Model VALUES ('A380', 'Airbus A380', 'Airbus', 150, 12, 4);
 INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
 INSERT INTO Aircraft_Model VALUES ('B757', 'Boeing 757', 'Boeing', 240, 20, 8);
 
+-- 3 seating classes
+INSERT INTO Seating_Class VALUES (1, 'Platinum');
+INSERT INTO Seating_Class VALUES (2, 'Business');
+INSERT INTO Seating_Class VALUES (3, 'Economy');
+
 -- given no of aircrafts for the above models
 INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES 
 -- change the airport_code to initial value
@@ -101,13 +106,6 @@ INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES
 ('A006', 'B757', "DPS"),
 ('A007', 'B757', "HRI"),
 ('A008', 'A380', "DEL");
-
--- 3 seating classes
-INSERT INTO Seating_Class VALUES (1, 'Platinum');
-INSERT INTO Seating_Class VALUES (2, 'Business');
-INSERT INTO Seating_Class VALUES (3, 'Economy');
-
-
 
 -- Insert 30 scheduled flights
 INSERT INTO Route (route_id, route_origin, route_destination, route_duration)
