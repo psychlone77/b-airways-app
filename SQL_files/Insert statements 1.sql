@@ -133,55 +133,145 @@ VALUES
 ('BA021', 'CGK', 'DEL', '02:30:00'), -- return 22
 ('BA022', 'DEL', 'CGK', '02:00:00'), -- return 21
 ('BA023', 'BOM', 'MAA', '02:00:00'), -- return 24
-('BA024', 'MAA', 'BOM', '02:00:00'); -- return 23
+('BA024', 'MAA', 'BOM', '02:00:00'), -- return 23
 ('BA025', 'HRI', 'BKK', '02:00:00'), -- return 25
 ('BA026', 'BKK', 'HRI', '02:00:00'); -- return 26
 
 
 -- insert scheduled flights
---aircraft_1
+-- aircraft_1
 CALL insert_scheduled_flight('BA002', 'A001', '2023-10-30 05:00:00');
 CALL insert_scheduled_flight('BA005', 'A001', '2023-10-31 05:00:00');
 CALL insert_scheduled_flight('BA021', 'A001', '2023-11-02 05:00:00');
 CALL insert_scheduled_flight('BA022', 'A001', '2023-11-03 05:00:00');
 
---aircraft_2
+-- aircraft_2
 CALL insert_scheduled_flight('BA006', 'A002', '2023-11-01 05:00:00');
 CALL insert_scheduled_flight('BA004', 'A002', '2023-11-02 05:00:00');
 CALL insert_scheduled_flight('BA006', 'A002', '2023-11-04 05:00:00');
 CALL insert_scheduled_flight('BA004', 'A002', '2023-11-05 05:00:00');
 
---aircraft_3
+-- aircraft_3
 CALL insert_scheduled_flight('BA015', 'A003', '2023-10-30 05:00:00');
 CALL insert_scheduled_flight('BA014', 'A003', '2023-11-01 05:00:00');
 CALL insert_scheduled_flight('BA018', 'A003', '2023-11-04 05:00:00');
 
---aircraft_4
+-- aircraft_4
 CALL insert_scheduled_flight('BA009', 'A004', '2023-10-30 05:00:00');
-CALL insert_scheduled_flight('BA008', 'A004', '2023-10-30 05:00:00');
+CALL insert_scheduled_flight('BA008', 'A004', '2023-10-31 05:00:00');
 CALL insert_scheduled_flight('BA011', 'A004', '2023-11-01 05:00:00');
 CALL insert_scheduled_flight('BA007', 'A004', '2023-11-02 05:00:00');
 
---aircraft_5
+-- aircraft_5
 CALL insert_scheduled_flight('BA019', 'A005', '2023-10-31 05:00:00');
 CALL insert_scheduled_flight('BA020', 'A005', '2023-11-02 05:00:00');
 CALL insert_scheduled_flight('BA019', 'A005', '2023-11-03 05:00:00');
 CALL insert_scheduled_flight('BA020', 'A005', '2023-11-05 05:00:00');
 
---aircraft_6
+-- aircraft_6
 CALL insert_scheduled_flight('BA003', 'A006', '2023-10-31 05:00:00');
 CALL insert_scheduled_flight('BA001', 'A006', '2023-11-01 05:00:00');
 CALL insert_scheduled_flight('BA003', 'A006', '2023-11-02 05:00:00');
 CALL insert_scheduled_flight('BA001', 'A006', '2023-11-03 05:00:00');
 
---aircraft_7
+-- aircraft_7
 CALL insert_scheduled_flight('BA025', 'A007', '2023-11-01 05:00:00');
 CALL insert_scheduled_flight('BA026', 'A007', '2023-11-02 05:00:00');
 CALL insert_scheduled_flight('BA025', 'A007', '2023-11-04 05:00:00');
 CALL insert_scheduled_flight('BA026', 'A007', '2023-11-05 05:00:00');
 
---aircraft_8
+-- aircraft_8
 CALL insert_scheduled_flight('BA010', 'A008', '2023-10-31 05:00:00');
 CALL insert_scheduled_flight('BA023', 'A008', '2023-11-03 05:00:00');
 CALL insert_scheduled_flight('BA024', 'A008', '2023-11-04 05:00:00');
 CALL insert_scheduled_flight('BA012', 'A008', '2023-11-05 05:00:00');
+
+-- Platinum class prices
+INSERT INTO Seat_Class_Price (route_id, class_id, price)
+VALUES 
+('BA001', 1, 400000),
+('BA002', 1, 450000),
+('BA003', 1, 400000),
+('BA004', 1, 450000),
+('BA005', 1, 400000),
+('BA006', 1, 450000),
+('BA007', 1, 350000),
+('BA008', 1, 400000),
+('BA009', 1, 350000),
+('BA010', 1, 400000),
+('BA011', 1, 350000),
+('BA012', 1, 400000),
+('BA013', 1, 500000),
+('BA014', 1, 500000),
+('BA015', 1, 500000),
+('BA016', 1, 300000),
+('BA017', 1, 500000),
+('BA018', 1, 300000),
+('BA019', 1, 450000),
+('BA020', 1, 450000),
+('BA021', 1, 400000),
+('BA022', 1, 400000),
+('BA023', 1, 400000),
+('BA024', 1, 400000),
+('BA025', 1, 450000),
+('BA026', 1, 450000);
+
+-- Business class prices
+INSERT INTO Seat_Class_Price (route_id, class_id, price)
+VALUES 
+('BA001', 2, 250000),
+('BA002', 2, 250000),
+('BA003', 2, 250000),
+('BA004', 2, 250000),
+('BA005', 2, 250000),
+('BA006', 2, 250000),
+('BA007', 2, 200000),
+('BA008', 2, 200000),
+('BA009', 2, 200000),
+('BA010', 2, 200000),
+('BA011', 2, 200000),
+('BA012', 2, 200000),
+('BA013', 2, 250000),
+('BA014', 2, 250000),
+('BA015', 2, 250000),
+('BA016', 2, 185000),
+('BA017', 2, 250000),
+('BA018', 2, 185000),
+('BA019', 2, 250000),
+('BA020', 2, 250000),
+('BA021', 2, 250000),
+('BA022', 2, 250000),
+('BA023', 2, 250000),
+('BA024', 2, 250000),
+('BA025', 2, 250000),
+('BA026', 2, 250000);
+
+-- Economy class prices
+INSERT INTO Seat_Class_Price (route_id, class_id, price)
+VALUES 
+('BA001', 3, 150000),
+('BA002', 3, 150000),
+('BA003', 3, 150000),
+('BA004', 3, 150000),
+('BA005', 3, 150000),
+('BA006', 3, 150000),
+('BA007', 3, 120000),
+('BA008', 3, 120000),
+('BA009', 3, 120000),
+('BA010', 3, 120000),
+('BA011', 3, 120000),
+('BA012', 3, 120000),
+('BA013', 3, 150000),
+('BA014', 3, 150000),
+('BA015', 3, 150000),
+('BA016', 3, 100000),
+('BA017', 3, 150000),
+('BA018', 3, 100000),
+('BA019', 3, 150000),
+('BA020', 3, 150000),
+('BA021', 3, 150000),
+('BA022', 3, 150000),
+('BA023', 3, 150000),
+('BA024', 3, 150000),
+('BA025', 3, 150000),
+('BA026', 3, 150000);
