@@ -186,16 +186,19 @@ CREATE TABLE Scheduled_Flight (
 
 CREATE TABLE User_Booking(
   booking_id int auto_increment,
-  schedule_id int, -- get details about the aircraft_id from this
-  seat_id varchar(5), -- get details about the class from this using the aircraft_id found from the schedule_id
-  user_id int,
-  final_price numeric(10,2),
-  booking_status varchar(10),
+  schedule_id int not null, -- get details about the aircraft_id from this
+  seat_id varchar(5) not null, -- get details about the class from this using the aircraft_id found from the schedule_id
+  seat_class_id int not null,
+  user_id int not null,
+  final_price numeric(10,2) check (final_price > 0),
+  -- booking_status varchar(10) ENUM ('booked', 'cancelled') NOT NULL DEFAULT 'booked'
+  -- a booking is created only when the user pays
   date_of_booking datetime,
   PRIMARY KEY(booking_id),
   FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(seat_id) REFERENCES Aircraft_Seat(seat_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(seat_class_id) REFERENCES Seating_class(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CREATE TABLE Booking_Seat(
