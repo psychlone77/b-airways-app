@@ -337,5 +337,3 @@ DROP TRIGGER if exists update_user_category_trigger;
     |
 
     DELIMITER ;
-
-
