@@ -4,7 +4,7 @@ export async function GET(request) {
   try {
     const field = request.nextUrl.searchParams.get("field");
     const table = request.nextUrl.searchParams.get("table");
-    const query = `SELECT ${field} FROM ${table}`;
+    const query = `SELECT ${field} FROM ${table}`; //get airports from database
     const values = [];
     const pool = require("@/database/db");
 

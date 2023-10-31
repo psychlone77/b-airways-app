@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 export default function PassengerForm(props) {
-    const { index, formData, setFormData } = props;
+    const { index, formData, setFormData, user } = props;
     const [localData, setLocalData] = useState(formData.passengers[index]);
-
+    
     useEffect(() => {
         // Update local state when formData changes
         setLocalData(formData.passengers[index] || {});
@@ -46,11 +46,10 @@ export default function PassengerForm(props) {
                     />
                     <input
                         className="w-fit border border-gray-400 rounded-md p-1"
-                        placeholder="Age*"
-                        type="number"
-                        id={`age-${index}`}
-                        name={`age`}
-                        value={localData.age}
+                        type="date"
+                        id={`dob-${index}`}
+                        name={`dob`}
+                        value={localData.dob}
                         onChange={handleChange}
                         required
                     />
@@ -59,8 +58,8 @@ export default function PassengerForm(props) {
                         placeholder="Passport No.*"
                         type="text"
                         id={`passport-${index}`}
-                        name={`passport`}
-                        value={localData.passport}
+                        name={`passport_no`}
+                        value={localData.passport_no}
                         onChange={handleChange}
                         required
                     />

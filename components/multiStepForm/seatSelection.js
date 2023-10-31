@@ -39,16 +39,6 @@ export default function SeatSelection(props) {
             seatRows: 4,
             bookedSeats: [1, 4, 5],
         },
-        business = {
-            seatsPerRow: 4,
-            seatRows: 5,
-            bookedSeats: [3],
-        },
-        economy = {
-            seatsPerRow: 4,
-            seatRows: 8,
-            bookedSeats: [7],
-        },
     } = props;
 
     let seatSection;

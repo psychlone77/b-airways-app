@@ -6,15 +6,22 @@ export default function PassengerForms(props) {
     const [passengerForms, setPassengerForms] = useState([]);
 
     useEffect(() => {
-        setFormData(formData)
-    }
-    , [formData]);
-    
+        if (props.user && props.user.birth_date) {
+            let dob = new Date(props.user.birth_date);
+            if (!isNaN(dob)) { // check if dob is a valid date
+                let formattedDob = dob.toISOString().substring(0, 10);
+                const p = {name: `${props.user.first_name} ${props.user.last_name}`, dob: formattedDob, passport_no: props.user.passport_no}
+                setFormData(prevFormData => ({...prevFormData, passengers: [p]}))
+            }
+        }
+    }, [formData, props.user]);
+    //console.log(props.user)
     useEffect(() => {
         const forms = [];
         for (let i = 0; i < count; i++) {
         forms.push(
             <PassengerForm
+            user={props.user}
             key={i}
             index={i}
             formData={formData}
@@ -23,7 +30,7 @@ export default function PassengerForms(props) {
         );
         }
         setPassengerForms(forms);
-    }, [count]);
+    }, [count, props.user]);
     
     const handleSubmit = (e) => {
         e.preventDefault();

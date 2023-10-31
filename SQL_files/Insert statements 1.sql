@@ -4,9 +4,9 @@
     INSERT INTO Organizational_Info VALUES('B Airways','+9411123456','customersupport@bairways.com','No1, Colombo, Sri Lanka','123456789');
 
 -- user category final********
-    INSERT INTO user_category VALUES ('General','0','0');
-    INSERT INTO user_category VALUES ('Gold','0.05','10');
-    INSERT INTO user_category VALUES ('Frequent','0.09','50');
+INSERT INTO user_category VALUES ('General','0','0');
+INSERT INTO user_category VALUES ('Frequent','0.05','10');
+INSERT INTO user_category VALUES ('Gold','0.09','50');
 
 -- 10 entries for the user category table
     INSERT INTO User VALUES (1,'registered');
@@ -87,25 +87,24 @@
     INSERT INTO Airport VALUES ('SIN', 15, 'Changi Airport');
 
 -- Insert statements for Aircraft_Model
-    INSERT INTO Aircraft_Model VALUES ('A380', 'Airbus A380', 'Airbus', 150, 12, 4);
-    INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
-    INSERT INTO Aircraft_Model VALUES ('B757', 'Boeing 757', 'Boeing', 240, 20, 8);
-
--- given no of aircrafts for the above models
-    INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES 
-    ('A001', 'B737', "CGK"),
-    ('A002', 'B737', "BIA"),
-    ('A003', 'B737', "BKK"),
-    ('A004', 'B757', "DEL"),
-    ('A005', 'B757', "SIN"),
-    ('A006', 'B757', "DPS"),
-    ('A007', 'B757', "HRI"),
-    ('A008', 'A380', "DEL");
+INSERT INTO Aircraft_Model VALUES ('A380', 'Airbus A380', 'Airbus', 150, 12, 4);
+INSERT INTO Aircraft_Model VALUES ('B737', 'Boeing 737', 'Boeing', 160, 10, 6);
+INSERT INTO Aircraft_Model VALUES ('B757', 'Boeing 757', 'Boeing', 240, 20, 8);
 
 -- 3 seating classes
-    INSERT INTO Seating_Class VALUES (1, 'Platinum');
-    INSERT INTO Seating_Class VALUES (2, 'Business');
-    INSERT INTO Seating_Class VALUES (3, 'Economy');
+INSERT INTO Seating_Class VALUES (1, 'Platinum');
+INSERT INTO Seating_Class VALUES (2, 'Business');
+INSERT INTO Seating_Class VALUES (3, 'Economy');
 
-
+-- given no of aircrafts for the above models
+INSERT INTO Aircraft (aircraft_id, model_id, curr_airport_code) VALUES 
+-- change the airport_code to initial value
+('A001', 'B737', "CGK"),
+('A002', 'B737', "BIA"),
+('A003', 'B737', "BKK"),
+('A004', 'B757', "DEL"),
+('A005', 'B757', "SIN"),
+('A006', 'B757', "DPS"),
+('A007', 'B757', "HRI"),
+('A008', 'A380', "DEL");
 
