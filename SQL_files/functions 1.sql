@@ -338,4 +338,37 @@ DROP TRIGGER if exists update_user_category_trigger;
 
     DELIMITER ;
 
+--a trigger to automatically update a registered user from General to Frequent after 10 bookings they have booked with B airways and to Gold after they have made 50 bookings
+DROP TRIGGER IF EXISTS update_user_category;
+
+    DELIMITER | 
+    CREATE TRIGGER update_user_category
+    AFTER INSERT ON User_Booking
+    FOR EACH ROW
+    BEGIN
+        DECLARE num_user_booking INT;
+        DECLARE user_category ENUM('General', 'Frequent', 'Gold');
+
+        SELECT COUNT(*) INTO num_user_booking
+        FROM User_Booking
+        WHERE user_id = NEW.user_id AND IsRegisteredUser(NEW.user_id) = 1;
+
+        IF num_user_booking >= 50 THEN
+            SET user_category = 'Gold';
+        ELSEIF num_user_booking >= 10 THEN
+            SET user_category = 'Frequent';
+        ELSE
+            SET user_category = 'General';
+        END IF;
+
+        UPDATE Registered_User
+        SET registered_user_category = user_category
+        WHERE user_id = NEW.user_id;
+
+    END;
+
+    |
+    DELIMITER ;
+
+
 
