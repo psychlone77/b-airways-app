@@ -20,7 +20,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="h-screen flex flex-grow flex-col">
+        <div className="flex flex-grow flex-col">
           <div className="fixed top-0 left-0 right-0">
             <Navbar session={data} />
           </div>

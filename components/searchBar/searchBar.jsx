@@ -16,7 +16,7 @@ export default function SearchBar(props) {
   const router = useRouter();
   const classes = [{value:'Platinum', label: 'Platinum'},{value:'Business', label: 'Business'},{value:'Economy', label: 'Economy'}]
   var airportsList = [];
-  console.log(props.options.rows);
+  //console.log(props.options.rows);
   
   if (props.options.rows && Array.isArray(props.options.rows)) {
     airportsList = props.options.rows.map((row) => ({
@@ -27,7 +27,7 @@ export default function SearchBar(props) {
     airportsList = ["Unavailable"];
     console.error("Error calling database");
   }
-  console.log(props.from);
+  //console.log(props.from);
 
   const from = props.from;
   const to = getDefaults(props.to);
@@ -76,6 +76,7 @@ export default function SearchBar(props) {
       router.push(`/search?from=${fromValue}&to=${toValue}&date=${selectedDate}&class=${classValue}&seats=${selectedSeats}`);
     }
   };
+
 
 
   return (
