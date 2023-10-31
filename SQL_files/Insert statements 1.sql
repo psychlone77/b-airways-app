@@ -65,7 +65,7 @@
 -- cities
     INSERT INTO Location VALUES (6, 1, 'Jakarta');
     INSERT INTO Location VALUES (7, 1, 'Bali');
-    INSERT INTO Location VALUES (8, 2, 'Katunayaka');
+    INSERT INTO Location VALUES (8, 2, 'Colombo');
     INSERT INTO Location VALUES (9, 2, 'Hambantota');
     INSERT INTO Location VALUES (10, 3, 'NewDelhi');
     INSERT INTO Location VALUES (11, 3, 'Mumbai');
