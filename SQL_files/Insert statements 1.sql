@@ -5,8 +5,8 @@ INSERT INTO Organizational_Info VALUES('B Airways','+9411123456','customersuppor
 
 -- user category final********
 INSERT INTO user_category VALUES ('General','0','0');
-INSERT INTO user_category VALUES ('Gold','0.05','10');
-INSERT INTO user_category VALUES ('Frequent','0.09','50');
+INSERT INTO user_category VALUES ('Frequent','0.05','10');
+INSERT INTO user_category VALUES ('Gold','0.09','50');
 
 -- 10 entries for the user category table
 INSERT INTO User VALUES (1,'registered');

@@ -223,47 +223,125 @@ CREATE PROCEDURE get_aircraft_schedule(
     IN origin_code VARCHAR(4),
     IN destination_code VARCHAR(4),
     IN departure_time DATETIME,
-    IN class_type VARCHAR(15)
+    IN class_type VARCHAR(15),
+    IN seat_count INT
     )
-    BEGIN
-        SELECT
-            a.aircraft_id AS "Aircraft ID",
-            sf.scheduled_departure AS "Scheduled Departure",
-            sf.scheduled_arrival AS "Scheduled Arrival",
-            r.route_origin AS "From",
-            r.route_destination AS "To"
-        FROM
-            Scheduled_Flight sf
-        JOIN
-            Aircraft a ON sf.aircraft_id = a.aircraft_id
-        JOIN
-            Aircraft_Model am ON a.model_id = am.model_id
-        JOIN
-            Route r ON sf.route_id = r.route_id
-        WHERE
-            r.route_origin = origin_code
-            AND r.route_destination = destination_code
-            AND DATE(sf.scheduled_departure) < departure_time
-            AND DATE(sf.scheduled_departure) > NOW()
-            AND (
-                CASE
-                    WHEN class_type = 'Economy' THEN am.economy_seats
-                    WHEN class_type = 'Business' THEN am.business_seats
-                    WHEN class_type = 'Platinum' THEN am.platinum_seats
-                END > (
-                    SELECT COUNT(ub.booking_id)
-                    FROM User_Booking ub
-                    WHERE ub.seat_id = (
-                        SELECT seat_id
-                        FROM Aircraft_Seat
-                        WHERE seat_class_id = (
-                            SELECT class_id
-                            FROM Seating_Class
-                            WHERE class_name = classType
-                        )
-                    )
-                )
-            );
+BEGIN
+    CASE class_type
+		WHEN 'Platinum' THEN
+			SELECT
+				subquery.schedule_id,
+				subquery.route_id,
+				subquery.scheduled_departure,
+				subquery.scheduled_arrival,
+				subquery.route_origin,
+				subquery.route_destination,
+				scp.price,
+				origin.airport_name as airport_origin,
+				dest.airport_name as airport_dest
+			FROM (
+				SELECT 
+					sf.schedule_id, 
+					r.route_id, 
+					sf.scheduled_departure, 
+					sf.scheduled_arrival, 
+					r.route_origin, 
+					r.route_destination
+				FROM Scheduled_Flight sf
+				JOIN Aircraft a ON sf.aircraft_id = a.aircraft_id
+				JOIN Aircraft_Model am ON a.model_id = am.model_id
+				JOIN Route r ON sf.route_id = r.route_id
+				WHERE
+					r.route_origin = origin_code
+					AND r.route_destination = destination_code
+					AND DATE(sf.scheduled_departure) = DATE(departure_time)
+					AND DATE(sf.scheduled_departure) >= NOW()
+					AND (am.platinum_seats - 
+						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
+						where seat_class_id = 3)
+						>= seat_count
+					)
+			) AS subquery
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			JOIN airport as origin on origin.airport_code = subquery.route_origin
+			JOIN airport as dest on dest.airport_code = subquery.route_destination; 
+                    
+		WHEN 'Business' THEN
+			SELECT
+				subquery.schedule_id,
+				subquery.route_id,
+				subquery.scheduled_departure,
+				subquery.scheduled_arrival,
+				subquery.route_origin,
+				subquery.route_destination,
+				scp.price,
+				origin.airport_name as airport_origin,
+				dest.airport_name as airport_dest
+			FROM (
+				SELECT 
+					sf.schedule_id, 
+					r.route_id, 
+					sf.scheduled_departure, 
+					sf.scheduled_arrival, 
+					r.route_origin, 
+					r.route_destination
+				FROM Scheduled_Flight sf
+				JOIN Aircraft a ON sf.aircraft_id = a.aircraft_id
+				JOIN Aircraft_Model am ON a.model_id = am.model_id
+				JOIN Route r ON sf.route_id = r.route_id
+				WHERE
+					r.route_origin = origin_code
+					AND r.route_destination = destination_code
+					AND DATE(sf.scheduled_departure) = DATE(departure_time)
+					AND DATE(sf.scheduled_departure) >= NOW()
+					AND (am.business_seats - 
+						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
+						where seat_class_id = 2)
+						>= seat_count
+					)
+			) AS subquery
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			JOIN airport as origin on origin.airport_code = subquery.route_origin
+			JOIN airport as dest on dest.airport_code = subquery.route_destination; 
+                        
+		WHEN 'Economy' THEN
+			SELECT
+				subquery.schedule_id,
+				subquery.route_id,
+				subquery.scheduled_departure,
+				subquery.scheduled_arrival,
+				subquery.route_origin,
+				subquery.route_destination,
+				scp.price,
+				origin.airport_name as airport_origin,
+				dest.airport_name as airport_dest
+			FROM (
+				SELECT 
+					sf.schedule_id, 
+					r.route_id, 
+					sf.scheduled_departure, 
+					sf.scheduled_arrival, 
+					r.route_origin, 
+					r.route_destination
+				FROM Scheduled_Flight sf
+				JOIN Aircraft a ON sf.aircraft_id = a.aircraft_id
+				JOIN Aircraft_Model am ON a.model_id = am.model_id
+				JOIN Route r ON sf.route_id = r.route_id
+				WHERE
+					r.route_origin = origin_code
+					AND r.route_destination = destination_code
+					AND DATE(sf.scheduled_departure) = DATE(departure_time)
+					AND DATE(sf.scheduled_departure) >= NOW()
+					AND (am.business_seats - 
+						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
+						where seat_class_id = 2)
+						>= seat_count
+					)
+			) AS subquery
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			JOIN airport as origin on origin.airport_code = subquery.route_origin
+			JOIN airport as dest on dest.airport_code = subquery.route_destination;
+		END CASE;
 END;
 |
 DELIMITER ;
@@ -335,50 +413,6 @@ AFTER INSERT ON Aircraft
 FOR EACH ROW
 BEGIN
     CALL InsertAircraftSeats(NEW.aircraft_id, NEW.model_id);
-END;
-|
-
-DELIMITER ;
-
-drop trigger if exists update_user_category_trigger;
-DELIMITER |
-
-CREATE TRIGGER update_user_category_trigger
-AFTER INSERT ON User_Booking
-FOR EACH ROW
-BEGIN
-    DECLARE u_state ENUM('guest','registered');
-    DECLARE booking_count INT;
-    DECLARE user_category VARCHAR(20);
-    
-    block: BEGIN
-    SELECT user_state INTO u_state
-    FROM User
-    WHERE user_id = NEW.user_id;
-    
-    -- Check if user state is 'guest'
-    IF u_state = 'guest' THEN
-        -- Exit the trigger with LEAVE
-        LEAVE block;
-    END IF;
-
-    -- Get the booking count for the user
-    SELECT COUNT(*) INTO booking_count
-    FROM User_Booking
-    WHERE user_id = NEW.user_id;
-    
-    -- Get the user category based on the booking count
-    SELECT category_name INTO user_category
-    FROM User_Category
-    WHERE booking_count >= min_booking_count
-    ORDER BY min_booking_count DESC
-    LIMIT 1;
-    
-    -- Update the user category
-    UPDATE Registered_User
-    SET category = user_category
-    WHERE user_id = NEW.user_id;
-    end block;
 END;
 |
 
