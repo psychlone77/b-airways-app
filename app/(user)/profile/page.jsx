@@ -55,7 +55,7 @@ function ProfileContent() {
   return (
     <div>
       <div className="flex flex-col items-center p-10">
-        <div className="flex flex-col gap-2 bg-white w-fit p-5 rounded-md border border-primary shadow-md shadow-secondary">
+        <div className="flex flex-col gap-2 bg-gradient-to-br from-amber-500 via-amber-100 to-amber-500 w-fit p-5 rounded-md border border-primary shadow-md shadow-secondary">
           <h1 className="text-4xl text-primary font-nunito font-thin"> Hello {user.first_name} {user.last_name}</h1>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> {user.gender}</h2>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> Birthday : {new Date(user.birth_date).toLocaleDateString('en-GB')}</h2>

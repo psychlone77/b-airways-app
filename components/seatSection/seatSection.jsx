@@ -16,25 +16,30 @@ export default function SeatSection(props) {
     <div>
       <div className="flex flex-col items-center bg-white font-nunito rounded-3xl p-5">
         <h1 className="text-center">{props.title}</h1>
-        <div className="mt-3 flex flex-col gap-3">
+        <div className="mt-3 flex flex-col gap-4">
           {seats.map((_, i) => (
             <div key={i} className="flex flex-row gap-3">
               {seatsPerRow.map((_, j) => {
                 const seatNumber = i * props.seatsPerRow + j + 1;
                 const isBooked = bookedSeats.includes(seatNumber);
                 const isSelected = selectedSeats.includes(seatNumber);
+                const isHalfRow = props.seatsPerRow % 2 === 0 && j === props.seatsPerRow / 2 - 1;
                 return (
-                  <button onClick={() => handleButtonClick(seatNumber)}
-                  className={`${
-                    isBooked ? "bg-gray-400" : isSelected ? " bg-pink-400" : "bg-primary"
-                  } w-8 h-8 rounded-md text-sm text-white text-center align-middle ${
-                    isDisabled ? "" : "hover:bg-secondary"
-                  }`}
-                    key={j}
-                    disabled={isBooked} // Disable the button for booked seats and when isDisabled is true
-                  >
-                    {seatNumber}
-                  </button>
+                  <>
+                    <button
+                      onClick={() => handleButtonClick(seatNumber)}
+                      className={`${
+                        isBooked ? "bg-gray-400" : isSelected ? " bg-pink-400" : "bg-primary"
+                      } w-8 h-8 rounded-md text-sm text-white text-center align-middle ${
+                        isDisabled ? "" : "hover:bg-secondary"
+                      }`}
+                      key={j}
+                      disabled={isBooked} // Disable the button for booked seats and when isDisabled is true
+                    >
+                      {seatNumber}
+                    </button>
+                    {isHalfRow && <div className="w-4"></div>}
+                  </>
                 );
               })}
             </div>

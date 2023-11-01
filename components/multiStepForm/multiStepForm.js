@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { use } from 'react';
 import { useSession, SessionProvider } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -16,6 +16,17 @@ function MultiStepForm(props){
     const schedule_id = params.get('schedule_id');
     const sclass = params.get('class');
     const { status, data: session } = useSession();
+    const [seatPrice, setSeatPrice] = useState(0);
+
+    useEffect(() => {
+        const getSeatPrice = async () => {
+            const response = await fetch(`/api/getSeats/getSeatPrice?schedule_id=${schedule_id}&class=${sclass}`);
+            const data = await response.json();
+            setSeatPrice(data.price);
+            console.log(data);
+        }
+        getSeatPrice();
+    }, []);
 
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -33,8 +44,16 @@ function MultiStepForm(props){
         class: props.class,
         seatCount: props.count,
         passengers: Array.from({ length: props.count }, () => ({ name: '', dob: '', passport_no: '' })),
-        bookedSeats: []
+        bookedSeats: [],
+        price: seatPrice
     });
+
+    useEffect(() => {
+        setFormData(() => ({
+            ...formData,
+            price: seatPrice,
+        })); 
+    }, [seatPrice]);
 
     const nextStep = () => {
         setStep(step + 1);
@@ -78,7 +97,7 @@ function MultiStepForm(props){
         case 3:
             return <PassengerForms count={props.count} formData={formData} setFormData={setFormData} nextStep={nextStep} />;
         case 4:
-            return <SeatSelection count={props.count} class={props.class} formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} submitForm={submitForm} />;
+            return <SeatSelection schedule_id={schedule_id} count={props.count} class={sclass} formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} submitForm={submitForm} />;
         case 5:
             return <ConfirmPage formData={formData} prevStep={prevStep} handleSubmit={submitForm} class={sclass}/>;
         default:

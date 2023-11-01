@@ -1,14 +1,25 @@
 "use client";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SeatSection from "@/components/seatSection/seatSection";
 import FlightDetails from "@/components/flightDetails/flightDetails";
 
 export default function SeatSelection(props) {
     const {formData, setFormData, nextStep, prevStep} = props;
     const [selectedSeats, setSelectedSeats] = useState(formData.bookedSeats);
+    const [seats, setSeats] = useState([]);
+    //console.log(props);
+    useEffect(() => {
+        const getSeats = async () => {
+            const response = await fetch(`/api/getSeats?schedule_id=${props.schedule_id}&class=${props.class}`);
+            const data = await response.json();
+            setSeats(data.seats);
+            //console.log(data);
+        }
+        getSeats();
+    }, []);
 
-
+    //console.log(selectedSeats);
     const handleClick = () => {
         if (selectedSeats.length < props.count) {
             alert("Please select needed seats");
@@ -32,23 +43,28 @@ export default function SeatSelection(props) {
             }
         }
     }
+    
+    let seatsPerRow;
 
-    const {
-        platinum = {
-            seatsPerRow: 3,
-            seatRows: 4,
-            bookedSeats: [1, 4, 5],
-        },
-    } = props;
+    if(props.class === 'Economy'){
+        seatsPerRow = 8;
+    }
+    else if(props.class === 'Business'){
+        seatsPerRow = 4;
+    }
+    else{
+        seatsPerRow = 2;
+    }
+    
 
     let seatSection;
         seatSection = (
             <SeatSection
                 onButtonClick={seatClick}
                 title={props.class}
-                seatsPerRow={platinum.seatsPerRow}
-                seatRows={platinum.seatRows}
-                bookedSeats={platinum.bookedSeats}
+                seatsPerRow={seatsPerRow}
+                seatRows={seats/seatsPerRow}
+                bookedSeats={[2,3]}
                 selectedSeats={selectedSeats}
                 count={props.count}
             />

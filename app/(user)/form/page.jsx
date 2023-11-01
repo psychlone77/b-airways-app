@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 export default function Form(){
     const params = useSearchParams();
     const schedule_id = params.get("schedule_id");
+    const sclass = params.get("class");
     const [flight, setFlight] = useState({});
 
     useEffect(() => {
@@ -23,7 +24,7 @@ export default function Form(){
             <div className="flex flex-row flex-grow justify-center">
                 <MultiStepForm count={1}/>
             </div>
-            <FlightDetails flight={flight}/>
+            <FlightDetails flight={flight} />
         </div>
     )
 }
