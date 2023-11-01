@@ -115,51 +115,130 @@ DROP PROCEDURE IF EXISTS insert_scheduled_flight;
 -- change the below proc if changed @Nithika
 DROP PROCEDURE if exists get_aircraft_schedule;
     DELIMITER |
+
     CREATE PROCEDURE get_aircraft_schedule(
         IN origin_code VARCHAR(4),
         IN destination_code VARCHAR(4),
         IN departure_time DATETIME,
-        IN class_type VARCHAR(15)
+        IN class_type VARCHAR(15),
+        IN seat_count INT
         )
-        BEGIN
-            SELECT
-                a.aircraft_id AS "Aircraft ID",
-                sf.scheduled_departure AS "Scheduled Departure",
-                sf.scheduled_arrival AS "Scheduled Arrival",
-                r.route_origin AS "From",
-                r.route_destination AS "To"
-            FROM
-                Scheduled_Flight sf
-            JOIN
-                Aircraft a ON sf.aircraft_id = a.aircraft_id
-            JOIN
-                Aircraft_Model am ON a.model_id = am.model_id
-            JOIN
-                Route r ON sf.route_id = r.route_id
-            WHERE
-                r.route_origin = origin_code
-                AND r.route_destination = destination_code
-                AND DATE(sf.scheduled_departure) < departure_time
-                AND DATE(sf.scheduled_departure) > NOW()
-                AND (
-                    CASE
-                        WHEN class_type = 'Economy' THEN am.economy_seats
-                        WHEN class_type = 'Business' THEN am.business_seats
-                        WHEN class_type = 'Platinum' THEN am.platinum_seats
-                    END > (
-                        SELECT COUNT(ub.booking_id)
-                        FROM User_Booking ub
-                        WHERE ub.seat_id = (
-                            SELECT seat_id
-                            FROM Aircraft_Seat
-                            WHERE seat_class_id = (
-                                SELECT class_id
-                                FROM Seating_Class
-                                WHERE class_name = classType
-                            )
-                        )
-                    )
-                );
+    BEGIN
+        CASE class_type
+		WHEN 'Platinum' THEN
+			SELECT
+				subquery.schedule_id,
+				subquery.route_id,
+				subquery.scheduled_departure,
+				subquery.scheduled_arrival,
+				subquery.route_origin,
+				subquery.route_destination,
+				scp.price,
+				origin.airport_name as airport_origin,
+				dest.airport_name as airport_dest
+			FROM (
+				SELECT 
+					sf.schedule_id, 
+					r.route_id, 
+					sf.scheduled_departure, 
+					sf.scheduled_arrival, 
+					r.route_origin, 
+					r.route_destination
+				FROM Scheduled_Flight sf
+				JOIN Aircraft a ON sf.aircraft_id = a.aircraft_id
+				JOIN Aircraft_Model am ON a.model_id = am.model_id
+				JOIN Route r ON sf.route_id = r.route_id
+				WHERE
+					r.route_origin = origin_code
+					AND r.route_destination = destination_code
+					AND DATE(sf.scheduled_departure) = DATE(departure_time)
+					AND DATE(sf.scheduled_departure) >= NOW()
+					AND (am.platinum_seats - 
+						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
+						where seat_class_id = 3)
+						>= seat_count
+					)
+			) AS subquery
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			JOIN airport as origin on origin.airport_code = subquery.route_origin
+			JOIN airport as dest on dest.airport_code = subquery.route_destination; 
+                    
+		WHEN 'Business' THEN
+			SELECT
+				subquery.schedule_id,
+				subquery.route_id,
+				subquery.scheduled_departure,
+				subquery.scheduled_arrival,
+				subquery.route_origin,
+				subquery.route_destination,
+				scp.price,
+				origin.airport_name as airport_origin,
+				dest.airport_name as airport_dest
+			FROM (
+				SELECT 
+					sf.schedule_id, 
+					r.route_id, 
+					sf.scheduled_departure, 
+					sf.scheduled_arrival, 
+					r.route_origin, 
+					r.route_destination
+				FROM Scheduled_Flight sf
+				JOIN Aircraft a ON sf.aircraft_id = a.aircraft_id
+				JOIN Aircraft_Model am ON a.model_id = am.model_id
+				JOIN Route r ON sf.route_id = r.route_id
+				WHERE
+					r.route_origin = origin_code
+					AND r.route_destination = destination_code
+					AND DATE(sf.scheduled_departure) = DATE(departure_time)
+					AND DATE(sf.scheduled_departure) >= NOW()
+					AND (am.business_seats - 
+						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
+						where seat_class_id = 2)
+						>= seat_count
+					)
+			) AS subquery
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			JOIN airport as origin on origin.airport_code = subquery.route_origin
+			JOIN airport as dest on dest.airport_code = subquery.route_destination; 
+                        
+		WHEN 'Economy' THEN
+			SELECT
+				subquery.schedule_id,
+				subquery.route_id,
+				subquery.scheduled_departure,
+				subquery.scheduled_arrival,
+				subquery.route_origin,
+				subquery.route_destination,
+				scp.price,
+				origin.airport_name as airport_origin,
+				dest.airport_name as airport_dest
+			FROM (
+				SELECT 
+					sf.schedule_id, 
+					r.route_id, 
+					sf.scheduled_departure, 
+					sf.scheduled_arrival, 
+					r.route_origin, 
+					r.route_destination
+				FROM Scheduled_Flight sf
+				JOIN Aircraft a ON sf.aircraft_id = a.aircraft_id
+				JOIN Aircraft_Model am ON a.model_id = am.model_id
+				JOIN Route r ON sf.route_id = r.route_id
+				WHERE
+					r.route_origin = origin_code
+					AND r.route_destination = destination_code
+					AND DATE(sf.scheduled_departure) = DATE(departure_time)
+					AND DATE(sf.scheduled_departure) >= NOW()
+					AND (am.business_seats - 
+						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
+						where seat_class_id = 2)
+						>= seat_count
+					)
+			) AS subquery
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			JOIN airport as origin on origin.airport_code = subquery.route_origin
+			JOIN airport as dest on dest.airport_code = subquery.route_destination;
+		END CASE;
     END;
     |
     DELIMITER ;
@@ -245,42 +324,58 @@ DROP PROCEDURE if exists InsertAircraftSeats;
     DELIMITER |
     CREATE PROCEDURE InsertAircraftSeats(IN val_aircraft_id VARCHAR(20), IN val_model_id varchar(4))
     BEGIN
-        DECLARE economy_seats INT;
-        DECLARE platinum_seats INT;
-        DECLARE business_seats INT;
+        DECLARE e_seats INT;
+        DECLARE p_seats INT;
+        DECLARE b_seats INT;
+        DECLARE economy_class_id INT;
+        DECLARE platinum_class_id INT;
+        DECLARE business_class_id INT;
         DECLARE i INT;
         
         -- Get the number of seats for each class from the Aircraft_Model table
         SELECT economy_seats, platinum_seats, business_seats
-        INTO economy_seats, platinum_seats, business_seats
+        INTO e_seats, p_seats, b_seats
         FROM Aircraft_Model
         WHERE model_id = val_model_id;
         
+        SELECT class_id INTO economy_class_id
+        FROM Seating_Class
+        WHERE class_name = 'Economy';
+
+        SELECT class_id INTO platinum_class_id
+        FROM Seating_Class
+        WHERE class_name = 'Platinum';
+
+        SELECT class_id INTO business_class_id
+        FROM Seating_Class
+        WHERE class_name = 'Business';
+        
         -- Insert economy seats
         SET i = 1;
-        WHILE i <= economy_seats DO
+        WHILE i <= e_seats DO
             INSERT INTO Aircraft_Seat (seat_id, aircraft_id, seat_class_id)
-            VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, 1);
+            VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, economy_class_id);
             SET i = i + 1;
         END WHILE;
         
         -- Insert platinum seats
         SET i = 1;
-        WHILE i <= platinum_seats DO
+        WHILE i <= p_seats DO
             INSERT INTO Aircraft_Seat (seat_id, aircraft_id, seat_class_id)
-            VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, 2);
+            VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, platinum_class_id);
             SET i = i + 1;
         END WHILE;
         
         -- Insert business seats
         SET i = 1;
-        WHILE i <= business_seats DO
+        WHILE i <= b_seats DO
             INSERT INTO Aircraft_Seat (seat_id, aircraft_id, seat_class_id)
-            VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, 3);
+            VALUES (CONCAT('S', LPAD(i, 3, '0')), val_aircraft_id, business_class_id);
             SET i = i + 1;
         END WHILE;
     END;
     |
+
     DELIMITER ;
 
 DROP TRIGGER if exists aircraft_insert_trigger;
@@ -294,6 +389,8 @@ DROP TRIGGER if exists aircraft_insert_trigger;
     END;
     |
     DELIMITER ;
+
+-- changed the field_names to existing ones
 
 DROP TRIGGER if exists update_user_category_trigger;
     DELIMITER |
@@ -322,15 +419,15 @@ DROP TRIGGER if exists update_user_category_trigger;
         WHERE user_id = NEW.user_id;
         
         -- Get the user category based on the booking count
-        SELECT category_name INTO user_category
+        SELECT registered_user_category INTO user_category
         FROM User_Category
-        WHERE booking_count >= min_booking_count
-        ORDER BY min_booking_count DESC
+        WHERE booking_count >= min_bookings
+        ORDER BY min_bookings DESC
         LIMIT 1;
         
         -- Update the user category
         UPDATE Registered_User
-        SET category = user_category
+        SET registered_user_category = user_category
         WHERE user_id = NEW.user_id;
         end block;
     END;
