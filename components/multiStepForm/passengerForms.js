@@ -10,7 +10,12 @@ export default function PassengerForms(props) {
             let dob = new Date(props.user.birth_date);
             if (!isNaN(dob)) { // check if dob is a valid date
                 let formattedDob = dob.toISOString().substring(0, 10);
-                const p = {name: `${props.user.first_name} ${props.user.last_name}`, dob: formattedDob, passport_no: props.user.passport_no}
+                const p = {
+                    name: `${props.user.first_name} ${props.user.last_name}`, 
+                    dob: formattedDob, 
+                    passport_no: props.user.passport_no,
+                    email: props.user.email,
+                    address: props.user.address}
                 setFormData(prevFormData => ({...prevFormData, passengers: [p]}))
             }
         }

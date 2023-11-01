@@ -6,7 +6,7 @@ export default function FlightChip(props) {
   const departureDate = new Date(flight.scheduled_departure).toLocaleDateString('en-GB');
   const departureTime = new Date(flight.scheduled_departure).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'});
   
-  console.log(flight);
+  //console.log(flight);
   return (
     <div className="mb-8">
       <Link href={{pathname: "/form", query:{schedule_id: flight.schedule_id, class:props.sclass}}}>

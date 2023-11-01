@@ -19,8 +19,10 @@ export default function Form(){
     }, []);
 
     return (
-        <div className="flex flex-row justify-between p-5 flex-wrap-reverse">
-            <MultiStepForm count={1}/>
+        <div className="flex flex-row items-end justify-between p-5 flex-wrap-reverse">
+            <div className="flex flex-row flex-grow justify-center">
+                <MultiStepForm count={1}/>
+            </div>
             <FlightDetails flight={flight}/>
         </div>
     )
