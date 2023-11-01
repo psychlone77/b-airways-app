@@ -78,7 +78,7 @@
         CALL insert_scheduled_flight('BA012', 'A008', '2023-11-05 05:00:00');
 
 -- Platinum class prices
-    INSERT INTO Seat_Class_Price (route_id, class_id, price)
+    INSERT INTO Seat_Class_Price (route_id, seat_class_id, price)
     VALUES 
     ('BA001', 1, 400000),
     ('BA002', 1, 450000),
@@ -108,7 +108,7 @@
     ('BA026', 1, 450000);
 
 -- Business class prices
-    INSERT INTO Seat_Class_Price (route_id, class_id, price)
+    INSERT INTO Seat_Class_Price (route_id, seat_class_id, price)
     VALUES 
     ('BA001', 2, 250000),
     ('BA002', 2, 250000),
@@ -138,7 +138,7 @@
     ('BA026', 2, 250000);
 
 -- Economy class prices
-    INSERT INTO Seat_Class_Price (route_id, class_id, price)
+    INSERT INTO Seat_Class_Price (route_id, seat_class_id, price)
     VALUES 
     ('BA001', 3, 150000),
     ('BA002', 3, 150000),
