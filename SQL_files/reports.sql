@@ -6,7 +6,6 @@
 -- passenger_name,passport_no,birth_date
 -- passenger_info view is created for this
 
--- Create the procedure to get passengers above 18 in a flight
 DROP PROCEDURE IF EXISTS get_passengers_in_flight;
     DELIMITER |
     CREATE PROCEDURE get_passengers_in_flight(IN val_route_id VARCHAR(10))
@@ -34,27 +33,6 @@ DROP PROCEDURE IF EXISTS get_passengers_in_flight;
     |
     DELIMITER ;
 
--- Report 1 (not 100% sure, have to check)
-
-SELECT u.user_id AS passengers_above_18, 
-	   IF (u.user_state = 'registered', printf(ru.first_name + ru.last_name), gu.name) AS name,
-       IF (u.user_state = 'registered', ru.passport_no, gu.passport_no) AS passport_no
-FROM User_Booking ub INNER JOIN User u ON ub.user_id = u.user_id
-					 LEFT OUTER JOIN Registered_User ru ON u.user_id = ru.user_id
-                     LEFT OUTER JOIN Guest_User gu ON u.user_id = gu.user_id
-WHERE ub.schedule_id = 'given_flight_no' AND
-	  IF (u.user_state = 'registered', calculateAge(ru.birth_date), calculateAge(gu.birth_date)) >= 18;
-
-
-SELECT u.user_id AS passengers_below_18, 
-	   IF (u.user_state = 'registered', printf(ru.first_name + ru.last_name), gu.name) AS name,
-       IF (u.user_state = 'registered', ru.passport_no, gu.passport_no) AS passport_no
-FROM User_Booking ub INNER JOIN User u ON ub.user_id = u.user_id
-					 LEFT OUTER JOIN Registered_User ru ON u.user_id = ru.user_id
-                     LEFT OUTER JOIN Guest_User gu ON u.user_id = gu.user_id
-WHERE ub.schedule_id = 'given_flight_no' AND
-	  IF (u.user_state = 'registered', calculateAge(ru.birth_date), calculateAge(gu.birth_date)) < 18;
-
 
 -- Report 2
 -- Given a date range, number of passengers travelling to a given destination
@@ -68,6 +46,7 @@ DROP PROCEDURE IF EXISTS get_passengers_travelling_to_a_destination;
                              INNER JOIN Route r ON sf.route_id = r.route_id
         WHERE from_date <= sf.scheduled_depature <= to_date AND
               r.route_destination = destination;        
+    END
     |
     DELIMITER ;
 
@@ -84,6 +63,7 @@ DROP PROCEDURE IF EXISTS get_bookings_by_passenger_type;
                              INNER JOIN Aircraft_Seat ase ON ub.seat_id = ase.seat_id
         WHERE from_date <= sf.scheduled_depature <= to_date AND
               ase.seat_class_id = passenger_type;       
+    END
     |
     DELIMITER ;
 
@@ -96,12 +76,13 @@ DROP PROCEDURE IF EXISTS get_past_flights;
     CREATE PROCEDURE get_past_flights(IN origin VARCHAR(4), IN destination VARCHAR(4))
     BEGIN
         SELECT DISTINCT sf.schedule_id AS flight, 
-               DISTINCT sf.flight_status AS state, 
+               sf.flight_status AS state, 
                SUM(ub.seat_id) AS no_of_passengers
         FROM User_Booking ub INNER JOIN Scheduled_Flight sf ON ub.schedule_id = sf.schedule_id
                              INNER JOIN Route r ON sf.route_id = r.route_id                  
         WHERE r.route_origin = origin AND 
               r.route_destination = destination;      
+    END
     |
     DELIMITER ;
      
@@ -117,5 +98,6 @@ DROP PROCEDURE IF EXISTS get_revenue_by_aircraft_type;
         FROM User_Booking ub INNER JOIN Scheduled_Flight sf ON ub.schedule_id = sf.schedule_id
                              INNER JOIN Aircraft a ON sf.aircraft_id = a.aircraft_id
         WHERE a.model_id = aircraft_model;   
+    END
     |
     DELIMITER ;
