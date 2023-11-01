@@ -8,6 +8,7 @@ export default function SeatSelection(props) {
     const {formData, setFormData, nextStep, prevStep} = props;
     const [selectedSeats, setSelectedSeats] = useState(formData.bookedSeats);
     const [seats, setSeats] = useState([]);
+    const [bookedSeats, setBookedSeats] = useState([]);
     //console.log(props);
     useEffect(() => {
         const getSeats = async () => {
@@ -19,6 +20,16 @@ export default function SeatSelection(props) {
         getSeats();
     }, []);
 
+    useEffect(() => {
+        const getBookedSeats = async () => {
+            const response = await fetch(`/api/getSeats/Booked?schedule_id=${props.schedule_id}&class=${props.class}`);
+            const data = await response.json();
+            console.log(data);
+            const bookedSeatsArray = data[0].Booked_Seats.split(",").map(seat => parseInt(seat.replace("S", "")));
+            setBookedSeats(bookedSeatsArray);
+        }
+        getBookedSeats();
+    }, []);
     //console.log(selectedSeats);
     const handleClick = () => {
         if (selectedSeats.length < props.count) {
@@ -64,7 +75,7 @@ export default function SeatSelection(props) {
                 title={props.class}
                 seatsPerRow={seatsPerRow}
                 seatRows={seats/seatsPerRow}
-                bookedSeats={[2,3]}
+                bookedSeats={bookedSeats}
                 selectedSeats={selectedSeats}
                 count={props.count}
             />
