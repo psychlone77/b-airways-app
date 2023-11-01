@@ -9,10 +9,12 @@ import PassengerForms from './passengerForms';
 import SeatSelection from './seatSelection';
 import ConfirmPage from './confirmPage';
 import LoadingPage from '../loading/loadingPage';
+import GuestForm from './guestForm';
 
 function MultiStepForm(props){
     const params = useSearchParams();
     const schedule_id = params.get('schedule_id');
+    const sclass = params.get('class');
     const { status, data: session } = useSession();
 
     const [user, setUser] = useState(null);
@@ -38,8 +40,8 @@ function MultiStepForm(props){
         setStep(step + 1);
     };
 
-    const next2Step = () => {
-        setStep(step + 2);
+    const next3Step = () => {
+        setStep(step + 3);
     };
 
     const prevStep = () => {
@@ -55,7 +57,7 @@ function MultiStepForm(props){
     switch (step) {
         case 1:
             return session ? (
-                <PassengerForms user={user} count={props.count} formData={formData} setFormData={setFormData} nextStep={next2Step} />
+                <PassengerForms user={user} count={props.count} formData={formData} setFormData={setFormData} nextStep={next3Step} />
             ) : (
                 <div className="h-[calc(100vh-170px)] flex flex-col justify-center items-center font-nunito gap-4">
                 <Link
@@ -70,11 +72,15 @@ function MultiStepForm(props){
               </div>
             );
         case 2:
-            return <PassengerForms count={props.count} formData={formData} setFormData={setFormData} nextStep={nextStep} />;
+            return(
+                <GuestForm formData={formData} setFormData={setFormData} nextStep={nextStep} />
+            )
         case 3:
-            return <SeatSelection count={props.count} class={props.class} formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} submitForm={submitForm} />;
+            return <PassengerForms count={props.count} formData={formData} setFormData={setFormData} nextStep={nextStep} />;
         case 4:
-            return <ConfirmPage formData={formData} prevStep={prevStep} handleSubmit={submitForm} />;
+            return <SeatSelection count={props.count} class={props.class} formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} submitForm={submitForm} />;
+        case 5:
+            return <ConfirmPage formData={formData} prevStep={prevStep} handleSubmit={submitForm} class={sclass}/>;
         default:
             return null;
     }

@@ -15,7 +15,7 @@ export default function SearchPage() {
   const className = searchParams.get("class");
   const seats = searchParams.get("seats");
   const [airports, setAirports] = useState([]);
-  const [flights, setFlights] = useState([{id:'none', flight_number:'none'}]);
+  const [flights, setFlights] = useState([]);
   
   useEffect(() => {
     const getAirports = async () => {
@@ -75,7 +75,6 @@ export default function SearchPage() {
             ))}
           </div>
         )}
-        {console.log(flights)}  
       </div>
     </div>
   );

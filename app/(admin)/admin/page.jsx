@@ -18,9 +18,9 @@ function AdminPage() {
       </div>
     );
   if (status === "unauthenticated") {
-    return <div><AdminUnAuthPage/></div>;
+    return <div className="mt-44"><AdminUnAuthPage/></div>;
   }
-  if (session?.user?.role !== "admin") return <div><AdminNotAuthPage/></div>;
+  if (session?.user?.role !== "admin") return <div className="mt-44"><AdminNotAuthPage/></div>;
   if (status === "authenticated" && session?.user?.role === "admin") {
     return (
         <div>

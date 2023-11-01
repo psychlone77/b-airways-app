@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from "../api/auth/[...nextauth]/route";
 import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 
@@ -18,11 +18,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div>
-        </div>
-        <div>{children}</div>
-        <div>
-          <Footer />
+        <div className="flex flex-col flex-grow min-h-screen">
+          <div className="mb-auto">{children}</div>
+          <div>
+            <Footer />
+          </div>
         </div>
       </body>
     </html>

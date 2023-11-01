@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Select from "react-select";
 import { useRouter } from 'next/navigation';
 
@@ -35,11 +35,21 @@ export default function SearchBar(props) {
   const date = getDefaults(props.date);
 
   const [showError, setShowError] = useState(false);
-  const [selectedFrom, setSelectedFrom] = useState(props.from)
-  const [selectedTo, setSelectedTo] = useState(props.to)
+  const [selectedFrom, setSelectedFrom] = useState()
+  const [selectedTo, setSelectedTo] = useState()
   const [selectedDate, setSelectedDate] = useState(props.date)
-  const [selectedSeats, setSelectedSeats] = useState(props.seats)
-  const [selectedClass, setSelectedClass] = useState(props.class)
+  const [selectedSeats, setSelectedSeats] = useState()
+  const [selectedClass, setSelectedClass] = useState()
+
+  // useEffect(() => {
+  //   console.log(props)
+  //   setSelectedFrom(props.from);
+  //   setSelectedTo(props.to);
+  //   setSelectedDate(props.date);
+  //   setSelectedSeats(props.seats);
+  //   setSelectedClass(props.class);
+  //   console.log(selectedFrom);
+  // }, []);
 
   const handleFromChange = (selectedOption) => {
     setSelectedFrom(selectedOption); // Set the selected option in state
@@ -98,7 +108,7 @@ export default function SearchBar(props) {
               options={airportsList}
               value={selectedFrom}
               onChange={handleFromChange}
-              defaultValue={{ value: from, label: from }}
+              defaultValue={{ value: from, label: to }}
               required
             />
           </div>
@@ -123,6 +133,7 @@ export default function SearchBar(props) {
               onChange={handleDateChange}
               value={selectedDate}
               defaultValue={props.date}
+              min={new Date().toISOString().split('T')[0]}
             />
           </div>
           <div className="flex flex-row gap-2 items-center">
