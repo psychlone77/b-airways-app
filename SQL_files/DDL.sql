@@ -193,7 +193,7 @@ CREATE TABLE User_Booking(
   final_price numeric(10,2) check (final_price > 0),
   -- booking_status varchar(10) ENUM ('booked', 'cancelled') NOT NULL DEFAULT 'booked'
   -- a booking is created only when the user pays
-  date_of_booking datetime,
+  date_of_booking timestamp,
   PRIMARY KEY(booking_id),
   FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(schedule_id) REFERENCES Scheduled_Flight(schedule_id) ON DELETE CASCADE ON UPDATE CASCADE,
