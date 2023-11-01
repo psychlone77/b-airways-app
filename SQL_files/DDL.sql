@@ -116,7 +116,7 @@ CREATE TABLE Aircraft_Model (
 CREATE TABLE Airport (
   airport_code varchar(4),
   location_id int NOT NULL,
-  airport_name varchar(100),
+  airport_name varchar(100) NOT NULL, -- added not null
   PRIMARY KEY (airport_code),
   FOREIGN KEY(location_id) REFERENCES Location(location_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
