@@ -22,3 +22,17 @@ DROP VIEW IF EXISTS passenger_info;
     UNION
     SELECT user_id, passport_no, name, birth_date
     FROM Guest_User;
+    
+    
+DROP VIEW IF EXISTS discounts;    
+    CREATE VIEW discounts AS
+    SELECT 
+        user_id,
+        registered_user_category as category,
+        (SELECT discount_percentage FROM user_category WHERE category_name = Registered_User.registered_user_category) AS discount_percentage
+    FROM Registered_User
+    UNION
+    SELECT 
+        user_id,
+        'guest' AS registered_user_category,
+        0 AS discount_percentage;
