@@ -483,3 +483,28 @@ DROP PROCEDURE IF EXISTS get_booked_seat_info_by_class;
     END;
     |
     DELIMITER ;
+
+DELIMITER //
+
+DROP FUNCTION IF EXISTS discount;
+
+CREATE FUNCTION discount(userId INT) RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+    DECLARE discount_and_level VARCHAR(255);
+
+    SELECT
+        CONCAT(
+            'Discount: ',
+            COALESCE(discount_percentage, '0%'),
+            ', Level: ',
+            COALESCE(category, 'Guest')
+        )
+    INTO discount_and_level
+    FROM discounts
+    WHERE user_id = userId;
+
+    RETURN discount_and_level;
+END//
+
+DELIMITER ;
