@@ -434,3 +434,56 @@ DROP TRIGGER if exists update_user_category_trigger;
     |
 
     DELIMITER ;
+
+DROP FUNCTION IF EXISTS get_seating_capacity_by_class;
+    DELIMITER |
+    CREATE FUNCTION get_seating_capacity_by_class(scheduleID INT, seat_class_name varchar(15))
+    RETURNS INT
+    BEGIN
+        DECLARE aircraftID VARCHAR(20);
+        DECLARE seating_capacity INT;
+        
+        SELECT aircraft_id INTO aircraftID 
+        FROM Scheduled_Flight
+        WHERE schedule_id = scheduleID;
+        
+        SELECT
+            CASE
+                WHEN seat_class_name = 'Economy' THEN economy_seats
+                WHEN seat_class_name = 'Business' THEN business_seats
+                WHEN seat_class_name = 'Platinum' THEN platinum_seats
+                ELSE 0
+            END INTO seating_capacity
+        FROM Aircraft_Model am
+        JOIN Aircraft a ON am.model_id = a.model_id
+        WHERE a.aircraft_id = aircraftID;
+        RETURN seating_capacity;
+    END;
+    |
+    DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS get_booked_seat_info_by_class;
+    DELIMITER |
+    CREATE PROCEDURE get_booked_seat_info_by_class(
+        IN scheduleID INT,
+        IN className varchar(15)
+    )
+    BEGIN
+        DECLARE aircraftID VARCHAR(20);
+        DECLARE seatInfo VARCHAR(255);
+        
+        SELECT aircraft_id INTO aircraftID
+        FROM Scheduled_Flight
+        WHERE schedule_id = scheduleID;
+        
+        SELECT GROUP_CONCAT(DISTINCT ab.seat_id) INTO seatInfo
+        FROM User_Booking ub
+        JOIN Aircraft_Seat ab ON ub.seat_id = ab.seat_id
+        JOIN Seating_Class sc ON ub.seat_class_id = sc.class_id
+        WHERE ub.schedule_id = scheduleID AND sc.class_name = className;
+        
+        SELECT seatInfo AS 'Booked_Seats';
+    END;
+    |
+    DELIMITER ;
