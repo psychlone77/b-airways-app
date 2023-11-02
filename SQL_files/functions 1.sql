@@ -1,6 +1,4 @@
 -- check the comment in calculatetotalprice
-
-
 SET GLOBAL log_bin_trust_function_creators = 1;
 
 DROP FUNCTION IF EXISTS calculateAge; -- used for queries
@@ -406,7 +404,6 @@ DROP TRIGGER if exists aircraft_insert_trigger;
     DELIMITER ;
 
 -- changed the field_names to existing ones
-
 DROP TRIGGER if exists update_user_category_trigger;
     DELIMITER |
     CREATE TRIGGER update_user_category_trigger
@@ -476,7 +473,6 @@ DROP FUNCTION IF EXISTS get_seating_capacity_by_class;
     END;
     |
     DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS get_booked_seat_info_by_class;
     DELIMITER |

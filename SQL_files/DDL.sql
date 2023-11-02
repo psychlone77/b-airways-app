@@ -178,7 +178,7 @@ CREATE TABLE Scheduled_Flight (
   true_departure datetime ,
   true_arrival datetime,
   UNIQUE (route_id, scheduled_departure, aircraft_id),
-  flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure','Cancelled') NOT NULL DEFAULT 'Scheduled',  -- change this
+  flight_status ENUM('Scheduled','Departed-On-Time', 'Delayed-Departure','Cancelled', 'Arrived-On-Time') NOT NULL DEFAULT 'Scheduled',  -- change this
   PRIMARY KEY (schedule_id),
   FOREIGN KEY(route_id) REFERENCES Route(route_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(aircraft_id) REFERENCES Aircraft(aircraft_id) ON DELETE CASCADE ON UPDATE CASCADE
