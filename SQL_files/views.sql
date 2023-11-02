@@ -23,7 +23,6 @@ DROP VIEW IF EXISTS passenger_info;
     SELECT user_id, passport_no, name, birth_date
     FROM Guest_User;
     
--- 
 DROP VIEW IF EXISTS discounts;    
     CREATE VIEW discounts AS
     SELECT 
@@ -37,3 +36,5 @@ DROP VIEW IF EXISTS discounts;
         'guest' AS registered_user_category,
         0 AS discount_percentage
 	FROM Guest_user;
+
+    
