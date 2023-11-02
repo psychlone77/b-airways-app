@@ -54,16 +54,16 @@ DROP PROCEDURE IF EXISTS get_passengers_travelling_to_a_destination;
 
 DROP PROCEDURE IF EXISTS get_bookings_by_passenger_type;
     DELIMITER |
-    CREATE PROCEDURE get_bookings_by_passenger_type(IN from_date DATETIME, IN to_date DATETIME, IN passenger_type int)
+    CREATE PROCEDURE get_bookings_by_passenger_type(IN from_date DATETIME, IN to_date DATETIME)
     BEGIN
-        SELECT 
-        sc.class_name,
-        COUNT(DISTINCT ub.booking_id) 
-        AS no_of_bookings
-                FROM User_Booking AS ub
-                JOIN seating_class AS sc on sc.class_id = ub.seat_class_id
-                WHERE (ub.date_of_booking BETWEEN '2023-11-01' AND '2023-11-03')
-        GROUP BY seat_class_id;  
+		SELECT 
+		sc.class_name,
+		COUNT(DISTINCT ub.booking_id) 
+		AS no_of_bookings
+				FROM User_Booking AS ub
+				JOIN seating_class AS sc on sc.class_id = ub.seat_class_id
+				WHERE (ub.date_of_booking BETWEEN from_date AND to_date)
+		GROUP BY seat_class_id;  
     END
     |
     DELIMITER ;
@@ -77,6 +77,7 @@ DROP PROCEDURE IF EXISTS get_past_flights;
     CREATE PROCEDURE get_past_flights(IN origin VARCHAR(4), IN destination VARCHAR(4))
     BEGIN
         SELECT DISTINCT sf.schedule_id AS flight, 
+			   sf.aircraft_id,
                sf.flight_status AS state,
                COUNT(ub.booking_id) AS no_of_passengers
         FROM User_Booking ub INNER JOIN Scheduled_Flight sf ON ub.schedule_id = sf.schedule_id

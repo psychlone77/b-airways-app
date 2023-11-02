@@ -166,13 +166,8 @@ DROP PROCEDURE if exists get_aircraft_schedule;
 					AND r.route_destination = destination_code
 					AND DATE(sf.scheduled_departure) = DATE(departure_time)
 					AND DATE(sf.scheduled_departure) >= NOW()
-					AND (am.platinum_seats - 
-						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
-						where seat_class_id = 3)
-						>= seat_count
-					)
 			) AS subquery
-			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id AND seat_class_id = 1
 			JOIN airport as origin on origin.airport_code = subquery.route_origin
 			JOIN airport as dest on dest.airport_code = subquery.route_destination; 
                     
@@ -204,13 +199,8 @@ DROP PROCEDURE if exists get_aircraft_schedule;
 					AND r.route_destination = destination_code
 					AND DATE(sf.scheduled_departure) = DATE(departure_time)
 					AND DATE(sf.scheduled_departure) >= NOW()
-					AND (am.business_seats - 
-						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
-						where seat_class_id = 2)
-						>= seat_count
-					)
 			) AS subquery
-			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id AND seat_class_id = 2
 			JOIN airport as origin on origin.airport_code = subquery.route_origin
 			JOIN airport as dest on dest.airport_code = subquery.route_destination; 
                         
@@ -242,13 +232,8 @@ DROP PROCEDURE if exists get_aircraft_schedule;
 					AND r.route_destination = destination_code
 					AND DATE(sf.scheduled_departure) = DATE(departure_time)
 					AND DATE(sf.scheduled_departure) >= NOW()
-					AND (am.business_seats - 
-						(select COUNT(*) from scheduled_flight join user_booking using(schedule_id)
-						where seat_class_id = 2)
-						>= seat_count
-					)
 			) AS subquery
-			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id
+			LEFT JOIN Seat_Class_Price scp ON subquery.route_id = scp.route_id AND seat_class_id = 3
 			JOIN airport as origin on origin.airport_code = subquery.route_origin
 			JOIN airport as dest on dest.airport_code = subquery.route_destination;
 		END CASE;
