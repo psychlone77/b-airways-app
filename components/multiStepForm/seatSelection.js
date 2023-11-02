@@ -25,8 +25,13 @@ export default function SeatSelection(props) {
             const response = await fetch(`/api/getSeats/Booked?schedule_id=${props.schedule_id}&class=${props.class}`);
             const data = await response.json();
             console.log(data);
-            const bookedSeatsArray = data[0].Booked_Seats.split(",").map(seat => parseInt(seat.replace("S", "")));
-            setBookedSeats(bookedSeatsArray);
+            if (data[0].Booked_Seats !== null) {
+                const bookedSeatsArray = data[0].Booked_Seats.split(",").map(seat => parseInt(seat.replace("S", "")));
+                setBookedSeats(bookedSeatsArray);
+            }
+            else{
+                setBookedSeats([]);
+            }
         }
         getBookedSeats();
     }, []);
