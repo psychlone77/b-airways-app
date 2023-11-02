@@ -17,6 +17,7 @@ function MultiStepForm(props) {
   const sclass = params.get("class");
   const { status, data: session } = useSession();
   const [seatPrice, setSeatPrice] = useState(0);
+  const [discount, setDiscount] = useState({discount_percentage: 0, registered_user_category: 'General'});
 
   //console.log('this is form user',user);
   const [step, setStep] = useState(1);
@@ -58,11 +59,26 @@ function MultiStepForm(props) {
   }, [session]);
 
   useEffect(() => {
+    const getDiscount = async () => {
+      const response = await fetch(
+        `/api/getDiscount?user_id=${session?.user.user_id}`
+      );
+      const data = await response.json();
+      setDiscount(data);
+      //console.log('this is form data',data);
+    };
+    getDiscount();
+  }, [session]);
+
+  useEffect(() => {
+    console.log(discount);
     setFormData(() => ({
       ...formData,
-      price: seatPrice,
+      user_category: discount.registered_user_category || 'Guest',
+      discount: discount.discount_percentage || 0,
+      price: seatPrice * (1-(discount.discount_percentage || 0)),
     }));
-  }, [seatPrice]);
+  }, [seatPrice, discount]);
 
   const nextStep = () => {
     setStep(step + 1);

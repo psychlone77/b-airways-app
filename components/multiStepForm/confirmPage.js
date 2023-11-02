@@ -9,7 +9,9 @@ export default function ConfirmPage(props) {
                 <p>Address: {passenger.address}</p>
                 <p>Class: {props.class}</p>
                 <p>Seat Number: {props.formData.bookedSeats}</p>
-                <p>Price: {props.formData.price}</p>
+                <p>Member Level: {props.formData.user_category}</p>
+                <p>Discount: {props.formData.discount*100}%</p>
+                <p>Price: LKR.{props.formData.price}</p>
             </div>
             <div className="flex flex-col items-center gap-2 w-1/2">
                 <button
