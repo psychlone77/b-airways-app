@@ -22,13 +22,28 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <div className="flex flex-grow flex-col min-h-screen">
-          <div className="fixed top-0 left-0 right-0">
-            <Navbar session={data} />
-          </div>
-          <div className="mt-[70px] mb-auto">{children}</div>
-          <div>
-            <Footer />
-          </div>
+          {data && data.user && data.user.role === 'admin' ? (
+            <div className="flex flex-grow flex-col min-h-screen">
+              <div className="mt-[70px] mb-auto h-full font-nunito flex flex-col justify-center items-center">
+                <div className="">You are currently logged in as an Admin</div>
+              </div>
+              <div>
+                <Footer />
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="fixed top-0 left-0 right-0">
+                <Navbar session={data} />
+              </div>
+              <div className="mt-[70px] mb-auto">
+                {children}
+              </div>
+              <div>
+                <Footer />
+              </div>
+            </>
+          )}
         </div>
       </body>
     </html>

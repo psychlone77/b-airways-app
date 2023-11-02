@@ -30,7 +30,7 @@ export default function SearchBar(props) {
   //console.log(props.from);
 
   const from = props.from;
-  const to = getDefaults(props.to);
+  const to = props.to;
   const className = getDefaults(props.class);
   const date = getDefaults(props.date);
 
