@@ -6,8 +6,9 @@ import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 
 export const metadata: Metadata = {
-  title: "B Airways",
-  description: "Book and reserve tickets",
+  title: "Admin Dashboard",
+  description: "Admin Function",
+  icons:{icon: "/shield_person.png"}
 };
 
 export default async function RootLayout({

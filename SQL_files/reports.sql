@@ -56,10 +56,14 @@ DROP PROCEDURE IF EXISTS get_bookings_by_passenger_type;
     DELIMITER |
     CREATE PROCEDURE get_bookings_by_passenger_type(IN from_date DATETIME, IN to_date DATETIME, IN passenger_type int)
     BEGIN
-        SELECT COUNT(DISTINCT ub.booking_id) AS no_of_bookings
-        FROM User_Booking ub
-        WHERE (ub.date_of_booking BETWEEN from_date AND to_date) AND
-              ub.seat_class_id = passenger_type;       
+        SELECT 
+        sc.class_name,
+        COUNT(DISTINCT ub.booking_id) 
+        AS no_of_bookings
+                FROM User_Booking AS ub
+                JOIN seating_class AS sc on sc.class_id = ub.seat_class_id
+                WHERE (ub.date_of_booking BETWEEN '2023-11-01' AND '2023-11-03')
+        GROUP BY seat_class_id;  
     END
     |
     DELIMITER ;

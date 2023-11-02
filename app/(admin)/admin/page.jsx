@@ -36,7 +36,7 @@ function AdminPage() {
       <div>
         <AdminNavBar session={session} />
         <div className="flex flex-col gap-10 p-5">
-          <h1 className="text-3xl font-nunito">Welcome Admin</h1>
+          <h1 className="text-5xl text-center font-nunito">Admin Dashboard</h1>
           <Navigator />
         </div>
       </div>
