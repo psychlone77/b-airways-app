@@ -1,5 +1,3 @@
--- All reports are yet to be checked
-
 -- Report 1
 -- Given a flight no, all passengers travelling in it (next immediate flight) below age 18, above age 18 
 
@@ -41,10 +39,10 @@ DROP PROCEDURE IF EXISTS get_passengers_travelling_to_a_destination;
     DELIMITER |
     CREATE PROCEDURE get_passengers_travelling_to_a_destination(IN from_date DATETIME, IN to_date DATETIME, IN destination VARCHAR(4))
     BEGIN
-        SELECT SUM(ub.seat_id) AS no_of_passengers
+        SELECT COUNT(DISTINCT ub.booking_id) AS no_of_passengers
         FROM User_Booking ub INNER JOIN Scheduled_Flight sf ON ub.schedule_id = sf.schedule_id
                              INNER JOIN Route r ON sf.route_id = r.route_id
-        WHERE from_date <= sf.scheduled_depature <= to_date AND
+		WHERE (sf.scheduled_departure BETWEEN from_date AND to_date) AND
               r.route_destination = destination;        
     END
     |
@@ -58,11 +56,10 @@ DROP PROCEDURE IF EXISTS get_bookings_by_passenger_type;
     DELIMITER |
     CREATE PROCEDURE get_bookings_by_passenger_type(IN from_date DATETIME, IN to_date DATETIME, IN passenger_type int)
     BEGIN
-        SELECT SUM(ub.seat_id) AS no_of_bookings
-        FROM User_Booking ub INNER JOIN Scheduled_Flight sf ON ub.schedule_id = sf.schedule_id
-                             INNER JOIN Aircraft_Seat ase ON ub.seat_id = ase.seat_id
-        WHERE from_date <= sf.scheduled_depature <= to_date AND
-              ase.seat_class_id = passenger_type;       
+        SELECT COUNT(DISTINCT ub.booking_id) AS no_of_bookings
+        FROM User_Booking ub
+        WHERE (ub.date_of_booking BETWEEN from_date AND to_date) AND
+              ub.seat_class_id = passenger_type;       
     END
     |
     DELIMITER ;
@@ -76,12 +73,14 @@ DROP PROCEDURE IF EXISTS get_past_flights;
     CREATE PROCEDURE get_past_flights(IN origin VARCHAR(4), IN destination VARCHAR(4))
     BEGIN
         SELECT DISTINCT sf.schedule_id AS flight, 
-               sf.flight_status AS state, 
-               SUM(ub.seat_id) AS no_of_passengers
+               sf.flight_status AS state,
+               COUNT(ub.booking_id) AS no_of_passengers
         FROM User_Booking ub INNER JOIN Scheduled_Flight sf ON ub.schedule_id = sf.schedule_id
                              INNER JOIN Route r ON sf.route_id = r.route_id                  
         WHERE r.route_origin = origin AND 
-              r.route_destination = destination;      
+              r.route_destination = destination AND
+              sf.scheduled_departure < NOW()
+		GROUP BY sf.schedule_id, sf.flight_status;
     END
     |
     DELIMITER ;
