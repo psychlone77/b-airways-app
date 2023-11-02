@@ -31,51 +31,51 @@
 -- changed the schedule so that no two flights are landing or departing at the same airport at the same time
 -- insert scheduled flights
     -- aircraft_1
-        CALL insert_scheduled_flight('BA002', 'A001', '2023-10-30 05:00:00');
-        CALL insert_scheduled_flight('BA005', 'A001', '2023-10-31 05:00:00');
-        CALL insert_scheduled_flight('BA021', 'A001', '2023-11-02 08:00:00');
-        CALL insert_scheduled_flight('BA022', 'A001', '2023-11-03 09:00:00');
+        CALL insert_scheduled_flight('BA002', 'A001', '2023-10-30 05:00:00'); -- 1
+        CALL insert_scheduled_flight('BA005', 'A001', '2023-10-31 05:00:00'); -- 2
+        CALL insert_scheduled_flight('BA021', 'A001', '2023-11-02 08:00:00'); -- 3
+        CALL insert_scheduled_flight('BA022', 'A001', '2023-11-03 09:00:00'); -- 4
 
     -- aircraft_2
-        CALL insert_scheduled_flight('BA006', 'A002', '2023-11-01 05:00:00');
-        CALL insert_scheduled_flight('BA004', 'A002', '2023-11-02 10:00:00');
-        CALL insert_scheduled_flight('BA006', 'A002', '2023-11-04 05:00:00');
-        CALL insert_scheduled_flight('BA004', 'A002', '2023-11-05 10:00:00');
+        CALL insert_scheduled_flight('BA006', 'A002', '2023-11-01 05:00:00'); -- 5
+        CALL insert_scheduled_flight('BA004', 'A002', '2023-11-02 10:00:00'); -- 6
+        CALL insert_scheduled_flight('BA006', 'A002', '2023-11-04 05:00:00'); -- 7
+        CALL insert_scheduled_flight('BA004', 'A002', '2023-11-05 10:00:00'); -- 8
 
     -- aircraft_3
-        CALL insert_scheduled_flight('BA015', 'A003', '2023-10-30 05:00:00');
-        CALL insert_scheduled_flight('BA014', 'A003', '2023-11-01 05:00:00');
-        CALL insert_scheduled_flight('BA018', 'A003', '2023-11-04 06:00:00');
+        CALL insert_scheduled_flight('BA015', 'A003', '2023-10-30 05:00:00'); -- 9
+        CALL insert_scheduled_flight('BA014', 'A003', '2023-11-01 05:00:00'); -- 10
+        CALL insert_scheduled_flight('BA018', 'A003', '2023-11-04 06:00:00'); -- 11
 
     -- aircraft_4
-        CALL insert_scheduled_flight('BA009', 'A004', '2023-10-30 05:00:00');
-        CALL insert_scheduled_flight('BA008', 'A004', '2023-10-31 07:00:00');
-        CALL insert_scheduled_flight('BA011', 'A004', '2023-11-01 07:00:00');
-        CALL insert_scheduled_flight('BA007', 'A004', '2023-11-02 05:00:00');
+        CALL insert_scheduled_flight('BA009', 'A004', '2023-10-30 05:00:00'); -- 12
+        CALL insert_scheduled_flight('BA008', 'A004', '2023-10-31 07:00:00'); -- 13 
+        CALL insert_scheduled_flight('BA011', 'A004', '2023-11-01 07:00:00'); -- 14
+        CALL insert_scheduled_flight('BA007', 'A004', '2023-11-02 05:00:00'); -- 15
 
     -- aircraft_5
-        CALL insert_scheduled_flight('BA019', 'A005', '2023-10-31 05:00:00');
-        CALL insert_scheduled_flight('BA020', 'A005', '2023-11-02 05:00:00');
-        CALL insert_scheduled_flight('BA019', 'A005', '2023-11-03 05:00:00');
-        CALL insert_scheduled_flight('BA020', 'A005', '2023-11-05 05:00:00');
+        CALL insert_scheduled_flight('BA019', 'A005', '2023-10-31 05:00:00'); -- 16
+        CALL insert_scheduled_flight('BA020', 'A005', '2023-11-02 05:00:00'); -- 17
+        CALL insert_scheduled_flight('BA019', 'A005', '2023-11-03 05:00:00'); -- 18
+        CALL insert_scheduled_flight('BA020', 'A005', '2023-11-05 05:00:00'); -- 19
 
     -- aircraft_6 (6 is entirely within indonesia)
-        CALL insert_scheduled_flight('BA003', 'A006', '2023-10-31 08:00:00');
-        CALL insert_scheduled_flight('BA001', 'A006', '2023-11-01 10:00:00');
-        CALL insert_scheduled_flight('BA003', 'A006', '2023-11-02 08:00:00');
-        CALL insert_scheduled_flight('BA001', 'A006', '2023-11-03 10:00:00');
+        CALL insert_scheduled_flight('BA003', 'A006', '2023-10-31 08:00:00'); -- 20
+        CALL insert_scheduled_flight('BA001', 'A006', '2023-11-01 10:00:00'); -- 21
+        CALL insert_scheduled_flight('BA003', 'A006', '2023-11-02 08:00:00'); -- 22 
+        CALL insert_scheduled_flight('BA001', 'A006', '2023-11-03 10:00:00'); -- 23
 
     -- aircraft_7
-        CALL insert_scheduled_flight('BA025', 'A007', '2023-11-01 07:00:00');
-        CALL insert_scheduled_flight('BA026', 'A007', '2023-11-02 07:00:00');
-        CALL insert_scheduled_flight('BA025', 'A007', '2023-11-04 07:00:00');
-        CALL insert_scheduled_flight('BA026', 'A007', '2023-11-05 07:00:00');
+        CALL insert_scheduled_flight('BA025', 'A007', '2023-11-01 07:00:00'); -- 24
+        CALL insert_scheduled_flight('BA026', 'A007', '2023-11-02 07:00:00'); -- 25
+        CALL insert_scheduled_flight('BA025', 'A007', '2023-11-04 07:00:00'); -- 26
+        CALL insert_scheduled_flight('BA026', 'A007', '2023-11-05 07:00:00'); -- 27
 
     -- aircraft_8
-        CALL insert_scheduled_flight('BA010', 'A008', '2023-10-31 05:00:00');
-        CALL insert_scheduled_flight('BA023', 'A008', '2023-11-03 05:00:00');
-        CALL insert_scheduled_flight('BA024', 'A008', '2023-11-04 05:00:00');
-        CALL insert_scheduled_flight('BA012', 'A008', '2023-11-05 05:00:00');
+        CALL insert_scheduled_flight('BA010', 'A008', '2023-10-31 05:00:00'); -- 28
+        CALL insert_scheduled_flight('BA023', 'A008', '2023-11-03 05:00:00'); -- 29
+        CALL insert_scheduled_flight('BA024', 'A008', '2023-11-04 05:00:00'); -- 30
+        CALL insert_scheduled_flight('BA012', 'A008', '2023-11-05 05:00:00'); -- 31
 
 -- Platinum class prices
     INSERT INTO Seat_Class_Price (route_id, seat_class_id, price)

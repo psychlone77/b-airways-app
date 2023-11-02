@@ -4,9 +4,10 @@
     INSERT INTO Organizational_Info VALUES('B Airways','+9411123456','customersupport@bairways.com','No1, Colombo, Sri Lanka','123456789');
 
 -- user category final********
-INSERT INTO user_category VALUES ('General','0','0');
-INSERT INTO user_category VALUES ('Frequent','0.05','10');
-INSERT INTO user_category VALUES ('Gold','0.09','50');
+-- changed the min bookings for the frequent and gold categories for testing purposes
+INSERT INTO user_category VALUES ('General',0 ,0);
+INSERT INTO user_category VALUES ('Frequent',0.05,10);
+INSERT INTO user_category VALUES ('Gold',0.09,30);
 
 -- 10 entries for the user category table
     INSERT INTO User VALUES (1,'registered');
@@ -24,8 +25,8 @@ INSERT INTO user_category VALUES ('Gold','0.09','50');
 -- make sure to add the necessary count of bookings for each user
 
 -- password is not hashed because of the manual insert statements
-    INSERT INTO Registered_User VALUES (1, 'General', 'user1@example.com', 'password1', 'John', 'Doe', '1990-01-15', 'Male', '123456789', '123 Main St, City, Country', NOW());
-    INSERT INTO Registered_User VALUES (3, 'General', 'user3@example.com', 'password3', 'Jane', 'Smith', '1985-05-20', 'Female', '987654321', '456 Elm St, Town, Country', NOW());
+    INSERT INTO Registered_User VALUES (1, 'General', 'user1@example.com', 'password1', 'John', 'Doe', '2006-01-15', 'Male', '123456789', '123 Main St, City, Country', NOW());
+    INSERT INTO Registered_User VALUES (3, 'General', 'user3@example.com', 'password3', 'Jane', 'Smith', '2007-05-20', 'Female', '987654321', '456 Elm St, Town, Country', NOW());
     INSERT INTO Registered_User VALUES (4, 'General', 'user4@example.com', 'password4', 'Michael', 'Johnson', '1978-11-10', 'Male', '234567890', '789 Oak St, Village, Country', NOW());
     INSERT INTO Registered_User VALUES (7, 'General', 'user7@example.com', 'password7', 'Sarah', 'Williams', '1995-03-25', 'Female', '456789012', '567 Pine St, Suburb, Country', NOW());
     INSERT INTO Registered_User VALUES (8, 'General', 'user8@example.com', 'password8', 'Robert', 'Brown', '1980-08-02', 'Male', '345678901', '890 Cedar St, Town, Country', NOW());
@@ -33,7 +34,7 @@ INSERT INTO user_category VALUES ('Gold','0.09','50');
 
 -- 4 entries for the 4 guest users
     INSERT INTO Guest_User VALUES (2, 'Guest User 2', '123 Main St, City, Country', '1995-01-01', 'Male', 'G12345678', 'guest2@example.com');
-    INSERT INTO Guest_User VALUES (5, 'Guest User 5', '456 Elm St, Town, Country', '1990-05-05', 'Female', 'G23456789', 'guest5@example.com');
+    INSERT INTO Guest_User VALUES (5, 'Guest User 5', '456 Elm St, Town, Country', '2008-05-05', 'Female', 'G23456789', 'guest5@example.com');
     INSERT INTO Guest_User VALUES (6, 'Guest User 6', '789 Oak St, Village, Country', '1985-10-10', 'Other', 'G34567890', 'guest6@example.com');
     INSERT INTO Guest_User VALUES (10, 'Guest User 10', '123 Oak St, City, Country', '1998-12-31', 'Male', 'G78901234', 'guest10@example.com');
 

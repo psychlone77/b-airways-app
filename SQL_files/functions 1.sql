@@ -44,7 +44,7 @@ DROP FUNCTION IF EXISTS IsRegisteredUser;
     END;
     |
     DELIMITER ;
-
+-- changed the final_price equation
 DROP FUNCTION IF EXISTS calculateTotalPrice;
     DELIMITER |
     CREATE FUNCTION calculateTotalPrice(val_route_id varchar(10), val_seat_class_id int, val_user_id int)
@@ -56,15 +56,30 @@ DROP FUNCTION IF EXISTS calculateTotalPrice;
     DECLARE discount decimal(4,2);
     DECLARE final_price numeric(10,2);
     SELECT price into val_price FROM Seat_Class_Price where route_id = val_route_id and seat_class_id = val_seat_class_id;
-    SET isRegistered = isRegistered(val_user_id); -- shouldn't this be isRegisteredUser??
+    SET isRegistered = isRegisteredUser(val_user_id); -- shouldn't this be isRegisteredUser??
     IF isRegistered = 1 THEN
         SELECT registered_user_category into val_registered_user_category FROM Registered_User where user_id = val_user_id;
         SELECT discount_percentage into discount FROM User_Category WHERE registered_user_category= val_registered_user_category;
-        SET final_price = val_price*(100+discount);
+        SET final_price = val_price*(1 - discount);
     ELSE
         SET final_price = val_price;
     END IF;
     RETURN final_price;
+    END;
+    |
+    DELIMITER ;
+
+--  check this trigger
+DROP TRIGGER IF EXISTS isnert_before_booking;
+    DELIMITER |
+    CREATE TRIGGER isnert_before_booking
+    BEFORE INSERT ON User_Booking
+    FOR EACH ROW
+    BEGIN
+        SET NEW.final_price = calculateTotalPrice(
+            (select route_id from scheduled_flight where schedule_id= NEW.schedule_id),
+            NEW.seat_class_id, NEW.user_id);
+        SET NEW.date_of_booking = CURDATE();
     END;
     |
     DELIMITER ;
