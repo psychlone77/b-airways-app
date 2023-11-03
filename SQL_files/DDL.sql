@@ -191,6 +191,7 @@ CREATE TABLE User_Booking(
   seat_class_id int not null,
   user_id int not null,
   final_price numeric(10,2) check (final_price > 0),
+  UNIQUE(schedule_id, seat_class_id, seat_id),
   -- booking_status varchar(10) ENUM ('booked', 'cancelled') NOT NULL DEFAULT 'booked'
   -- a booking is created only when the user pays
   date_of_booking timestamp,

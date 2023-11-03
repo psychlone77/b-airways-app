@@ -298,10 +298,19 @@ DROP PROCEDURE IF EXISTS add_new_guest_user;
         passport VARCHAR(20),
         address VARCHAR(100),
         mobile VARCHAR(20),
-        email VARCHAR(50)
+        email VARCHAR(50),
+        sch_id INT,
+        seat_id VARCHAR(5),
+        sc_id INT
     )
     BEGIN
         DECLARE new_user_id INT;
+		DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+            BEGIN
+                -- Rollback the transaction if any query fails
+                ROLLBACK;
+                RESIGNAL;
+            END;
 
         -- here the data are not checked for uniqueness, a user can run in user state multiple times
 
@@ -314,6 +323,10 @@ DROP PROCEDURE IF EXISTS add_new_guest_user;
         -- create the guest user
         INSERT INTO Guest_User (user_id, name, address, birth_date, gender, passport_no, email) 
         VALUES (new_user_id, name, address, dob, gender, passport, email);
+        
+        INSERT INTO user_booking(schedule_id, seat_id, seat_class_id, user_id)
+        VALUES (sch_id, seat_id, sc_id, new_user_id);
+        COMMIT;
     END;
     |
     DELIMITER ;
