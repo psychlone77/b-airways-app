@@ -85,7 +85,7 @@ DROP PROCEDURE IF EXISTS get_past_flights;
         WHERE r.route_origin = origin AND 
               r.route_destination = destination AND
               sf.scheduled_departure < NOW()
-		GROUP BY sf.schedule_id, sf.flight_status;
+		GROUP BY sf.schedule_id;
     END
     |
     DELIMITER ;
