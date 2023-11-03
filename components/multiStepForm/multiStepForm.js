@@ -93,49 +93,90 @@ function MultiStepForm(props) {
   };
 
   const submitForm = () => {
-    console.log(formData);
-    let class_id;
-    if (sclass == "Economy") {
-      class_id = 3;
-    } else if (sclass == "Business") {
-      class_id = 2;
-    } else {
-      class_id = 1;
-    }
+      console.log('this is form',formData);
+      let class_id;
+      if (sclass == "Economy") {
+        class_id = 3;
+      } else if (sclass == "Business") {
+        class_id = 2;
+      } else {
+        class_id = 1;
+      }
 
-    const data = {
-      schedule_id: schedule_id,
-      seat_id: `S${formData.bookedSeats[0].toString().padStart(3, "0")}`,
-      seat_class_id: class_id,
-      user_id: session?.user.user_id,
-      final_price: formData.price,
-    };
-
-    console.log("this is data", data);
-    fetch("/api/insertBooking", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          const res = await response.json();
-          console.log(res);
-          throw new Error(res.error);
+      if(!session){
+        const g = formData.passengers[0];
+        const guest = {
+          name: g.name,
+          email: g.email,
+          dob: g.dob,
+          mobile_no: '0770929349',
+          gender: 'Male',
+          passport_no: g.passport_no,
+          address: g.address,
+          sch_id: schedule_id,
+          seat_id: `S${formData.bookedSeats[0].toString().padStart(3, "0")}`,
+          sc_id: class_id,
         }
-        return response.json();
+        console.log(guest);
+        fetch("/api/insertGuest", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(guest),
+        })
+          .then(async (response) => {
+            if (!response.ok) {
+              const res = await response.json();
+              console.log(res);
+              throw new Error(res.error);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Success:", data);
+            nextStep();
+          })
+          .catch((error) => {
+            alert(error);
+            console.log(error);
+          });
+      }
+      else{
+      const data = {
+        schedule_id: schedule_id,
+        seat_id: `S${formData.bookedSeats[0].toString().padStart(3, "0")}`,
+        seat_class_id: class_id,
+        user_id: session?.user.user_id,
+        final_price: formData.price,
+      };
+
+      console.log("this is data", data);
+      fetch("/api/insertBooking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      .then((data) => {
-        console.log("Success:", data);
-        nextStep();
-      })
-      .catch((error) => {
-        alert(error);
-        console.log(error);
-      });
-  };
+        .then(async (response) => {
+          if (!response.ok) {
+            const res = await response.json();
+            console.log(res);
+            throw new Error(res.error);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Success:", data);
+          nextStep();
+        })
+        .catch((error) => {
+          alert(error);
+          console.log(error);
+        });
+      }
+    };
 
   if (status === "loading") return <LoadingPage />;
   else {

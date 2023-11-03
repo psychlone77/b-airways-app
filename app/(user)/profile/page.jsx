@@ -55,7 +55,7 @@ function ProfileContent() {
   return (
     <div>
       <div className="flex flex-col items-center p-10">
-        <div className="flex flex-col gap-2 bg-gradient-to-br from-amber-500 via-amber-100 to-amber-500 w-fit p-5 rounded-md border border-primary shadow-md shadow-secondary">
+        <div className={`flex flex-col gap-2 w-fit p-5 rounded-md border border-primary shadow-md shadow-secondary ${user.registered_user_category === 'Gold' ? 'bg-gradient-to-br from-yellow-400 via-yellow-200 to-yellow-400' : user.registered_user_category === 'Frequent' ? 'bg-gradient-to-br from-purple-400 via-purple-200 to-purple-400' : 'bg-white'}`}>
           <h1 className="text-4xl text-primary font-nunito font-thin"> Hello {user.first_name} {user.last_name}</h1>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> {user.gender}</h2>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> Birthday : {new Date(user.birth_date).toLocaleDateString('en-GB')}</h2>
@@ -64,8 +64,7 @@ function ProfileContent() {
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> Membership Level : {user.registered_user_category}</h2>
           <h2 className="text-xl text-gray-500 font-nunito font-thin"> Member Since : {new Date(user.joined_datetime).toLocaleDateString('en-GB')}</h2>
         </div>
-
       </div>
     </div>
-  );
+  )
 }
