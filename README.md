@@ -36,8 +36,11 @@ DB_PASSWORD='password'
 DB_DATABASE='schema name - default is ars'
 ```
 
-Run the development server using the appropriate command:
+### Step 4
+Run `npm install` to install all the dependencies for this project.
 
+### Step 5
+Run the development server using the appropriate command and go to the appropriate localhost to view the web site (Default - https://localhost:3000).
 ```bash
 npm run dev
 # or
