@@ -11,9 +11,9 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "jsx": "^0.9.89",
-    "mysql2": "^3.6.1",
+    "mysql2": "^3.6.8",
     "next": "^13.5.4",
-    "next-auth": "^4.24.4",
+    "next-auth": "^4.24.5",
     "oauth": "^0.10.0",
     "react": "latest",
     "react-dom": "latest",
